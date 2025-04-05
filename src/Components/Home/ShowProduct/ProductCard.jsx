@@ -29,7 +29,7 @@ const ProductCard = ({ products }) => {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "contain", // Ensures image fits inside without overflow
+                  objectFit: "contain", 
                 }}
               />
             </div>
@@ -48,6 +48,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin-bottom:2rem;
   height: auto;
 
   .card {

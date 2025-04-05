@@ -7,6 +7,7 @@ import Navbar from "./Components/Home/Navbar";
 import Signin from "./Pages/Signin";
 import Login from "./Pages/Login";
 import Cart from "./Pages/Cart";
+import AdminLogin from './Pages/AdminLogin'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/signup" element={<Signin />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>
