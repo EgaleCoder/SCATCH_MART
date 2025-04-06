@@ -5,7 +5,10 @@ import { useProductsContext } from "../context/productContext.jsx";
 import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import CardLoader from "../Components/Home/ShowProduct/CardLoader.jsx";
-import  { AddToCart, BuyNow } from "../Components/Home/ShowProduct/AddToCart.jsx";
+import {
+  AddToCart,
+  BuyNow,
+} from "../Components/Home/ShowProduct/AddToCart.jsx";
 import MyImg from "../Components/Home/ShowProduct/MyImg.jsx";
 import FeaturesSection from "../Components/Home/ShowProduct/FeatureSection.jsx";
 
@@ -80,7 +83,7 @@ const ProductDetail = () => {
               <p style={{ color: "green", marginBottom: "10px" }}>
                 Free Delivery
               </p>
-              <div className="btns">
+              <div className="btns flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-start">
                 <AddToCart product={productDetails} />
                 <BuyNow />
               </div>
@@ -207,40 +210,69 @@ const Container = styled.div`
 const FlexContainer = styled.div`
   display: flex;
   gap: 20px;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ImageContainer = styled.div`
   width: 50%;
   height: auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const DetailsContainer = styled.div`
   width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
+
 const BoxWrapper = styled.div`
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 10px;
+
   .btns {
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 0;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 10px;
+
+    @media (min-width: 640px) {
+      flex-direction: row;
+      padding-left: 50px;
+      padding-right: 50px;
+      justify-content: space-between;
+    }
   }
 `;
 
 const Title = styled.h2`
-  font-size: 45px;
+  font-size: 32px;
   font-weight: bold;
+
+  @media (max-width: 480px) {
+    font-size: 24px;
+  }
 `;
 
 const Price = styled.p`
-  font-size: 30px;
+  font-size: 28px;
   font-weight: bold;
   color: #333;
+
+  @media (max-width: 480px) {
+    font-size: 22px;
+  }
 `;
 
 const Rating = styled.p`
@@ -250,11 +282,11 @@ const Rating = styled.p`
 const StyledWrapper = styled.div`
   .card {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 8px;
     width: 100%;
-    height: 100%;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
@@ -271,34 +303,47 @@ const StyledWrapper = styled.div`
     border-radius: 5px;
     background-color: white;
     padding: 15px;
+
+    @media (max-width: 480px) {
+      width: 90px;
+      height: auto;
+      padding: 10px;
+    }
   }
+
   .heading {
     font-size: 0.9em;
     font-weight: 700;
     letter-spacing: 1px;
   }
+
   .bottom-wrapper {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   .bottom-wrapper .star {
     width: 30px;
     fill: gold;
   }
+
   .bottom-wrapper .tag {
     width: 27px;
     fill: rgb(141, 214, 32);
   }
+
   .bottom-wrapper .thumb {
     width: 27px;
     fill: blueviolet;
   }
+
   .bottom-wrapper p {
     font-size: 1.2em;
     font-weight: 700;
   }
 `;
+
 
 export default ProductDetail;

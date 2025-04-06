@@ -5,9 +5,13 @@ const Breadcrumb = ({ title }) => {
   const location = useLocation();
   const pathSegments = location.pathname.split("/").filter(Boolean);
 
+  // Capitalize and format segments (e.g., "user-profile" => "User Profile")
+  const formatSegment = (segment) =>
+    segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
+
   return (
-    <nav aria-label="Breadcrumb">
-      <ol className="flex items-center gap-1 text-xl ml-5 m-2 text-gray-700">
+    <nav aria-label="Breadcrumb" className="px-4 sm:px-6 lg:px-8 py-2">
+      <ol className="flex flex-wrap items-center gap-1 sm:gap-2 text-base sm:text-lg text-gray-700 overflow-x-auto whitespace-nowrap">
         <BreadcrumbItem to="/" ariaLabel="Home">
           <HomeIcon />
         </BreadcrumbItem>
@@ -16,11 +20,16 @@ const Breadcrumb = ({ title }) => {
           const isLast = index === pathSegments.length - 1;
           const to = `/${pathSegments.slice(0, index + 1).join("/")}`;
 
+          let label = segment;
+          if (segment === "cart") label = "Cart";
+          else if (segment === "product") label = `Product / ${title || "Details"}`;
+          else label = formatSegment(segment);
+
           return (
             <React.Fragment key={to}>
               <BreadcrumbSeparator />
               <BreadcrumbItem to={!isLast ? to : null}>
-                {segment === "cart" ? "Cart" : segment === "product" ? `Product / ${title}` : segment}
+                {label}
               </BreadcrumbItem>
             </React.Fragment>
           );
@@ -31,14 +40,25 @@ const Breadcrumb = ({ title }) => {
 };
 
 const BreadcrumbItem = ({ to, ariaLabel, children }) => {
+  const isCurrent = !to;
+
   return (
     <li>
       {to ? (
-        <NavLink to={to} className="block text-blue-500" aria-label={ariaLabel}>
+        <NavLink
+          to={to}
+          className="block text-blue-600 hover:underline"
+          aria-label={ariaLabel}
+        >
           {children}
         </NavLink>
       ) : (
-        <span className="block text-gray-500">{children}</span>
+        <span
+          className="block text-gray-800 font-semibold"
+          aria-current="page"
+        >
+          {children}
+        </span>
       )}
     </li>
   );
@@ -46,10 +66,10 @@ const BreadcrumbItem = ({ to, ariaLabel, children }) => {
 
 const BreadcrumbSeparator = () => {
   return (
-    <li className="rtl:rotate-180">
+    <li className="rtl:rotate-180 text-gray-400">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="size-4"
+        className="w-4 h-4 sm:w-5 sm:h-5"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -66,7 +86,7 @@ const BreadcrumbSeparator = () => {
 const HomeIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="size-6"
+    className="w-5 h-5 sm:w-6 sm:h-6"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"

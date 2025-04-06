@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../Components/Home/Footer";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const { user, loading, error, isAuthenticated, dispatch } = useAuthContext();
+  const Navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = async () => {
+    try {
+      const response = await axios.post(
+        "/api/users/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        const user = response.data.user;
+        dispatch({ type: "LOGIN_SUCCESS", payload: user });
+        alert("Welcome to Scatch!");
+        Navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      alert(
+        error.response?.data?.message ||
+          "Login failed. Please check credentials."
+      );
+    }
+  };
+
   return (
     <>
       <StyledWrapper>
@@ -19,7 +49,7 @@ const Login = () => {
             <span className="hide">Hide</span>
             <span className="show">Show</span>
           </label>
-          <form className="form">
+          <form className="form" onSubmit={(e) => e.preventDefault()}>
             <div className="title">Login In</div>
             <label className="label_input" htmlFor="email-input">
               Email
@@ -31,12 +61,15 @@ const Login = () => {
               type="email"
               name="email"
               id="email-input"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
             <div className="frg_pss">
               <label className="label_input" htmlFor="password-input">
                 Password
               </label>
-              <a href>Forgot password?</a>
+              <a href="#">Forgot password?</a>
             </div>
             <input
               placeholder="Password"
@@ -45,8 +78,11 @@ const Login = () => {
               type="text"
               name="password"
               id="password-input"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
-            <button className="submit" type="button">
+            <button className="submit" type="button" onClick={login}>
               Submit
             </button>
           </form>
