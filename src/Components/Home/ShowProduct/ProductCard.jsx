@@ -128,10 +128,6 @@ const StyledWrapper = styled.div`
     transform: scale(0.98);
   }
 
-  .card:active::after {
-    content: "Added !";
-    height: 3.125em;
-  }
   @media (max-width: 640px) {
     /* Apply only to mobile view */
     .card {

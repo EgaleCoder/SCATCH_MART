@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Navigation from "../Components/Home/ShowProduct/Navigation";
 import Footer from "../Components/Home/Footer";
 import { useCartContext } from "../context/addToCartContext";
+import { QuantitySelector } from "../Components/Home/ShowProduct/QuantitySelector";
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity } = useCartContext();
@@ -39,14 +40,9 @@ export default function Cart() {
                     </p>
                   </div>
                   <div className="price-details">
-                    <input
-                      type="number"
-                      min="1"
-                      max="5"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        updateQuantity(item.id, parseInt(e.target.value))
-                      }
+                    <QuantitySelector
+                      item={item}
+                      updateQuantity={updateQuantity}
                     />
                     <button
                       className="remove-btn"
@@ -130,6 +126,7 @@ const Section = styled.section`
     text-align: center;
     color: #718096;
     font-size: 1.25rem;
+    height: 50vh;
   }
   .cart-list {
     background-color: rgb(226, 231, 235);
@@ -171,7 +168,28 @@ const Section = styled.section`
     border: 1px solid #cbd5e0;
     border-radius: 4px;
     text-align: center;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
   }
+
+  @media (max-width: 768px) {
+    .price-details input {
+      width: 50px;
+      padding: 0.25rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .price-details input {
+      width: 100%;
+      max-width: 120px;
+      font-size: 0.75rem;
+      padding: 0.4rem;
+    }
+  }
+
+  /* Responsive Remove Button */
   .remove-btn {
     background-color: #e53e3e;
     color: white;
@@ -180,9 +198,28 @@ const Section = styled.section`
     border-radius: 4px;
     font-size: 0.8rem;
     cursor: pointer;
+    transition: all 0.3s ease;
   }
+
   .remove-btn:hover {
     background-color: #c53030;
+  }
+
+  @media (max-width: 768px) {
+    .remove-btn {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .remove-btn {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+    }
   }
 `;
 

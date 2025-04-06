@@ -18,7 +18,7 @@ export default function Footer() {
             <p className="pb-1 text-lg font-medium">Category</p>
             <ul>
               <li>
-                <a href="#" className="hover:dark:text-gray-400">
+                <a href="#" className="hover:dark:text-gray-400 ">
                   Link
                 </a>
               </li>

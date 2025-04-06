@@ -54,12 +54,13 @@ export const BuyNow = () => {
   );
 };
 
+
 const StyledWrapper = styled.div`
   .CartBtn {
     width: 240px;
     height: 60px;
     border: none;
-    background-color: #0eb0d9;
+    background-color: #60a5fa;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,6 +69,16 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
     position: relative;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 50px;
+    }
+
+    @media (max-width: 480px) {
+      height: 48px;
+      font-size: 0.9rem;
+    }
   }
 
   .IconContainer {
@@ -83,10 +94,11 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     z-index: 2;
     transition-duration: 0.5s;
-  }
 
-  .icon {
-    border-radius: 1px;
+    @media (max-width: 480px) {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   .text {
@@ -100,6 +112,10 @@ const StyledWrapper = styled.div`
     transition-duration: 0.5s;
     font-size: 1.04em;
     font-weight: 600;
+
+    @media (max-width: 480px) {
+      font-size: 0.9em;
+    }
   }
 
   .CartBtn:hover .IconContainer {
@@ -118,5 +134,3 @@ const StyledWrapper = styled.div`
     transition-duration: 0.5s;
   }
 `;
-
-// export default AddToCart;
