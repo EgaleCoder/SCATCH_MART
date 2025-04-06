@@ -289,35 +289,51 @@ export default function Footer() {
             <div className="logo-circle">S</div>
             <span>SCATCH</span>
           </div>
-          <div className="col-span-6 pb-3 text-center md:text-left md:col-span-2">
-            <p className="pb-1 text-lg font-medium">Category</p>
-            <ul>
-              <li>
-                <a href="#" className="hover:dark:text-gray-400">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:dark:text-gray-400">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:dark:text-gray-400">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:dark:text-gray-400">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:dark:text-gray-400">
-                  Link
-                </a>
-              </li>
-            </ul>
+          <br />
+          <a href="#">
+            <h1>
+              Shop Non-Stop on <br />
+              Scatch
+            </h1>
+            <p>
+              Trusted by thousands Enjoy Cash on Delivery, Free Delivery,
+              <br /> and a seamless shopping experience with guaranteed
+              satisfaction. <br /> Cash on Delivery | Free Delivery | Fast
+              Delivery :)
+            </p>
+          </a>
+          <div className="bts">
+            <StyledWrapper>
+              <a className="playstore-button" href="#" id="app2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="icon"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M325.3 234.3L104.5 8.4c-5.6-5.6-12.2-8.4-18.8-8.4C65.2 0 48 17.3 48 48v416c0 30.7 17.2 48 37.7 48 6.6 0 13.2-2.8 18.8-8.4l220.8-225.9-39.6-39.6zM371.5 288.4l-52.1-52.2 52.1-52.2L464 144c15.5 0 24 16.2 24 32s-8.5 32-24 32l-92.5 0v48l92.5 0c15.5 0 24 16.2 24 32s-8.5 32-24 32l-92.5 0z" />
+                </svg>
+                <span className="texts">
+                  <span className="text-1">GET IT ON</span>
+                  <span className="text-2">Google Play</span>
+                </span>
+              </a>
+              <a href="#" className="playstore-button" id="app">
+                <span className="icon">
+                  <svg
+                    fill="currentColor"
+                    viewBox="-52.01 0 560.035 560.035"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M380.844 297.529c.787 84.752 74.349 112.955 75.164 113.314-.622 1.988-11.754 40.191-38.756 79.652-23.343 34.117-47.568 68.107-85.731 68.811-37.499.691-49.557-22.236-92.429-22.236-42.859 0-56.256 21.533-91.753 22.928-36.837 1.395-64.889-36.891-88.424-70.883-48.093-69.53-84.846-196.475-35.496-282.165 24.516-42.554 68.328-69.501 115.882-70.192 36.173-.69 70.315 24.336 92.429 24.336 22.1 0 63.59-30.096 107.208-25.676 18.26.76 69.517 7.376 102.429 55.552-2.652 1.644-61.159 35.704-60.523 106.559zM310.369 89.418C329.926 65.745 343.089 32.79 339.498 0 311.308 1.133 277.22 18.785 257 42.445c-18.121 20.952-33.991 54.487-29.709 86.628 31.421 2.431 63.52-15.967 83.078-39.655z" />
+                  </svg>
+                </span>
+                <span className="texts">
+                  <span className="text-1">Download from</span>
+                  <span className="text-2">App Store</span>
+                </span>
+              </a>
+            </StyledWrapper>
           </div>
         </LogoWrapper>
 

@@ -1,7 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext";
 
 const Profile = () => {
+  const { user, logoutUser } = useAuthContext();
+  const navigate = useNavigate();
+  console.log(user);
+
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate("/login");
+  };
   return (
     <StyledWrapper>
       <div className="card">
@@ -227,7 +237,9 @@ const Profile = () => {
         <hr />
         My Orders
         <div className="card__wrapper">
-          <button className="card__btn mx-4">LogOut</button>
+          <button className="card__btn mx-4" onClick={handleLogout}>
+            LogOut
+          </button>
           <button className="card__btn card__btn-solid  ">
             Delete Account
           </button>

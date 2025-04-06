@@ -7,14 +7,14 @@ import Navbar from "./Components/Home/Navbar";
 import Signin from "./Pages/Signin";
 import Login from "./Pages/Login";
 import Cart from "./Pages/Cart";
-import AdminLogin from './Pages/AdminLogin'
-// import Profile from './Components/Profile'
+import AdminLogin from "./Pages/AdminLogin";
+import Profile from "./Components/Home/Profile";
 
 function App() {
   return (
     <>
       <Router>
-      <Navbar />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
@@ -22,7 +22,7 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </>

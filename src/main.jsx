@@ -4,16 +4,16 @@ import App from "./App.jsx";
 import { AppProvider } from "./context/productContext.jsx";
 import { FilterProvider } from "./context/fillterContext.jsx";
 import { CartProvider } from "./context/addToCartContext.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import { AuthProvider } from "./context/authContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <AppProvider>
-    <FilterProvider>
-      <AuthProvider>
+  <AuthProvider>
+    <AppProvider>
+      <FilterProvider>
         <CartProvider>
           <App />
         </CartProvider>
-      </AuthProvider>
-    </FilterProvider>
-  </AppProvider>
+      </FilterProvider>
+    </AppProvider>
+  </AuthProvider>
 );

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Footer from "../Components/Home/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/authContext";
 
 const Login = () => {
   const { user, loading, error, isAuthenticated, dispatch } = useAuthContext();
@@ -22,7 +22,7 @@ const Login = () => {
         const user = response.data.user;
         dispatch({ type: "LOGIN_SUCCESS", payload: user });
         alert("Welcome to Scatch!");
-        Navigate("/");
+        Navigate("/profile");
       }
     } catch (error) {
       console.error(error);

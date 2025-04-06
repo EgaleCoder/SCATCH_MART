@@ -32,9 +32,7 @@ const useAuthApi = (dispatch) => {
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_ERROR", payload: null });
 
-      await axios.post(API_LOGOUT, {}, { withCredentials: true });
-
-      localStorage.removeItem("token"); // Remove token from localStorage
+      await axios.get(API_LOGOUT, { withCredentials: true });
       dispatch({ type: "LOGOUT" });
     } catch (err) {
       dispatch({

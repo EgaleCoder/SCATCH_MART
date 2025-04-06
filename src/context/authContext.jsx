@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const { userLogin, logoutUser } = useAuthApi(dispatch);
 
   useEffect(() => {
-    userLogin(); //
+    userLogin(); 
   }, [userLogin]);
 
   return (
