@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../Components/Home/Footer";
-import axios from "axios";
+import API from "../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 
@@ -13,7 +13,7 @@ const Login = () => {
 
   const login = async () => {
     try {
-      const response = await axios.post(
+      const response = await API.post(
         "/api/users/login",
         { email, password },
         { withCredentials: true }

@@ -1,13 +1,13 @@
 import { useCallback } from "react";
-import axios from "axios";
+import API from '../utils/axios'
 
-const API = "/api/scatch-products";
+const PRODUCT_API = "/api/scatch-products";
 
 const useProductApi = (dispatch) => {
   const getProducts = useCallback(async () => {
     dispatch({ type: "SET_LOADING" });
     try {
-      const response = await axios.get(API);
+      const response = await API.get(PRODUCT_API);
       dispatch({ type: "SET_PRODUCTS", payload: response.data.products });
     } catch (error) {
       dispatch({ type: "SET_ERROR" });
@@ -18,7 +18,7 @@ const useProductApi = (dispatch) => {
     async (productId) => {
       dispatch({ type: "SET_SINGLE_LOADING" });
       try {
-        const response = await axios.get(`${API}/${productId}`);
+        const response = await API.get(`${PRODUCT_API}/${productId}`);
         dispatch({
           type: "SET_PRODUCT_DETAILS",
           payload: response.data.product,

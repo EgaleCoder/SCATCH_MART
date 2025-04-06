@@ -19,6 +19,7 @@ const initialState = {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { getProducts, getSingleProduct } = useProductApi(dispatch);
+  console.log("ENV:", import.meta.env.VITE_API_BASE_URL);
 
   useEffect(() => {
     getProducts();

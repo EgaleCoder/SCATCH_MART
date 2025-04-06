@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import axios from "axios";
+import API from '../utils/axios'
 
 const API_PROFILE = "/api/users/profile";
 const API_LOGOUT = "/api/users/logout";
@@ -10,7 +10,7 @@ const useAuthApi = (dispatch) => {
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_ERROR", payload: null });
 
-      const res = await axios.get(API_PROFILE, {
+      const res = await API.get(API_PROFILE, {
         withCredentials: true,
       });
 
@@ -32,7 +32,7 @@ const useAuthApi = (dispatch) => {
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_ERROR", payload: null });
 
-      await axios.get(API_LOGOUT, { withCredentials: true });
+      await API.get(API_LOGOUT, { withCredentials: true });
       dispatch({ type: "LOGOUT" });
     } catch (err) {
       dispatch({
