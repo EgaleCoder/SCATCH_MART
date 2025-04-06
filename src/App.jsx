@@ -8,6 +8,7 @@ import Signin from "./Pages/Signin";
 import Login from "./Pages/Login";
 import Cart from "./Pages/Cart";
 import AdminLogin from './Pages/AdminLogin'
+// import Profile from './Components/Profile'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
         </Routes>
       </Router>
     </>

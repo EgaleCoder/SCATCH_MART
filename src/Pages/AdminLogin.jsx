@@ -111,7 +111,7 @@ const StyledWrapper = styled.div`
     display: block;
     width: 100%;
     font-weight: bold;
-    background: #60a5fa;
+    background:#60a5fa;
     color: white;
     padding-block: 15px;
     margin: 20px auto;
