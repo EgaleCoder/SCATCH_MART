@@ -225,7 +225,23 @@ const Profile = () => {
         <div className="card__title">Cameron Williamson</div>
         <div className="card__subtitle">Web Development</div>
         <hr />
-        My Orders
+        <div className="flex">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="feather feather-shopping-bag mx-1"
+        >
+          <path d="M6 2l1.5 4h9L18 2" />
+          <path d="M3 6h18l-1.5 14h-15z" />
+          <path d="M7 10a5 5 0 0 0 10 0" />
+        </svg>
+        <a className="para" href="#">My Orders</a></div>
         <div className="card__wrapper">
           <button className="card__btn mx-4">LogOut</button>
           <button className="card__btn card__btn-solid  ">
@@ -313,10 +329,16 @@ const StyledWrapper = styled.div`
 
   .card__btn:hover {
     background: #60a5fa;
+    transform: scale(1.03);
   }
+    .para:hover{
+    text-decoration:underline;
+   transform: scale(1.03);
+    }
 
   .card__btn-solid:hover {
     background: #60a5fa;
+    transform: scale(1.03);
   }
 `;
 

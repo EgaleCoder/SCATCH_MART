@@ -8,7 +8,8 @@ import Signin from "./Pages/Signin";
 import Login from "./Pages/Login";
 import Cart from "./Pages/Cart";
 import AdminLogin from './Pages/AdminLogin'
-// import Profile from './Components/Profile'
+import Profile from './Pages/Profile'
+import AdminPanel from './Components/Admin/AdminPanel'
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </Router>
     </>
