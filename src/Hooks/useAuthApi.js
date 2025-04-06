@@ -32,7 +32,7 @@ const useAuthApi = (dispatch) => {
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_ERROR", payload: null });
 
-      await API.get(API_LOGOUT, { withCredentials: true });
+      await API.post(API_LOGOUT, {}, { withCredentials: true });
       dispatch({ type: "LOGOUT" });
     } catch (err) {
       dispatch({
