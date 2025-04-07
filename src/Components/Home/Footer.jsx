@@ -7,23 +7,20 @@ const FooterWrapper = styled.footer`
   color: white;
 `;
 
-const Container = styled.div`
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
-`;
-
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
-  margin-left: 40px;
-  margin-right: 40px;
-  @media (max-width: 767px) {
+  padding: 0 1rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -32,7 +29,11 @@ const LogoWrapper = styled.div`
   grid-column: span 12;
 
   @media (min-width: 768px) {
-    grid-column: span 5;
+    grid-column: span 6;
+  }
+
+  @media (min-width: 1024px) {
+    grid-column: span 4;
   }
 
   .logo {
@@ -84,23 +85,21 @@ const LogoWrapper = styled.div`
 `;
 
 const LinkGroup = styled.div`
-  grid-column: span 4;
-  text-align: center;
+  grid-column: span 6;
+  text-align: left;
 
   @media (min-width: 768px) {
-    text-align: left;
     grid-column: span 2;
+    margin-left: 20px;
   }
 
   ul {
     list-style: none;
-    padding: 0;
   }
 
   li {
-    margin-bottom: 0.5rem;
-    padding-bottom: 1rem;
-    font-size: 1.25rem;
+    font-size: 1rem;
+    margin-top: 1rem;
   }
 
   a {
@@ -116,11 +115,16 @@ const LinkGroup = styled.div`
     font-size: 1.125rem;
     font-weight: 500;
   }
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
 `;
 
-const SmallGroup = styled(LinkGroup)`
+const SmallGroup = styled.div`
   @media (min-width: 768px) {
     grid-column: span 3;
+    margin-left: 20px;
   }
 
   h1 {
@@ -134,37 +138,38 @@ const SmallGroup = styled(LinkGroup)`
 `;
 
 const BottomRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   text-align: center;
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     text-align: left;
+    align-items: center;
   }
 `;
 
 const Legal = styled.div`
   font-size: 0.875rem;
-  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 
   @media (min-width: 768px) {
-    display: block;
     align-items: flex-start;
-    text-align: left;
+    font-size: 0.675rem;
   }
 
   a {
     margin-left: 1rem;
     text-decoration: none;
     color: inherit;
+
     &:hover {
       color: #ccc;
     }
@@ -180,11 +185,9 @@ const Socials = styled.div`
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-  padding-top: 0.5rem;
 
   @media (min-width: 1024px) {
     justify-content: flex-end;
-    padding-top: 0;
   }
 
   a {
@@ -336,16 +339,11 @@ export default function Footer() {
             </StyledWrapper>
           </div>
         </LogoWrapper>
-
         <LinkGroup>
+          <h1>Careers</h1>
           <ul>
             <li>
-              <a href="#">Careers</a>
-            </li>
-            <li>
-              <a href="#">
-                Become a <br /> supplier
-              </a>
+              <a href="#">Become a supplier</a>
             </li>
             <li>
               <a href="#">Hall of Fame</a>
@@ -357,22 +355,13 @@ export default function Footer() {
         </LinkGroup>
 
         <LinkGroup>
+          <h1> Legal and Policies</h1>
           <ul>
             <li>
-              <a href="#">
-                Legal and <br />
-                Policies
-              </a>
+              <a href="#">Scatch Tech Blog</a>
             </li>
             <li>
-              <a href="#">
-                Scatch Tech <br /> Blog
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Notices and <br /> Returns
-              </a>
+              <a href="#">Notices and Returns</a>
             </li>
           </ul>
         </LinkGroup>
@@ -380,18 +369,14 @@ export default function Footer() {
         <SmallGroup>
           <h1>Contact Us</h1>
           <p>
-            Fashnear Technologies Pvt. Ltd. CIN: U74900KA2015PTC082263
-            <br />
-            3rd Floor, Wing-E, Helios Business Park,
-            <br />
-            Kadubeesanahalli Village, Bangalore, Karnataka, 560103 India.
-            <br />
-            Email: query@scatch.com
-            <br />© 2024-2025 Scatch.com
+            Fashnear Technologies Pvt. Ltd. CIN: U74900KA2015PTC082263 3rd
+            Floor, Wing-E, Helios Business Park, Kadubeesanahalli Village,
+            Bangalore, Karnataka, 560103 India. Email: query@scatch.com ©
+            2024-2025 Scatch.com
           </p>
         </SmallGroup>
       </Grid>
-
+      <hr className="mt-4" />
       <BottomRow>
         <Legal>
           <span>©2021 All rights reserved</span>

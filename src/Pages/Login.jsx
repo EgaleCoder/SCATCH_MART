@@ -21,8 +21,7 @@ const Login = () => {
       if (response.status === 200) {
         const user = response.data.user;
         dispatch({ type: "LOGIN_SUCCESS", payload: user });
-        alert("Welcome to Scatch!");
-        Navigate("/profile");
+        Navigate("/");
       }
     } catch (error) {
       console.error(error);

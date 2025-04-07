@@ -5,7 +5,8 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
-import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/outline";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import UserProfile from "../User/UserProfile";
 
 export default function Example() {
   return (
@@ -22,8 +23,7 @@ export default function Example() {
                 </IconWrapper>
               </NavLink>
               <IconWrapper>
-                <UserIcon className="h-6 w-6" />
-                <span className="text-sm">Profile</span>
+                <UserProfile />
               </IconWrapper>
             </RightSection>
           </NavbarContent>
