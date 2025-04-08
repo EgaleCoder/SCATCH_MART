@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 
 const Login = () => {
-  const { user, loading, error, isAuthenticated, dispatch } = useAuthContext();
-  const Navigate = useNavigate();
+  const { dispatch } = useAuthContext();
+  const [showAlert, setShowAlert] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,17 +20,16 @@ const Login = () => {
         { email, password },
         { withCredentials: true }
       );
+      setEmail("");
+      setPassword("");
       if (response.status === 200) {
         const user = response.data.user;
         dispatch({ type: "LOGIN_SUCCESS", payload: user });
-        Navigate("/");
+        navigate("/");
       }
     } catch (error) {
-      console.error(error);
-      alert(
-        error.response?.data?.message ||
-          "Login failed. Please check credentials."
-      );
+      setErrorMsg(error.response.data.message);
+      setShowAlert(true);
     }
   };
 
@@ -50,6 +51,7 @@ const Login = () => {
           </label>
           <form className="form" onSubmit={(e) => e.preventDefault()}>
             <div className="title">Login In</div>
+            {showAlert && <p className="text-red-700 text-xl">{errorMsg}</p>}
             <label className="label_input" htmlFor="email-input">
               Email
             </label>
@@ -59,7 +61,9 @@ const Login = () => {
               className="input"
               type="email"
               name="email"
+              value={email}
               id="email-input"
+              required
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -77,6 +81,8 @@ const Login = () => {
               type="text"
               name="password"
               id="password-input"
+              value={password}
+              required
               onChange={(e) => {
                 setPassword(e.target.value);
               }}

@@ -12,6 +12,7 @@ function Home() {
       <div className=" main w-full px-2 md:px-4 mt-4 md:mt-6 lg:mt-2">
         <a href="#">
           <BackgroundDiv
+            loading="lazy"
             style={{ backgroundImage: `url(${TOPBANNER})` }}
           ></BackgroundDiv>
         </a>
@@ -24,6 +25,7 @@ function Home() {
         <div className="catogary mt-2 md:mt-4 lg:mt-6">
           <a href="#">
             <BackgroundDivCatogary
+              loading="lazy"
               style={{ backgroundImage: `url(${CATAGORYBANNER})` }}
             ></BackgroundDivCatogary>
           </a>

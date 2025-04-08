@@ -4,9 +4,8 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 
 const Profile = () => {
-  const { user, logoutUser,isAuthenticated } = useAuthContext();
+  const { user, logoutUser, isAuthenticated } = useAuthContext();
   const navigate = useNavigate();
-  console.log(user);
 
   const handleLogout = async () => {
     await logoutUser();
@@ -270,16 +269,16 @@ const Profile = () => {
       ) : (
         <CardWrapper>
           <div className="card">
-            <p className="cookieHeading">We use cookies.</p>
+            <p className="text-blue-400 text-4xl">SCATCH MART</p>
+            <p className="cookieHeading">Hello User</p>
             <p className="cookieDescription">
-              This website uses cookies to ensure you get the best experience on
-              our site.
+              To access your SCATCH account
             </p>
             <div className="buttonContainer">
               <NavLink to="/login">
                 <button className="acceptButton">Login</button>
               </NavLink>
-              <NavLink to="/signin">
+              <NavLink to="/signup">
                 <button className="declineButton">Sign Up</button>
               </NavLink>
             </div>
@@ -424,13 +423,13 @@ const CardWrapper = styled.div`
   .acceptButton {
     width: 80px;
     height: 30px;
-    background-color: #7b57ff;
+    background-color: #60a5fa;
     transition-duration: 0.2s;
     border: none;
     color: rgb(241, 241, 241);
     cursor: pointer;
     font-weight: 600;
-    border-radius: 20px;
+    // border-radius: 20px;
   }
 
   .declineButton {
@@ -442,7 +441,7 @@ const CardWrapper = styled.div`
     border: none;
     cursor: pointer;
     font-weight: 600;
-    border-radius: 20px;
+    // border-radius: 20px;
   }
 
   .declineButton:hover {
@@ -451,7 +450,7 @@ const CardWrapper = styled.div`
   }
 
   .acceptButton:hover {
-    background-color: #9173ff;
+    background-color:#76b2fa;
     transition-duration: 0.2s;
   }
 `;

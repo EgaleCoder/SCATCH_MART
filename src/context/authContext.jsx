@@ -13,14 +13,16 @@ const initialState = {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { userLogin, logoutUser } = useAuthApi(dispatch);
+  const { checkUser, logoutUser, createUser } = useAuthApi(dispatch);
 
   useEffect(() => {
-    userLogin(); 
-  }, [userLogin]);
+    checkUser();
+  }, [checkUser]);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch, logoutUser }}>
+    <AuthContext.Provider
+      value={{ ...state, dispatch, logoutUser, checkUser, createUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

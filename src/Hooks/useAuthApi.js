@@ -1,15 +1,14 @@
 import { useCallback } from "react";
-import API from '../utils/axios'
+import API from "../utils/axios";
 
 const API_PROFILE = "/api/users/profile";
 const API_LOGOUT = "/api/users/logout";
+const API_CREATE_USER = "api/users/create";
 
 const useAuthApi = (dispatch) => {
-  const userLogin = useCallback(async () => {
+  const checkUser = useCallback(async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
-      dispatch({ type: "SET_ERROR", payload: null });
-
       const res = await API.get(API_PROFILE, {
         withCredentials: true,
       });
@@ -43,7 +42,27 @@ const useAuthApi = (dispatch) => {
     }
   }, [dispatch]);
 
-  return { userLogin, logoutUser };
+  const createUser = useCallback(
+    async (formData) => {
+      dispatch({ type: "SET_LOADING" });
+      try {
+        const res = await API.post(API_CREATE_USER, formData, {
+          withCredentials: true,
+        });
+        dispatch({ type: "CREATE_USER_SUCCESS", payload: res.data });
+        return { success: true, user: res.data.user };
+      } catch (err) {
+        dispatch({
+          type: "CREATE_USER_FAIL",
+          payload: err.response?.data?.message || "Registration failed",
+        });
+        return { success: false, error: err.response?.data?.message };
+      }
+    },
+    [dispatch]
+  );
+
+  return { checkUser, logoutUser, createUser };
 };
 
 export default useAuthApi;

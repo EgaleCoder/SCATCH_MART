@@ -14,7 +14,9 @@ export default function Example() {
       <Navbar>
         <Container>
           <NavbarContent>
+            <NavLink to={"/"}>
             <Logo>SCATCH</Logo>
+            </NavLink>
             <RightSection>
               <NavLink to="/cart">
                 <IconWrapper>
@@ -24,13 +26,12 @@ export default function Example() {
               </NavLink>
               <IconWrapper>
                 <UserProfile />
+                <span className="text-sm">Profile</span>
               </IconWrapper>
             </RightSection>
           </NavbarContent>
         </Container>
-        <DisclosurePanel className="sm:hidden">
-          <DisclosureButton></DisclosureButton>
-        </DisclosurePanel>
+        <DisclosurePanel className="sm:hidden"></DisclosurePanel>
       </Navbar>
     </Disclosure>
   );
@@ -69,8 +70,11 @@ const NavbarContent = styled.div`
 const Logo = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1.875rem; /* Tailwind: text-3xl */
+  font-size: 1.875rem;
   font-weight: bold;
+  @media (max-width: 640px) {
+    font-size: 1rem;
+  }
 `;
 
 const RightSection = styled.div`

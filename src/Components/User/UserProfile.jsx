@@ -10,20 +10,11 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="relative">
-      <button
-        onClick={toggleProfile}
-        className="p-2 rounded-md flex justify-center items-center gap-1 transition"
-      >
-        <UserIcon className="h-6 w-6 sm:h-7 sm:w-7" />
-        <span className="hidden md:inline text-sm font-medium">Profile</span>
-      </button>
-
-      {showProfile && (
-        <div className="absolute right-0 z-50 w-[90vw] sm:w-80 rounded-md p-4 transition-all">
-          <Profile />
-        </div>
-      )}
+    <div className="relative group">
+      <UserIcon className="h-6 w-6 sm:h-7 sm:w-7" />
+      <div className="absolute right-15 z-50 w-[90vw] max-w-sm sm:w-60 rounded-md p-4 transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+        <Profile />
+      </div>
     </div>
   );
 };
