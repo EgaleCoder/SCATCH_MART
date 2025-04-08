@@ -160,7 +160,7 @@ const Legal = styled.div`
   align-items: center;
   gap: 0.5rem;
 
-  @media (min-width: 768px) {
+  @media (max-width: 768px) {
     align-items: flex-start;
     font-size: 0.675rem;
   }
@@ -203,6 +203,21 @@ const Socials = styled.div`
       width: 1.25rem;
       height: 1.25rem;
     }
+  }
+`;
+
+const AboutDev = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  a {
+    color:blue;
+  }
+
+  @media (min-width: 1024px) {
+    justify-content: flex-end;
   }
 `;
 
@@ -379,10 +394,11 @@ export default function Footer() {
       <hr className="mt-4" />
       <BottomRow>
         <Legal>
-          <span>©2021 All rights reserved</span>
+          <span>©2025 All rights reserved</span>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
         </Legal>
+
         <Socials>
           <a href="#" title="Email">
             <svg
@@ -405,30 +421,6 @@ export default function Footer() {
             </svg>
           </a>
 
-          <a href="#" title="GitHub">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 
-    3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 
-    0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61 
-    -.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.084-.729.084-.729 
-    1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.807 1.304 
-    3.495.997.108-.776.418-1.305.762-1.605-2.665-.3-5.467-1.334-5.467-5.93 
-    0-1.31.47-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 
-    1.005-.322 3.3 1.23a11.49 11.49 0 013.003-.404c1.02.005 
-    2.045.138 3.003.404 2.28-1.552 3.285-1.23 
-    3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 
-    1.23 1.91 1.23 3.22 0 4.61-2.807 5.625-5.48 
-    5.92.42.36.81 1.096.81 2.22 0 1.606-.015 
-    2.896-.015 3.286 0 .315.21.69.825.57C20.565 
-    22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-              />
-            </svg>
-          </a>
           <a href="#" title="Instagram">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -438,16 +430,14 @@ export default function Footer() {
               <path d="M7.75 2A5.75 5.75 0 0 0 2 7.75v8.5A5.75 5.75 0 0 0 7.75 22h8.5A5.75 5.75 0 0 0 22 16.25v-8.5A5.75 5.75 0 0 0 16.25 2h-8.5Zm0 1.5h8.5A4.25 4.25 0 0 1 20.5 7.75v8.5a4.25 4.25 0 0 1-4.25 4.25h-8.5a4.25 4.25 0 0 1-4.25-4.25v-8.5A4.25 4.25 0 0 1 7.75 3.5ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 1.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm5.25-.88a1.13 1.13 0 1 0 0 2.26 1.13 1.13 0 0 0 0-2.26Z" />
             </svg>
           </a>
-          <a href="#" title="Facebook">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M22.675 0h-21.35C.596 0 0 .595 0 1.326v21.348C0 23.404.596 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.31h3.59l-.467 3.622h-3.123V24h6.116C23.404 24 24 23.404 24 22.674V1.326C24 .595 23.404 0 22.675 0z" />
-            </svg>
-          </a>
         </Socials>
+
+        <AboutDev>
+          <p>
+            Developed By:-
+            <a href="https://abhinavmishraportfolio.netlify.app/">@EgaleCoder</a>
+          </p>
+        </AboutDev>
       </BottomRow>
     </FooterWrapper>
   );

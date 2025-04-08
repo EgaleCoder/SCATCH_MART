@@ -269,11 +269,9 @@ const Profile = () => {
       ) : (
         <CardWrapper>
           <div className="card">
-            <p className="text-blue-400 text-4xl">SCATCH MART</p>
+            <p className="logo text-blue-400 text-4xl">SCATCH MART</p>
             <p className="cookieHeading">Hello User</p>
-            <p className="cookieDescription">
-              To access your SCATCH account
-            </p>
+            <p className="cookieDescription">To access your SCATCH account</p>
             <div className="buttonContainer">
               <NavLink to="/login">
                 <button className="acceptButton">Login</button>
@@ -376,6 +374,11 @@ const StyledWrapper = styled.div`
     background: #60a5fa;
     transform: scale(1.03);
   }
+  @media (max-width: 468px) {
+    .card {
+      transform: translateX(150px);
+    }
+  }
 `;
 const CardWrapper = styled.div`
   .card {
@@ -391,10 +394,6 @@ const CardWrapper = styled.div`
     position: relative;
     overflow: hidden;
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.062);
-  }
-
-  #cookieSvg {
-    width: 50px;
   }
 
   #cookieSvg g path {
@@ -450,8 +449,31 @@ const CardWrapper = styled.div`
   }
 
   .acceptButton:hover {
-    background-color:#76b2fa;
+    background-color: #76b2fa;
     transition-duration: 0.2s;
+  }
+  @media (max-width: 468px) {
+    .card {
+      max-width: 200px;
+      padding: 1.2rem;
+      gap: 0.8rem;
+      transform: translateX(190px);
+    }
+    .logo {
+      font-size: 1.5em;
+    }
+    .cookieHeading {
+      font-size: 1.2em;
+      font-weight: 800;
+      color: rgb(26, 26, 26);
+    }
+
+    .cookieDescription {
+      text-align: center;
+      font-size: 0.8em;
+      font-weight: 600;
+      color: rgb(99, 99, 99);
+    }
   }
 `;
 

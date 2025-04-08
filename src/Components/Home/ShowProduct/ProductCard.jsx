@@ -6,39 +6,50 @@ import { NavLink } from "react-router-dom";
 
 const ProductCard = ({ products }) => {
   const { isLoading } = useProductsContext();
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <CardLoader />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <CardLoader />
+  //     </div>
+  //   );
+  // }
   if (products.length === 0) {
     return <div>No products available</div>;
   }
 
   return (
     <StyledWrapper>
-      {products.map((product, index) => (
-        <NavLink to={`/product/${product._id}`} key={index}>
-          <div className="card">
-            <div className="image">
-              <img
-                src={product.image.trim()}
-                alt={product.name}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain", 
-                }}
-              />
+    {isLoading
+      ? Array(10)
+          .fill(0)
+          .map((_, index) => (
+            <div className="card" key={index}>
+              <div className="image skeleton"></div>
+              <span className="title skeleton" style={{ width: "60%", height: "0.9em" }}></span>
+              <span className="price skeleton" style={{ width: "40%", height: "0.9em" }}></span>
             </div>
-            <span className="title">{product.name}</span>
-            <span className="price">₹ {product.price}</span>
-          </div>
-        </NavLink>
-      ))}
-    </StyledWrapper>
+          ))
+      : products.map((product, index) => (
+          <NavLink to={`/product/${product._id}`} key={index}>
+            <div className="card">
+              <div className="image">
+                <img
+                  src={product.image.trim()}
+                  alt={product.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
+              <span className="title">{product.name}</span>
+              <span className="price">₹ {product.price}</span>
+            </div>
+          </NavLink>
+        ))}
+  </StyledWrapper>
+  
   );
 };
 
@@ -48,7 +59,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-bottom:2rem;
+  margin-bottom: 2rem;
   height: auto;
 
   .card {
@@ -128,7 +139,21 @@ const StyledWrapper = styled.div`
   .card:active {
     transform: scale(0.98);
   }
+  .skeleton {
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 1200px 100%;
+    animation: shimmer 1.2s infinite linear;
+    border-radius: 4px;
+  }
 
+  @keyframes shimmer {
+    0% {
+      background-position: -1200px 0;
+    }
+    100% {
+      background-position: 1200px 0;
+    }
+  }
   @media (max-width: 640px) {
     /* Apply only to mobile view */
     .card {
