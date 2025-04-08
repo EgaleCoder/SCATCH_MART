@@ -24,10 +24,12 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: "UPDATE_FILTER_VALUE", payload: { name, value } });
   };
 
-  // ✅ Load products initially
   useEffect(() => {
-    dispatch({ type: "LOAD_FILTER_PRODUCTS", payload: products });
+    if (Array.isArray(products) && products.length > 0) {
+      dispatch({ type: "LOAD_FILTER_PRODUCTS", payload: products });
+    }
   }, [products]);
+  
 
   // ✅ Apply filtering when filters change
   useEffect(() => {

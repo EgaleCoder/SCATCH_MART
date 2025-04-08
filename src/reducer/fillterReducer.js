@@ -1,6 +1,7 @@
 const FillterReducer = (state, action) => {
   switch (action.type) {
     case "LOAD_FILTER_PRODUCTS":
+      if (!Array.isArray(action.payload)) return state;
       return {
         ...state,
         filterProducts: [...action.payload],

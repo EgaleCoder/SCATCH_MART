@@ -5,8 +5,10 @@ import { AppProvider } from "./context/productContext.jsx";
 import { FilterProvider } from "./context/fillterContext.jsx";
 import { CartProvider } from "./context/addToCartContext.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
+import ErrorBoundary from "./utils/ErrorBoundary.jsx";
 
 createRoot(document.getElementById("root")).render(
+  <ErrorBoundary>
   <AuthProvider>
     <AppProvider>
       <FilterProvider>
@@ -16,4 +18,5 @@ createRoot(document.getElementById("root")).render(
       </FilterProvider>
     </AppProvider>
   </AuthProvider>
+  </ErrorBoundary>
 );

@@ -17,7 +17,6 @@ const useAuthApi = (dispatch) => {
       dispatch({ type: "LOGIN", payload: res.data.user });
     } catch (err) {
       dispatch({ type: "LOGOUT" });
-      localStorage.removeItem("token"); // Clear token if login fails
       dispatch({
         type: "SET_ERROR",
         payload: err.response?.data?.message || "Something went wrong!",
