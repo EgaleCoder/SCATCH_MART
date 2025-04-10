@@ -39,6 +39,7 @@ function AdminNavbar() {
 }
 const Navbar = styled.nav`
   background-color:rgb(12, 115, 126); /* Tailwind: bg-blue-400 */
+  
 `;
 
 const Container = styled.div`
@@ -47,6 +48,8 @@ const Container = styled.div`
   margin-right: auto;
   padding-left: 0.5rem; /* Tailwind: px-2 */
   padding-right: 0.5rem;
+ 
+  
 
   @media (min-width: 640px) {
     padding-left: 1.5rem; /* Tailwind: sm:px-6 */
