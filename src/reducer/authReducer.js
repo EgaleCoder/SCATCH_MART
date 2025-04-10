@@ -39,6 +39,10 @@ const authReducer = (state, action) => {
       return { ...state, loading: false, user: action.payload };
     case "CREATE_USER_FAIL":
       return { ...state, loading: false, error: action.payload };
+    case "DELETE_USER_SUCCESS":
+      return { ...state, loading: false, user: action.payload };
+    case "DELETE_USER_FAIL":
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

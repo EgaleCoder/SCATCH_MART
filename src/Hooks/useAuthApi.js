@@ -4,6 +4,7 @@ import API from "../utils/axios";
 const API_PROFILE = "/api/users/profile";
 const API_LOGOUT = "/api/users/logout";
 const API_CREATE_USER = "api/users/create";
+const API_DELETE_USER = "/api/users/delete-user";
 
 const useAuthApi = (dispatch) => {
   const checkUser = useCallback(async () => {
@@ -57,12 +58,38 @@ const useAuthApi = (dispatch) => {
           payload: err.response?.data?.message || "Registration failed",
         });
         return { success: false, error: err.response?.data?.message };
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
       }
     },
     [dispatch]
   );
 
-  return { checkUser, logoutUser, createUser };
+  const deleteUser = useCallback(
+    async (userId) => {
+      dispatch({ type: "SET_LOADING", payload: true });
+      try {
+        const URL = `${API_DELETE_USER}/${userId}`;
+        const result = await API.delete(URL, {
+          withCredentials: true,
+        });
+        dispatch({ type: "DELETE_USER_SUCCESS", payload: result.data });
+        return { success: true, user: result.data.user };
+      } catch (err) {
+        dispatch({
+          type: "DELETE_USER_FAIL",
+          payload: err.response?.data?.message,
+        });
+        console.log(err);
+        return { success: false, error: err.response?.data?.message };
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    },
+    [dispatch]
+  );
+
+  return { checkUser, logoutUser, createUser, deleteUser };
 };
 
 export default useAuthApi;

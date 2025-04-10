@@ -4,12 +4,26 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 
 const Profile = () => {
-  const { user, logoutUser, isAuthenticated } = useAuthContext();
+  const { user, logoutUser, isAuthenticated, deleteUser } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logoutUser();
     navigate("/");
+  };
+
+  const handleDeleteUser = async () => {
+    const userId = user.id;
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account?"
+    );
+    if (confirmDelete) {
+      const res = await deleteUser(userId);
+      if (res?.success) {
+        logoutUser();
+        navigate("/");
+      }
+    }
   };
   return (
     <>
@@ -260,7 +274,10 @@ const Profile = () => {
               <button className="card__btn mx-4" onClick={handleLogout}>
                 LogOut
               </button>
-              <button className="card__btn card__btn-solid  ">
+              <button
+                className="card__btn card__btn-solid"
+                onClick={handleDeleteUser}
+              >
                 Delete Account
               </button>
             </div>
