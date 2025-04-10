@@ -5,7 +5,7 @@ function Sidebar() {
     <>
       <SidebarWrapper>
       <TopSection>
-        <Logo>Logo</Logo>
+        <Logo>S</Logo>
 
         <NavList>
           <li>
@@ -104,12 +104,12 @@ const TopSection = styled.div`
 const Logo = styled.span`
   display: grid;
   place-content: center;
-  width: 8rem;
-  height: 2.5rem;
-  background-color: #f3f4f6;
+  width: 3rem;
+  height: 3rem;
+  background-color: #60a5fa;
   color: #4b5563;
-  font-size: 0.75rem;
-  border-radius: 0.5rem;
+  font-size: 2rem;
+  border-radius: 50%;
 `;
 
 const NavList = styled.ul`

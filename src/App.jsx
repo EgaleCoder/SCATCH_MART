@@ -14,6 +14,9 @@ const AdminLogin = lazy(() => import("./Pages/AdminLogin"));
 const Profile = lazy(() => import("./Components/Home/Profile"));
 const AdminPanel = lazy(() => import("./Components/Admin/AdminPanel"));
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
+const ActiveUser = lazy(() => import("./Components/Admin/ActiveUser"));
+const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
+
 
 function App() {
   return (
@@ -36,6 +39,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/Activeuser" element={<ActiveUser />} />
+          <Route path="/AddProduct" element={<AddProduct />} />
         </Routes>
       </Suspense>
     </Router>
