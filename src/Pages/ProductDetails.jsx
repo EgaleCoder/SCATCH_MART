@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useProductsContext } from "../context/productContext.jsx";
+import { useAuthContext } from "../context/authContext.jsx";
 import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import CardLoader from "../Components/Home/ShowProduct/CardLoader.jsx";
 import {
   AddToCart,
+  BuyNow,
   QuantitySelector,
 } from "../Components/Home/ShowProduct/AddToCart.jsx";
 import MyImg from "../Components/Home/ShowProduct/MyImg.jsx";
@@ -17,6 +19,8 @@ const ProductDetail = () => {
   const { id } = useParams();
   const { getSingleProduct, isSingleLoading, productDetails, productSize } =
     useProductsContext();
+
+  const { isAuthenticated, loading } = useAuthContext();
 
   const {
     id: productId,
@@ -86,7 +90,12 @@ const ProductDetail = () => {
                 Free Delivery
               </p>
               <div className="btns flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-start">
-                <AddToCart quantity={quantity} product={productDetails} />
+                {isAuthenticated ? (
+                  <AddToCart quantity={quantity} product={productDetails} />
+                ) : (
+                  <BuyNow />
+                )}
+
                 <QuantitySelector
                   quantity={quantity}
                   setQuantity={setQuantity}

@@ -24,6 +24,7 @@ const useAuthApi = (dispatch) => {
           type: "SET_ERROR",
           payload: error.response?.data?.message || "Something went wrong!",
         });
+        return { success: false, error: error.response?.data?.message };
       } finally {
         dispatch({ type: "SET_LOADING", payload: false });
       }
@@ -52,8 +53,6 @@ const useAuthApi = (dispatch) => {
   const logoutUser = useCallback(async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
-      dispatch({ type: "SET_ERROR", payload: null });
-
       await API.post(API_LOGOUT, {}, { withCredentials: true });
       dispatch({ type: "LOGOUT" });
     } catch (err) {

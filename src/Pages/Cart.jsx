@@ -1,10 +1,12 @@
 import React from "react";
-import axios from "axios";
+import API from "../utils/axios";
 import styled from "styled-components";
 import Navigation from "../Components/Home/ShowProduct/Navigation";
 import Footer from "../Components/Home/Footer";
 import { useCartContext } from "../context/cartContext";
+import { NavLink } from "react-router-dom";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
+import Pay from "../Components/Home/Buttons/Pay";
 
 export default function Cart() {
   const { cart, loading, getCartData } = useCartContext();
@@ -29,7 +31,7 @@ export default function Cart() {
 
   const handleRemoveItem = async (productId) => {
     try {
-      const res = await axios.post("/api/cart/delete", {
+      const res = await API.post("/api/cart/delete", {
         productId,
       });
       getCartData();
@@ -68,7 +70,7 @@ export default function Cart() {
                         handleRemoveItem(item.product._id);
                       }}
                     >
-                      Remove
+                      {loading ? "Removing..." : "Remove"}
                     </button>
                   </div>
                 </div>
@@ -117,14 +119,15 @@ export default function Cart() {
                 </div>
 
                 <div className="checkout">
-                  <a href="#">Checkout</a>
+                  <NavLink to={"/"}>
+                    <Pay />
+                  </NavLink>
                 </div>
               </div>
             </Wrapper>
           )}
         </div>
       </Section>
-
       <Footer />
     </>
   );
@@ -301,17 +304,4 @@ const Wrapper = styled.div`
     justify-content: flex-end;
   }
 
-  .checkout a {
-    background-color: #2d3748;
-    color: #f9fafb;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.875rem;
-    border-radius: 0.375rem;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-
-  .checkout a:hover {
-    background-color: #4a5568;
-  }
 `;

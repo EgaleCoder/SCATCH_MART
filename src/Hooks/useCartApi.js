@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import API from "../utils/axios";
-import { useCartContext } from "../context/cartContext";
 
 const API_ADD_TO_CART = "/api/addtocart";
 const API_GET_CART = "/api/cart";
@@ -12,7 +11,7 @@ export const useCartApi = (dispatch) => {
       try {
         const res = await API.post(
           API_ADD_TO_CART,
-          { productId, quantity }, // ✅ Send in body
+          { productId, quantity },
           { withCredentials: true }
         );
         dispatch({
@@ -42,5 +41,6 @@ export const useCartApi = (dispatch) => {
       dispatch({ type: "CART_ERROR", payload: error });
     }
   });
+
   return { addToCart, getCartData };
 };

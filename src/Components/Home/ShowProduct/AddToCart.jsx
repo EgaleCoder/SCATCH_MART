@@ -162,6 +162,7 @@ const StyledWrapper = styled.div`
   .CartBtn:active {
     transform: scale(0.95);
     transition-duration: 0.5s;
+    contant: "Added";
   }
 `;
 const QuantitySelectorWrapper = styled.div`

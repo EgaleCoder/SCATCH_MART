@@ -14,15 +14,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const login = async () => {
-    try {
-      await loginUser(email, password);
-    } catch (error) {
-      setErrorMsg(error.response?.data?.message || "Login failed");
+    const res = await loginUser(email, password);
+    if (!res?.success) {
+      setErrorMsg(res.error || "Login failed");
       setShowAlert(true);
       setEmail("");
       setPassword("");
     }
   };
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");

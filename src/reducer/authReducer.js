@@ -27,14 +27,6 @@ const authReducer = (state, action) => {
         error: action.payload,
         loading: false,
       };
-    case "LOGIN_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        user: action.payload,
-        isAuthenticated: true,
-        error: null,
-      };
     case "CREATE_USER_SUCCESS":
       return { ...state, loading: false, user: action.payload };
     case "CREATE_USER_FAIL":
