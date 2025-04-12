@@ -7,6 +7,7 @@ import Loader from "../Components/Home/ShowProduct/CardLoader";
 const Signin = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { checkUser, createUser, loading } = useAuthContext();
   const [formData, setFormData] = useState({
@@ -37,6 +38,11 @@ const Signin = () => {
       setShowAlert(true);
     }
   };
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <>
       {loading ? (
@@ -49,7 +55,7 @@ const Signin = () => {
             <h1 className="text-2xl font-bold sm:text-3xl">
               Welcome To <span className="text-blue-400">SACTCH MART!</span>
             </h1>
-            <h4 className="mt-4 text-blue-400">Create your account</h4>
+            <h4 className="mt-4 text-blue-400">Create your new account</h4>
             <p className="mt-4 text-gray-600">
               Your go-to e-commerce platform for premium bags! Explore our
               collection and shop with ease. Happy shopping! 🎉🛍️
@@ -163,43 +169,67 @@ const Signin = () => {
                   placeholder="Enter your password"
                   className="w-full rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                   id="password"
-                  type="password"
+                  type={showPassword ? "password" : "text"}
                   name="password"
                   required
                   onChange={handleChange}
                   value={formData.password}
                 />
-                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                  <svg
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="h-6 w-6 text-gray-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      strokeWidth={2}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      strokeWidth={2}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
+                <button
+                  type="button"
+                  onClick={togglePassword}
+                  className="absolute inset-y-0 end-0 grid place-content-center px-4"
+                >
+                  {showPassword ? (
+                    //Eye Off Icon (Hide Password)
+                    <svg
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="h-6 w-6 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 012.294-3.95m2.546-1.76A9.963 9.963 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.969 9.969 0 01-4.121 5.225M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M3 3l18 18"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    // Eye Icon (Show Password)
+                    <svg
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="h-6 w-6 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        strokeWidth={2}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        strokeWidth={2}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  )}
+                </button>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <button
-                className="inline-block rounded-lg bg-blue-400 px-5 py-3 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-                type="submit"
-              >
-                Sign In
-              </button>
               <NavLink to={"/login"}>
                 <button
                   className="inline-block rounded-lg bg-blue-400 px-5 py-3 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
@@ -208,6 +238,12 @@ const Signin = () => {
                   Login
                 </button>
               </NavLink>
+              <button
+                className="inline-block rounded-lg bg-blue-400 px-5 py-3 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                type="submit"
+              >
+                Sign In
+              </button>
             </div>
           </form>
         </div>

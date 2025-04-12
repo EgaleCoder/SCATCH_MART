@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Footer from "../Components/Home/Footer";
-import API from "../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
+import Loader from "../Components/Home/ShowProduct/CardLoader";
 
 const Login = () => {
-  const { dispatch, loading } = useAuthContext();
+  const { loading, loginUser, isAuthenticated } = useAuthContext();
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
@@ -15,23 +15,19 @@ const Login = () => {
 
   const login = async () => {
     try {
-      const response = await API.post(
-        "/api/users/login",
-        { email, password },
-        { withCredentials: true }
-      );
-      if (response.status === 200) {
-        const user = response.data.user;
-        dispatch({ type: "LOGIN_SUCCESS", payload: user });
-        navigate("/");
-      }
+      await loginUser(email, password);
     } catch (error) {
-      setErrorMsg(error.response.data.message);
+      setErrorMsg(error.response?.data?.message || "Login failed");
       setShowAlert(true);
       setEmail("");
       setPassword("");
     }
   };
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <>

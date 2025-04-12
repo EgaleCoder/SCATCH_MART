@@ -13,7 +13,7 @@ const initialState = {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { checkUser, logoutUser, createUser, deleteUser } =
+  const { loginUser, checkUser, logoutUser, createUser, deleteUser } =
     useAuthApi(dispatch);
 
   useEffect(() => {
@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
         checkUser,
         createUser,
         deleteUser,
+        loginUser,
       }}
     >
       {children}

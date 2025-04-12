@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Navigate, NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProductsContext } from "../context/productContext.jsx";
 import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import CardLoader from "../Components/Home/ShowProduct/CardLoader.jsx";
 import {
   AddToCart,
-  BuyNow,
+  QuantitySelector,
 } from "../Components/Home/ShowProduct/AddToCart.jsx";
 import MyImg from "../Components/Home/ShowProduct/MyImg.jsx";
 import FeaturesSection from "../Components/Home/ShowProduct/FeatureSection.jsx";
 
 const ProductDetail = () => {
+  const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
   const { getSingleProduct, isSingleLoading, productDetails, productSize } =
     useProductsContext();
@@ -62,6 +63,7 @@ const ProductDetail = () => {
       </div>
     );
   }
+
   return (
     <>
       <Navigation title={name} />
@@ -84,8 +86,11 @@ const ProductDetail = () => {
                 Free Delivery
               </p>
               <div className="btns flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-start">
-                <AddToCart product={productDetails} />
-                <BuyNow />
+                <AddToCart quantity={quantity} product={productDetails} />
+                <QuantitySelector
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                />
               </div>
             </BoxWrapper>
             <h4 className="text-3xl">Product Details</h4>
@@ -344,6 +349,5 @@ const StyledWrapper = styled.div`
     font-weight: 700;
   }
 `;
-
 
 export default ProductDetail;

@@ -1,19 +1,42 @@
 import { useCallback } from "react";
 import API from "../utils/axios";
 
+const API_LOGIN_USER = "/api/users/login";
 const API_PROFILE = "/api/users/profile";
 const API_LOGOUT = "/api/users/logout";
 const API_CREATE_USER = "api/users/create";
 const API_DELETE_USER = "/api/users/delete-user";
 
 const useAuthApi = (dispatch) => {
+  const loginUser = useCallback(
+    async (email, password) => {
+      try {
+        dispatch({ type: "SET_LOADING", payload: true });
+        const res = await API.post(
+          API_LOGIN_USER,
+          { email, password },
+          { withCredentials: true }
+        );
+        checkUser();
+        dispatch({ type: "LOGIN", payload: res });
+      } catch (error) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response?.data?.message || "Something went wrong!",
+        });
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    },
+    [dispatch]
+  );
+
   const checkUser = useCallback(async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const res = await API.get(API_PROFILE, {
         withCredentials: true,
       });
-
       dispatch({ type: "LOGIN", payload: res.data.user });
     } catch (err) {
       dispatch({ type: "LOGOUT" });
@@ -80,7 +103,6 @@ const useAuthApi = (dispatch) => {
           type: "DELETE_USER_FAIL",
           payload: err.response?.data?.message,
         });
-        console.log(err);
         return { success: false, error: err.response?.data?.message };
       } finally {
         dispatch({ type: "SET_LOADING", payload: false });
@@ -89,7 +111,7 @@ const useAuthApi = (dispatch) => {
     [dispatch]
   );
 
-  return { checkUser, logoutUser, createUser, deleteUser };
+  return { loginUser, checkUser, logoutUser, createUser, deleteUser };
 };
 
 export default useAuthApi;

@@ -1,24 +1,43 @@
 import React from "react";
-import { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import Navigation from "../Components/Home/ShowProduct/Navigation";
 import Footer from "../Components/Home/Footer";
-import { useCartContext } from "../context/addToCartContext";
-import { QuantitySelector } from "../Components/Home/ShowProduct/QuantitySelector";
+import { useCartContext } from "../context/cartContext";
+import Loader from "../Components/Home/ShowProduct/CardLoader";
 
 export default function Cart() {
-  const { cart, removeFromCart, updateQuantity } = useCartContext();
+  const { cart, loading, getCartData } = useCartContext();
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
 
   const subtotal = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.product.price * item.quantity,
     0
   );
   const totalDiscount = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity * (item.discount / 100),
+    (acc, item) =>
+      acc + item.product.price * item.quantity * (item.product.discount / 100),
     0
   );
   const vat = subtotal * 0.1;
   const total = subtotal + vat - totalDiscount;
+
+  const handleRemoveItem = async (productId) => {
+    try {
+      const res = await axios.post("/api/cart/delete", {
+        productId,
+      });
+      getCartData();
+      return res;
+    } catch (err) {
+      return err;
+    }
+  };
 
   return (
     <>
@@ -30,23 +49,24 @@ export default function Cart() {
             <p className="empty">Your cart is empty.</p>
           ) : (
             cart.map((item) => (
-              <div className="cart-list" key={item.id}>
+              <div className="cart-list" key={item._id}>
                 <div className="cart-item">
-                  <img src={item.image} alt={item.name} />
+                  <img src={item.product.image} alt={item.product.name} />
                   <div className="item-details">
-                    <h3>{item.name}</h3>
+                    <h3>{item.product.name}</h3>
                     <p>
-                      Size: {item.size} | Price: ₹ {item.price}
+                      Size: {item.product.size.type} | Price: ₹
+                      {item.product.price}
                     </p>
                   </div>
                   <div className="price-details">
-                    <QuantitySelector
-                      item={item}
-                      updateQuantity={updateQuantity}
-                    />
+                    <span>(Quantity)</span>
+                    <p className="mr-7">{item.quantity}</p>
                     <button
                       className="remove-btn"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => {
+                        handleRemoveItem(item.product._id);
+                      }}
                     >
                       Remove
                     </button>
@@ -104,6 +124,7 @@ export default function Cart() {
           )}
         </div>
       </Section>
+
       <Footer />
     </>
   );
