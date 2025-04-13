@@ -1,165 +1,127 @@
-Scatch Mart Documentation
-Introduction
-Scatch Mart is a full-stack e-commerce platform built using the MERN stack. It allows users to browse and purchase products (bags), while admins can manage inventory and user data. The app features role-based access, a responsive interface, and API-driven interactions.
+# Scatch Mart Documentation
 
-Features
-User authentication and session handling using JWT
+## Introduction
+Scatch Mart is a full-stack e-commerce platform built using the MERN stack. It provides a seamless online shopping experience, allowing users to browse, add to cart, and purchase products. Admins can manage the product catalog and user database. The UI is responsive and user-friendly, ensuring accessibility across all devices.
 
-Admin role for managing products and viewing user data
+## Features
+- **User Authentication**
+  - Secure login/signup using JWT
+  - Authentication managed using React Context API and `useReducer`
+  
+- **Admin Dashboard**
+  - Admin role verification
+  - Add/delete products
+  - View all users
 
-Add to cart, remove from cart, and cart persistence
+- **Product Management**
+  - Product list with image, description, price, and specs
+  - Product detail pages with reviews and ratings
 
-Dynamic product detail pages with images, pricing, and descriptions
+- **Shopping Cart**
+  - Add/remove products
+  - Dynamic updates with Context and `useReducer`
 
-Responsive design compatible with mobile and desktop
+- **Deployment**
+  - Frontend: Vercel
+  - Backend: Render with secure environment variables
 
-RESTful APIs and secure backend logic
+## Technologies Used
+- **Frontend:** React.js, React Router, Axios, styled-components
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB with Mongoose
+- **Version Control:** Git & GitHub
+- **Deployment:** Vercel (Frontend), Render (Backend)
 
-Technologies Used
-Frontend: React.js, Styled Components, Axios
-
-Backend: Node.js, Express.js
-
-Database: MongoDB with Mongoose
-
-Authentication: JWT, bcrypt
-
-Version Control: Git & GitHub
-
-Hosting: Render (Backend), Netlify/Vercel (Frontend)
-
-Project Structure
-pgsql
-Copy
-Edit
+## Project Structure
+```
 scatch-mart/
-│── client/ (React Frontend)
+│── backend/
+│   ├── models/
+│   ├── routes/
+│   ├── controllers/
+│── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── ProductCard.jsx
-│   │   │   ├── CartPage.jsx
-│   │   │   ├── AdminPanel.jsx
+│   │   ├── pages/
 │   │   ├── context/
-│   │   │   ├── AuthContext.jsx
-│   │   │   ├── CartContext.jsx
 │   │   ├── App.jsx
-│   │   ├── index.js
-│── server/ (Node + Express Backend)
-│   ├── models/
-│   │   ├── Product.js
-│   │   ├── User.js
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── productRoutes.js
-│   │   ├── cartRoutes.js
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   ├── productController.js
-│   ├── middleware/
-│   │   ├── authMiddleware.js
-│   ├── .env
-│   ├── server.js
+│   │   ├── index.jsx
+│── .env (not committed)
+│── package.json
 │── README.md
-Installation & Setup
-1. Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/your-username/scatch-mart.git
-cd scatch-mart
-2. Install Dependencies
-Frontend:
+```
 
-bash
-Copy
-Edit
-cd client
-npm install
-Backend:
+## Installation & Setup
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-repo/scatch-mart.git
+   cd scatch-mart
+   ```
 
-bash
-Copy
-Edit
-cd ../server
-npm install
-3. Configure Environment Variables
-Create a .env file in the backend (/server) and add:
+2. **Install Dependencies**
+   - Backend:
+     ```bash
+     cd backend
+     npm install
+     ```
+   - Frontend:
+     ```bash
+     cd frontend
+     npm install
+     ```
 
-ini
-Copy
-Edit
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-4. Run the Application
-Backend:
+3. **Configure Environment Variables**
+   - Add `.env` files for backend and frontend
+   - Example:
+     ```env
+     MONGO_URI=your_mongo_db_url
+     JWT_SECRET=your_jwt_secret
+     ```
 
-bash
-Copy
-Edit
-cd server
-npm run dev
-Frontend:
+4. **Run the Application**
+   - Backend:
+     ```bash
+     npm run dev
+     ```
+   - Frontend:
+     ```bash
+     npm run dev
+     ```
 
-bash
-Copy
-Edit
-cd client
-npm run dev
-Component Breakdown
-1. ProductCard.jsx
-Renders a single product with image, title, and price
+## Component Breakdown
 
-Includes an “Add to Cart” button
+### `Login.jsx` / `Register.jsx`
+- Handles user authentication
+- Sends JWT to frontend for session storage
 
-Responsive styling with styled-components
+### `ProductList.jsx`
+- Displays all available products
+- Dynamically updates with backend data
 
-2. CartPage.jsx
-Shows all items added to the cart
+### `ProductDetail.jsx`
+- Shows selected product info, ratings, and reviews
 
-Allows item removal and quantity changes
+### `CartPage.jsx`
+- Displays added products
+- Uses custom cart context to manage state
 
-Uses global cart state via Context API
+### `AdminDashboard.jsx`
+- Admin-only view
+- Includes user list and product CRUD operations
 
-3. AdminPanel.jsx
-Admin-only page to:
+## Responsiveness
+- Built using styled-components
+- Layout adapts using Flexbox/Grid and media queries
+- Works across mobile, tablet, and desktop devices
 
-Add or delete products
+## Future Enhancements
+- Add payment gateway integration (Stripe, Razorpay)
+- Add search and filtering features
+- Improve UI animations with Framer Motion
+- Add order history and user profile pages
 
-View all registered users
+## Conclusion
+Scatch Mart is a modern and scalable e-commerce platform that demonstrates effective use of the MERN stack for both frontend and backend development. It offers core shopping features and admin management while being extensible for future improvements.
 
-Protected route with role check
+## Developed and Designed by Abhinav Mishra
 
-4. AuthContext.jsx
-Manages user login/logout and token
-
-Stores user info in localStorage for session persistence
-
-5. CartContext.jsx
-Manages global cart state using useReducer
-
-Handles dispatch for add/remove operations
-
-Responsiveness
-Layouts use Flexbox and Grid
-
-Styled-components for dynamic styling
-
-Media queries and conditional styles for mobile devices
-
-Future Enhancements
-Payment integration (Razorpay/Stripe)
-
-Search and filter functionality for products
-
-Product categories and tags
-
-Ratings and reviews system
-
-Order tracking and user history
-
-Dark mode toggle
-
-Conclusion
-Scatch Mart is a scalable and modular e-commerce platform tailored for users and admins alike. Built using modern JavaScript frameworks and practices, it provides a foundation for real-world web applications with secure authentication, dynamic product rendering, and responsive design.
-
-Developed and Designed by Abhinav Mishra
