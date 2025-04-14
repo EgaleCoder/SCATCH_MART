@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./Components/Home/Navbar";
 import Loader from "./Components/Home/ShowProduct/CardLoader";
 import ProtectedRoute from "./Routes/ProtectedRoutes";
+import ShowProducts from "./Components/Admin/ShowProducts";
 
 // Lazy loaded components
 const Home = lazy(() => import("./Pages/Home"));
+const Dasshboard = lazy(() => import("./Components/Admin/Home"));
 const ProductDetails = lazy(() => import("./Pages/ProductDetails"));
 const Signin = lazy(() => import("./Pages/Signin"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -21,7 +23,7 @@ const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
 function App() {
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
       <Suspense
         fallback={
           <div className="h-screen flex items-center justify-center">
@@ -36,12 +38,17 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/Activeuser" element={<ActiveUser />} />
-          <Route path="/AddProduct" element={<AddProduct />} />
-          
-{/* Protected Routes */}
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminPanel />}>
+            <Route index element={<Dasshboard />} />
+            <Route path="activeuser" element={<ActiveUser />} />
+            <Route path="addproduct" element={<AddProduct />} />
+            <Route path="showproducts" element={<ShowProducts/>}/>
+          </Route>
+
+          {/* Protected Routes */}
           <Route
             path="/cart"
             element={

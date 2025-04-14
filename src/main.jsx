@@ -6,17 +6,20 @@ import { FilterProvider } from "./context/fillterContext.jsx";
 import { CartProvider } from "./context/cartContext.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
 import ErrorBoundary from "./utils/ErrorBoundary.jsx";
+import { AdminProvider } from "./context/adminContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>
-    <AuthProvider>
-      <AppProvider>
-        <FilterProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </FilterProvider>
-      </AppProvider>
-    </AuthProvider>
+    <AdminProvider>
+      <AuthProvider>
+        <AppProvider>
+          <FilterProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </FilterProvider>
+        </AppProvider>
+      </AuthProvider>
+    </AdminProvider>
   </ErrorBoundary>
 );

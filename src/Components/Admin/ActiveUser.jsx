@@ -1,165 +1,127 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-const TableWrapper = styled.div`
+// Styled Components
+const Container = styled.div`
+  position: relative;
   overflow-x: auto;
-  background-color: white;
-  color: #1f2937; /* Tailwind's gray-800 */
-  font-size: 0.875rem;
-`;
-
-const StyledTable = styled.table`
-  width: 100%;
-  border: 1px solid #d1d5db; /* gray-300 */
-  border-collapse: collapse;
-`;
-
-const THead = styled.thead`
-  background-color: #f3f4f6; /* gray-100 */
-  font-weight: 600;
-  font-size: 1rem;
-  border-bottom: 1px solid #d1d5db;
-`;
-
-const TBodyRow = styled.tr`
-  border-top: 1px solid #d1d5db;
-`;
-
-const TCell = styled.td`
-  border-right: 1px solid #d1d5db;
-  padding: 0.75rem;
-  vertical-align: top;
-`;
-
-const THeadCell = styled.th`
-  border-right: 1px solid #d1d5db;
-  padding: 0.75rem;
-  text-align: left;
-`;
-
-const Avatar = styled.div`
-  width: 3rem;
-  height: 3rem;
   border-radius: 0.5rem;
-  overflow: hidden;
+  width: 100%;
 `;
 
-const Badge = styled.span`
-  display: inline-block;
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  color: #4b5563;
-  background-color: transparent;
+const Table = styled.table`
+  width: 98%;
+  font-size: 0.875rem;
+  text-align: left;
+  color:;
 `;
 
-const DetailsButton = styled.button`
+const TableHead = styled.thead`
+  background-color: #0c737e;
+  color: black;
+  text-transform: uppercase;
   font-size: 0.75rem;
-  color: #3b82f6;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+`;
+
+const Row = styled.tr`
+  background-color: ${({ theme }) =>
+    theme === "dark" ? "#1f2937" : "#ffffff"};
+  border-bottom: 1px solid
+    ${({ theme }) => (theme === "dark" ? "#374151" : "#e5e7eb")};
+
   &:hover {
-    text-decoration: underline;
+    background-color: rgb(46, 126, 135);
   }
 `;
 
-const Footer = styled.tfoot`
-  background-color: #f3f4f6;
-  border-top: 1px solid #d1d5db;
-`;
-
-function ActiveUser() {
-  
+// Main Component
+const UserTable = () => {
   const users = [
     {
-      name: 'Hart Hagerty',
-      country: 'United States',
-      job: 'Zemlak, Daniel and Leannon',
-      title: 'Desktop Support Technician',
-      color: 'Purple',
-      mobile: '+1 202-555-0173',
-      img: 'https://img.daisyui.com/images/profile/demo/2@94.webp',
+      name: "Neil Sims",
+      email: "neil.sims@flowbite.com",
+      role: "React Developer",
+      status: "Online",
+      img: "/docs/images/people/profile-picture-1.jpg",
+      online: true,
     },
     {
-      name: 'Brice Swyre',
-      country: 'China',
-      job: 'Carroll Group',
-      title: 'Tax Accountant',
-      color: 'Red',
-      mobile: '+86 139-8888-8888',
-      img: 'https://img.daisyui.com/images/profile/demo/3@94.webp',
+      name: "Bonnie Green",
+      email: "bonnie@flowbite.com",
+      role: "Designer",
+      status: "Online",
+      img: "/docs/images/people/profile-picture-3.jpg",
+      online: true,
     },
     {
-      name: 'Marjy Ferencz',
-      country: 'Russia',
-      job: 'Rowe-Schoen',
-      title: 'Office Assistant I',
-      color: 'Crimson',
-      mobile: '+7 495 123-4567',
-      img: 'https://img.daisyui.com/images/profile/demo/4@94.webp',
+      name: "Jese Leos",
+      email: "jese@flowbite.com",
+      role: "Vue JS Developer",
+      status: "Online",
+      img: "/docs/images/people/profile-picture-2.jpg",
+      online: true,
     },
     {
-      name: 'Yancy Tear',
-      country: 'B razil',
-      job: 'Wyman-Ledner',
-      title: 'Community Outreach Specialist',
-      color: 'Indigo',
-      mobile: '+55 21 99999-1234',
-      img: 'https://img.daisyui.com/images/profile/demo/5@94.webp',
+      name: "Thomas Lean",
+      email: "thomes@flowbite.com",
+      role: "UI/UX Engineer",
+      status: "Online",
+      img: "/docs/images/people/profile-picture-5.jpg",
+      online: true,
+    },
+    {
+      name: "Leslie Livingston",
+      email: "leslie@flowbite.com",
+      role: "SEO Specialist",
+      status: "Offline",
+      img: "/docs/images/people/profile-picture-4.jpg",
+      online: false,
     },
   ];
 
   return (
-    <TableWrapper>
-      <StyledTable>
-        <THead>
+    <Container>
+      <p className="text-2xl m-2 text-center">Active Users</p>
+      <Table>
+        <TableHead>
           <tr>
-            <THeadCell>
-             Sn
-            </THeadCell>
-            <THeadCell>Name</THeadCell>
-            <THeadCell>Email</THeadCell>
-            <THeadCell>Mobile No</THeadCell>
-            <THeadCell>Oders</THeadCell>
-            <THeadCell>Remove User</THeadCell>
+            <th className="p-4"></th>
+            <th className="px-6 py-3">Name</th>
+            <th className="px-6 py-3">Position</th>
+            <th className="px-6 py-3">Action</th>
           </tr>
-        </THead>
+        </TableHead>
         <tbody>
-          {users.map((person, index) => (
-            <TBodyRow key={index}>
-              <TCell>
-            
-            {index +1}
-              </TCell>
-              <TCell>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <Avatar>
-                    <img src={person.img} alt={person.name} width="100%" height="100%" />
-                  </Avatar>
-                  <div>
-                    <div style={{ fontWeight: 'bold' }}>{person.name}</div>
-                    <div style={{ fontSize: '0.875rem', opacity: 0.5 }}>{person.country}</div>
+          {users.map((user, idx) => (
+            <Row key={idx}>
+              <td className="p-4">
+                <input type="checkbox" />
+              </td>
+              <td className="px-6 py-4 flex items-center gap-3">
+                <img
+                  src={user.img}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <div className="text-base font-semibold text-gray-900">
+                    {user.name}
                   </div>
+                  <div className="font-normal text-gray-700">{user.email}</div>
                 </div>
-              </TCell>
-              <TCell>
-                {person.job}
-                <br />
-                <Badge>{person.title}</Badge>
-              </TCell>
-              <TCell>{person.mobile}</TCell>
-              <TCell>{person.color}</TCell>
-              <TCell>
-                <DetailsButton>Delete</DetailsButton>
-              </TCell>
-            </TBodyRow>
+              </td>
+              <td className="px-6 py-4">{user.role}</td>
+              <td className="px-6 py-4">
+                <a href="#" className="text-blue-600 hover:underline">
+                  Edit user
+                </a>
+              </td>
+            </Row>
           ))}
         </tbody>
-        
-           
-      </StyledTable>
-    </TableWrapper>
+      </Table>
+    </Container>
   );
-}
+};
 
-export default ActiveUser;
+export default UserTable;

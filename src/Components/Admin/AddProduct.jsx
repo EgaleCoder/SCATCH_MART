@@ -1,106 +1,189 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useState } from 'react';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const AddProduct = () => {
-  const [size, setSize] = useState('');
-  const [category, setCategory] = useState("");
+  const [product, setProduct] = useState({
+    image: "",
+    name: "",
+    price: "",
+    discount: "",
+    description: "",
+    material: "",
+    size: "",
+    category: "",
+    height: "",
+    width: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitted Product:", product);
+    // Aap yaha API call ya backend logic add kar sakte ho
+  };
 
   return (
     <StyledWrapper>
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <p className="title">Add New Product</p>
-        <p className="message">Fill Detail of Your New Product  </p>
+        <p className="message">Fill Detail of Your New Product</p>
+
         <div className="flex">
           <label>
-            <input required placeholder type="href" className="input" />
+            <input
+              name="image"
+              type="url"
+              required
+              className="input"
+              value={product.image}
+              onChange={handleChange}
+            />
             <span>Image</span>
           </label>
           <label>
-            <input required placeholder type="text" className="input" />
+            <input
+              name="name"
+              type="text"
+              required
+              className="input"
+              value={product.name}
+              onChange={handleChange}
+            />
             <span>Product Name</span>
           </label>
-        </div>  
+        </div>
+
+        <div className="flex">
+          <label>
+            <input
+              name="price"
+              type="number"
+              required
+              className="input"
+              value={product.price}
+              onChange={handleChange}
+            />
+            <span>Price</span>
+          </label>
+          <label>
+            <input
+              name="discount"
+              type="number"
+              required
+              className="input"
+              value={product.discount}
+              onChange={handleChange}
+            />
+            <span>Discount</span>
+          </label>
+        </div>
+
         <label>
-          <input required placeholder type="text" className="input" />
-          <span>Prices</span>
-        </label> 
-        <label></label>
-        <label>
-          <input required placeholder type="number" className="input" />
-          <span>Discount</span>
-        </label> 
-        <label>
-          <input required placeholder type="text" className="input" />
+          <input
+            name="description"
+            type="text"
+            required
+            className="input"
+            value={product.description}
+            onChange={handleChange}
+          />
           <span>Description</span>
         </label>
+
         <label>
-          <input required placeholder type="text" className="input" />
+          <input
+            name="material"
+            type="text"
+            required
+            className="input"
+            value={product.material}
+            onChange={handleChange}
+          />
           <span>Material</span>
         </label>
-        <SelectWrapper>
-      <Label htmlFor="size">Size:</Label>
-      <Select
-        id="size"
-        value={size}
-        onChange={(e) => setSize(e.target.value)}
-      >
-        <option value="" disabled>
-          Select Size
-        </option>
-        <option value="S">Small (S)</option>
-        <option value="M">Medium (M)</option>
-        <option value="L">Large (L)</option>
-        <option value="XL">Extra Large (XL)</option>
-      </Select>
-    </SelectWrapper>
-    <SelectWrapper>
-  <Label htmlFor="category">Category:</Label>
-  <Select
-    id="category"
-    value={category}
-    onChange={(e) => setCategory(e.target.value)}
-  >
-    <option value="" disabled>Select Category</option>
-    <option value="Travel">Travel</option>
-    <option value="Backpacks">Backpacks</option>
-    <option value="School Bags">School Bags</option>
-    <option value="Handbags">Handbags</option>
-    <option value="Laptop Bags">Laptop Bags</option>
-  </Select>
-</SelectWrapper>
-    <input
-  required
-  type="number"
-  className="input"
-  placeholder="Height(cm)"
-  onInput={(e) => {
-    e.target.value = e.target.value.slice(0, 70);
-  }}
-/>
-<input
-  required
-  type="number"
-  className="input"
-  placeholder="Width(cm)"
-  onInput={(e) => {
-    e.target.value = e.target.value.slice(0, 50);
-  }}
-/>
 
-        <button className="submit">Add Product</button>
-       
+        <div className="flex">
+          <SelectWrapper>
+            <Label htmlFor="size">Size:</Label>
+            <Select
+              id="size"
+              name="size"
+              value={product.size}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>
+                Select Size
+              </option>
+              <option value="S">Small (S)</option>
+              <option value="M">Medium (M)</option>
+              <option value="L">Large (L)</option>
+              <option value="XL">Extra Large (XL)</option>
+            </Select>
+          </SelectWrapper>
+
+          <SelectWrapper>
+            <Label htmlFor="category">Category:</Label>
+            <Select
+              id="category"
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>
+                Select Category
+              </option>
+              <option value="Travel">Travel</option>
+              <option value="Backpacks">Backpacks</option>
+              <option value="School Bags">School Bags</option>
+              <option value="Handbags">Handbags</option>
+              <option value="Laptop Bags">Laptop Bags</option>
+            </Select>
+          </SelectWrapper>
+        </div>
+
+        <div className="flex">
+          <input
+            name="height"
+            type="number"
+            max="70"
+            placeholder="Height(cm)"
+            className="input"
+            required
+            value={product.height}
+            onChange={handleChange}
+          />
+          <input
+            name="width"
+            type="number"
+            max="50"
+            placeholder="Width(cm)"
+            className="input"
+            required
+            value={product.width}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit" className="submit">
+          Add Product
+        </button>
       </form>
     </StyledWrapper>
   );
-}
+};
 
 const StyledWrapper = styled.div`
   .form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 350px;
+    max-width: 750px;
     background-color: #fff;
     padding: 20px;
     border-radius: 20px;
@@ -109,7 +192,7 @@ const StyledWrapper = styled.div`
 
   .title {
     font-size: 28px;
-    color:  #60a5fa;
+    color: #093e44;
     font-weight: 600;
     letter-spacing: -1px;
     position: relative;
@@ -118,20 +201,21 @@ const StyledWrapper = styled.div`
     padding-left: 30px;
   }
 
-  .title::before,.title::after {
+  .title::before,
+  .title::after {
     position: absolute;
     content: "";
     height: 16px;
     width: 16px;
     border-radius: 50%;
     left: 0px;
-    background-color:  #60a5fa;
+    background-color: #093e44;
   }
 
   .title::before {
     width: 18px;
     height: 18px;
-    background-color: royalblue;
+    background-color:  #093e44;
   }
 
   .title::after {
@@ -140,7 +224,8 @@ const StyledWrapper = styled.div`
     animation: pulse 1s linear infinite;
   }
 
-  .message, .signin {
+  .message,
+  .signin {
     color: rgba(88, 87, 87, 0.822);
     font-size: 14px;
   }
@@ -165,6 +250,7 @@ const StyledWrapper = styled.div`
 
   .form label {
     position: relative;
+    width: 100%;
   }
 
   .form label .input {
@@ -190,7 +276,8 @@ const StyledWrapper = styled.div`
     font-size: 0.9em;
   }
 
-  .form label .input:focus + span,.form label .input:valid + span {
+  .form label .input:focus + span,
+  .form label .input:valid + span {
     top: 30px;
     font-size: 0.7em;
     font-weight: 600;
@@ -203,16 +290,19 @@ const StyledWrapper = styled.div`
   .submit {
     border: none;
     outline: none;
-    background-color: royalblue;
+    background-color:  #093e44;
     padding: 10px;
     border-radius: 10px;
     color: #fff;
+    width: 30%;
+    aligh-item: center;
+    justify-content: center;
     font-size: 16px;
-    transform: .3s ease;
+    transform: 0.3s ease;
   }
 
   .submit:hover {
-    background-color:  #60a5fa;
+    background-color:rgb(46, 102, 108);
   }
 
   @keyframes pulse {
@@ -220,17 +310,19 @@ const StyledWrapper = styled.div`
       transform: scale(0.9);
       opacity: 1;
     }
-
     to {
       transform: scale(1.8);
       opacity: 0;
     }
-  }`;
-  const SelectWrapper = styled.div`
+  }
+`;
+
+const SelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-top: 10px;
+  width: 100%;
 `;
 
 const Label = styled.label`
@@ -252,6 +344,5 @@ const Select = styled.select`
     border-color: royalblue;
   }
 `;
-
 
 export default AddProduct;

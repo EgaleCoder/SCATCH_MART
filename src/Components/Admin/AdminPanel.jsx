@@ -1,17 +1,23 @@
 import React from "react";
 import AdminNavbar from "./AdminNavbar";
 import Sidebar from "./Sidebar";
-import Home from "./Home";
+import { Outlet } from "react-router-dom";
 
 const AdminPanel = () => {
   return (
     <>
-      <div class="block gap-[20px]">
-        <div class="w-full"><AdminNavbar/></div>
-        <div class="w-full h-full">
-          <div class="flex gap-[10px]">
-            <div class="h-full"><Sidebar></Sidebar></div>
-            <div class="w-full h-full"><Home/></div>
+      <div className="block gap-[20px]">
+        <div className="w-full">
+          <AdminNavbar />
+        </div>
+        <div className="w-full h-full">
+          <div className="flex gap-[10px]">
+            <div className="h-screen">
+              <Sidebar />
+            </div>
+            <div className="w-full h-full">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
