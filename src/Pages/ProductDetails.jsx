@@ -5,6 +5,7 @@ import { useProductsContext } from "../context/productContext.jsx";
 import { useAuthContext } from "../context/authContext.jsx";
 import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
+import Navbar from "../Components/Home/Navbar";
 import CardLoader from "../Components/Home/ShowProduct/CardLoader.jsx";
 import {
   AddToCart,
@@ -70,6 +71,7 @@ const ProductDetail = () => {
 
   return (
     <>
+      <Navbar />
       <Navigation title={name} />
       <Container>
         <FlexContainer>

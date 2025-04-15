@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Navbar from "../Components/Home/Navbar";
 import Footer from "../Components/Home/Footer";
 import TOPBANNER from "../assets/TOP BANNER.png";
 import CATAGORYBANNER from "../assets/CATAGORY BANNER.png";
@@ -9,6 +10,7 @@ import CategoryCard from "../Components/Home/CategoryCard";
 function Home() {
   return (
     <>
+      <Navbar />
       <div className=" main w-full px-2 md:px-4 mt-4 md:mt-6 lg:mt-2">
         <a href="#">
           <BackgroundDiv

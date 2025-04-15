@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Footer from "../Components/Home/Footer";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
+import Navbar from "../Components/Home/Navbar";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
+import Footer from "../Components/Home/Footer";
 
 const Login = () => {
   const { loading, loginUser, isAuthenticated } = useAuthContext();
@@ -31,6 +32,7 @@ const Login = () => {
 
   return (
     <>
+      <Navbar />
       {loading ? (
         <div className="h-screen flex items-center justify-center">
           <Loader />
@@ -170,7 +172,7 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
   .card {
     --p: 32px;
     --h-form: auto;
@@ -225,7 +227,9 @@ const StyledWrapper = styled.div`
   }
   .avatar svg {
     position: absolute;
-    transition: transform 0.2s ease-in, opacity 0.1s;
+    transition:
+      transform 0.2s ease-in,
+      opacity 0.1s;
     transform-origin: 50% 100%;
     height: var(--sz-svg);
     width: var(--sz-svg);

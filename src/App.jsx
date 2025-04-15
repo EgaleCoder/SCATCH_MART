@@ -1,9 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./Components/Home/Navbar";
 import Loader from "./Components/Home/ShowProduct/CardLoader";
-import ProtectedRoute from "./Routes/ProtectedRoutes";
+import { ProtectedRoute, AdminRoute } from "./Routes/ProtectedRoutes";
 import ShowProducts from "./Components/Admin/ShowProducts";
 
 // Lazy loaded components
@@ -23,7 +22,6 @@ const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
 function App() {
   return (
     <Router>
-      {/* <Navbar /> */}
       <Suspense
         fallback={
           <div className="h-screen flex items-center justify-center">
@@ -41,11 +39,18 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminPanel />}>
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminPanel />
+              </AdminRoute>
+            }
+          >
             <Route index element={<Dasshboard />} />
             <Route path="activeuser" element={<ActiveUser />} />
             <Route path="addproduct" element={<AddProduct />} />
-            <Route path="showproducts" element={<ShowProducts/>}/>
+            <Route path="showproducts" element={<ShowProducts />} />
           </Route>
 
           {/* Protected Routes */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAdminContext } from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Components/Home/ShowProduct/CardLoader";
 
 const Form = () => {
   const navigate = useNavigate();
@@ -21,6 +22,13 @@ const Form = () => {
     }
   }, [isAdminLoggedIn]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <StyledWrapper>
       <div className="container">

@@ -11,6 +11,15 @@ const adminReducer = (state, action) => {
         isAdminLoggedIn: true,
         loading: false,
       };
+    case "SET_ADMIN":
+      return {
+        ...state,
+        admin: action.payload,
+        isAdminLoggedIn: true,
+        loading: false,
+      };
+    case "LOGOUT":
+      return { ...state, isAdminLoggedIn: false, loading: false };
     default:
       return state;
   }

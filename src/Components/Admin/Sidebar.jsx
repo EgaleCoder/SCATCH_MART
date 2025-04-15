@@ -1,10 +1,23 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useAdminContext } from "../../context/adminContext";
 
-function Sidebar() {
+function Sidebar({ admin }) {
+  const { fullname, email } = admin;
+  const navigate = useNavigate();
   const location = useLocation();
+  const { adminLogout, isAdminLoggedIn } = useAdminContext();
 
+  const logout = async (e) => {
+    e.preventDefault();
+    await adminLogout();
+  };
+  useEffect(() => {
+    if (!isAdminLoggedIn) {
+      navigate("/admin-login");
+    }
+  }, [isAdminLoggedIn]);
   return (
     <>
       <SidebarWrapper>
@@ -54,6 +67,7 @@ function Sidebar() {
                 </SubMenu>
               </NavGroup>
             </li>
+
             <li>
               <NavGroup>
                 <summary>
@@ -101,6 +115,7 @@ function Sidebar() {
                 </SubMenu>
               </NavGroup>
             </li>
+
             <li>
               <NavGroup>
                 <summary>
@@ -113,7 +128,6 @@ function Sidebar() {
                   >
                     <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
                   </svg>
-
                   <span>Account</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +150,7 @@ function Sidebar() {
                     <NavItem href="#">Security</NavItem>
                   </li>
                   <li>
-                    <NavItem href="#">Logout</NavItem>
+                    <NavItem onClick={logout}>Logout</NavItem>
                   </li>
                 </SubMenu>
               </NavGroup>
@@ -151,8 +165,8 @@ function Sidebar() {
               alt=""
             />
             <UserInfo>
-              <strong>Eric Frusciante</strong>
-              <span>eric@frusciante.com</span>
+              <strong>{fullname}</strong><br />
+              <span>{email}</span>
             </UserInfo>
           </UserLink>
         </Footer>

@@ -2,6 +2,7 @@ import React from "react";
 import API from "../utils/axios";
 import styled from "styled-components";
 import Navigation from "../Components/Home/ShowProduct/Navigation";
+import Navbar from "../Components/Home/Navbar";
 import Footer from "../Components/Home/Footer";
 import { useCartContext } from "../context/cartContext";
 import { NavLink } from "react-router-dom";
@@ -43,6 +44,7 @@ export default function Cart() {
 
   return (
     <>
+      <Navbar />
       <Navigation />
       <Section>
         <div className="container">
@@ -303,5 +305,4 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: flex-end;
   }
-
 `;
