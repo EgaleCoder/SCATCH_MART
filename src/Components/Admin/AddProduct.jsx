@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useAdminContext } from "../../context/adminContext";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
+  const navigate = useNavigate();
+  const { adminAddProduct } = useAdminContext();
+  const [error, setError] = useState("");
   const [product, setProduct] = useState({
     image: "",
     name: "",
@@ -9,29 +14,83 @@ const AddProduct = () => {
     discount: "",
     description: "",
     material: "",
-    size: "",
     category: "",
-    height: "",
-    width: "",
+    size: {
+      type: "",
+      height: "",
+      width: "",
+      length: "",
+    },
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
+
+    if (["type", "height", "width", "length"].includes(name)) {
+      setProduct((prev) => ({
+        ...prev,
+        size: {
+          ...prev.size,
+          [name]: value,
+        },
+      }));
+    } else {
+      setProduct((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Product:", product);
-    // Aap yaha API call ya backend logic add kar sakte ho
+
+    try {
+      const payload = {
+        ...product,
+        price: Number(product.price),
+        discount: Number(product.discount),
+        size: {
+          ...product.size,
+          type: String(product.size.type),
+          height: Number(product.size.height),
+          width: Number(product.size.width),
+          length: Number(product.size.length),
+        },
+      };
+      await adminAddProduct(payload);
+      alert("Product Added");
+      // Reset the form
+      setProduct({
+        image: "",
+        name: "",
+        price: "",
+        discount: "",
+        description: "",
+        material: "",
+        category: "",
+        size: {
+          type: "",
+          height: "",
+          width: "",
+          length: "",
+        },
+      });
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
     <StyledWrapper>
       <form className="form" onSubmit={handleSubmit}>
         <p className="title">Add New Product</p>
-        <p className="message">Fill Detail of Your New Product</p>
 
+        {error ? (
+          <p>{error}</p>
+        ) : (
+          <p className="message">Fill Detail of Your New Product</p>
+        )}
         <div className="flex">
           <label>
             <input
@@ -110,19 +169,25 @@ const AddProduct = () => {
           <SelectWrapper>
             <Label htmlFor="size">Size:</Label>
             <Select
-              id="size"
               name="size"
-              value={product.size}
-              onChange={handleChange}
-              required
+              value={product.size.type}
+              onChange={(e) =>
+                setProduct((prev) => ({
+                  ...prev,
+                  size: {
+                    ...prev.size,
+                    type: e.target.value,
+                  },
+                }))
+              }
             >
               <option value="" disabled>
                 Select Size
               </option>
-              <option value="S">Small (S)</option>
-              <option value="M">Medium (M)</option>
-              <option value="L">Large (L)</option>
-              <option value="XL">Extra Large (XL)</option>
+              <option value="Small">Small</option>
+              <option value="Medium">Medium</option>
+              <option value="Large">Large</option>
+              <option value="Free Size">Free Size</option>
             </Select>
           </SelectWrapper>
 
@@ -155,7 +220,7 @@ const AddProduct = () => {
             placeholder="Height(cm)"
             className="input"
             required
-            value={product.height}
+            value={product.size.height}
             onChange={handleChange}
           />
           <input
@@ -165,7 +230,17 @@ const AddProduct = () => {
             placeholder="Width(cm)"
             className="input"
             required
-            value={product.width}
+            value={product.size.width}
+            onChange={handleChange}
+          />
+          <input
+            name="length"
+            type="number"
+            max="50"
+            placeholder="Length(cm)"
+            className="input"
+            required
+            value={product.size.length}
             onChange={handleChange}
           />
         </div>
@@ -215,7 +290,7 @@ const StyledWrapper = styled.div`
   .title::before {
     width: 18px;
     height: 18px;
-    background-color:  #093e44;
+    background-color: #093e44;
   }
 
   .title::after {
@@ -290,7 +365,7 @@ const StyledWrapper = styled.div`
   .submit {
     border: none;
     outline: none;
-    background-color:  #093e44;
+    background-color: #093e44;
     padding: 10px;
     border-radius: 10px;
     color: #fff;
@@ -302,7 +377,7 @@ const StyledWrapper = styled.div`
   }
 
   .submit:hover {
-    background-color:rgb(46, 102, 108);
+    background-color: rgb(46, 102, 108);
   }
 
   @keyframes pulse {

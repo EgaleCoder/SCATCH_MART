@@ -16,7 +16,6 @@ const Signin = () => {
     password: "",
     contact: "",
   });
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -50,8 +49,8 @@ const Signin = () => {
           <Loader />
         </div>
       ) : (
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-lg text-center">
+        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 bg-blue-100">
+          <div className="mx-auto max-w-lg text-center ">
             <h1 className="text-2xl font-bold sm:text-3xl">
               Welcome To <span className="text-blue-400">SACTCH MART!</span>
             </h1>

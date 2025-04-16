@@ -4,7 +4,7 @@ import { useAdminContext } from "../../context/adminContext";
 import Loader from "../Home/ShowProduct/CardLoader";
 
 const ProductTable = () => {
-  const { admin, loading } = useAdminContext();
+  const { admin, loading, adminDeleteProduct } = useAdminContext();
 
   if (loading) {
     return (
@@ -13,6 +13,13 @@ const ProductTable = () => {
       </div>
     );
   }
+
+  const deleteProduct = async (productId) => {
+    window.confirm("Are you sure want to delete this product?");
+    if (confirm) {
+      await adminDeleteProduct(productId);
+    }
+  };
   const { products } = admin;
   return (
     <>
@@ -40,7 +47,9 @@ const ProductTable = () => {
                     alt={product.name}
                   />
                 </Td>
-                <Td><b>{product.name}</b></Td>
+                <Td>
+                  <b>{product.name}</b>
+                </Td>
                 <Td>{product.category}</Td>
                 <Td>{product.discount}%</Td>
                 <Td>Yes</Td>
@@ -51,9 +60,12 @@ const ProductTable = () => {
                       Edit
                     </a>
                     |
-                    <a href="#" className="remove">
+                    <button
+                      onClick={() => deleteProduct(product._id)}
+                      className="remove"
+                    >
                       Remove
-                    </a>
+                    </button>
                   </ActionLinks>
                 </Td>
               </Tr>
@@ -106,19 +118,20 @@ const Td = styled.td`
   padding: 0.75rem 1.5rem;
   white-space: nowrap;
   color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: ${({ bold }) => (bold ? "500" : "400")};
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
+  max-width: 150px;
 `;
 
 const ActionLinks = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
+  button {
+    color: red;
+    cursor: pointer;
+  }
   a {
     font-weight: 500;
     text-decoration: none;
@@ -128,10 +141,6 @@ const ActionLinks = styled.div`
 
     &.edit {
       color: #3b82f6;
-    }
-
-    &.remove {
-      color: #ef4444;
     }
   }
 `;

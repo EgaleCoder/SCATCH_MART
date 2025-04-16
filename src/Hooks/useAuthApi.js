@@ -18,15 +18,13 @@ const useAuthApi = (dispatch) => {
           { withCredentials: true }
         );
         checkUser();
-        dispatch({ type: "LOGIN", payload: res });
+        dispatch({ type: "LOGIN", payload: res.data });
       } catch (error) {
         dispatch({
           type: "SET_ERROR",
           payload: error.response?.data?.message || "Something went wrong!",
         });
         return { success: false, error: error.response?.data?.message };
-      } finally {
-        dispatch({ type: "SET_LOADING", payload: false });
       }
     },
     [dispatch]
@@ -60,8 +58,6 @@ const useAuthApi = (dispatch) => {
         type: "SET_ERROR",
         payload: err.response?.data?.message || "Logout failed!",
       });
-    } finally {
-      dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [dispatch]);
 
@@ -80,8 +76,6 @@ const useAuthApi = (dispatch) => {
           payload: err.response?.data?.message || "Registration failed",
         });
         return { success: false, error: err.response?.data?.message };
-      } finally {
-        dispatch({ type: "SET_LOADING", payload: false });
       }
     },
     [dispatch]
@@ -103,8 +97,6 @@ const useAuthApi = (dispatch) => {
           payload: err.response?.data?.message,
         });
         return { success: false, error: err.response?.data?.message };
-      } finally {
-        dispatch({ type: "SET_LOADING", payload: false });
       }
     },
     [dispatch]

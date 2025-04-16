@@ -13,7 +13,14 @@ const initialState = {
 
 export const AdminProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { adminLogin, adminLogout, adminPanel } = useAdminAuth(dispatch);
+  const {
+    adminLogin,
+    adminLogout,
+    adminPanel,
+    adminDeleteUser,
+    adminAddProduct,
+    adminDeleteProduct,
+  } = useAdminAuth(dispatch);
 
   useEffect(() => {
     adminPanel();
@@ -21,7 +28,15 @@ export const AdminProvider = ({ children }) => {
 
   return (
     <AdminContext.Provider
-      value={{ ...state, adminLogin, adminLogout, adminPanel }}
+      value={{
+        ...state,
+        adminLogin,
+        adminLogout,
+        adminPanel,
+        adminDeleteUser,
+        adminAddProduct,
+        adminDeleteProduct,
+      }}
     >
       {children}
     </AdminContext.Provider>

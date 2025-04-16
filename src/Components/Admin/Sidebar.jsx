@@ -2,12 +2,21 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAdminContext } from "../../context/adminContext";
+import Loader from "../Home/ShowProduct/CardLoader";
 
 function Sidebar({ admin }) {
-  const { fullname, email } = admin;
   const navigate = useNavigate();
   const location = useLocation();
   const { adminLogout, isAdminLoggedIn } = useAdminContext();
+
+  if (!admin) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+  const { fullname, email } = admin;
 
   const logout = async (e) => {
     e.preventDefault();
@@ -165,7 +174,8 @@ function Sidebar({ admin }) {
               alt=""
             />
             <UserInfo>
-              <strong>{fullname}</strong><br />
+              <strong>{fullname}</strong>
+              <br />
               <span>{email}</span>
             </UserInfo>
           </UserLink>

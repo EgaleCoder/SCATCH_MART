@@ -5,7 +5,6 @@ const Breadcrumb = ({ title }) => {
   const location = useLocation();
   const pathSegments = location.pathname.split("/").filter(Boolean);
 
-  // Capitalize and format segments (e.g., "user-profile" => "User Profile")
   const formatSegment = (segment) =>
     segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
 
@@ -22,15 +21,14 @@ const Breadcrumb = ({ title }) => {
 
           let label = segment;
           if (segment === "cart") label = "Cart";
-          else if (segment === "product") label = `Product / ${title || "Details"}`;
+          else if (segment === "product")
+            label = `products/${title || "Details"}`;
           else label = formatSegment(segment);
 
           return (
             <React.Fragment key={to}>
               <BreadcrumbSeparator />
-              <BreadcrumbItem to={!isLast ? to : null}>
-                {label}
-              </BreadcrumbItem>
+              <BreadcrumbItem to={!isLast ? to : null}>{label}</BreadcrumbItem>
             </React.Fragment>
           );
         })}
@@ -53,10 +51,7 @@ const BreadcrumbItem = ({ to, ariaLabel, children }) => {
           {children}
         </NavLink>
       ) : (
-        <span
-          className="block text-gray-800 font-semibold"
-          aria-current="page"
-        >
+        <span className="block text-gray-800 font-semibold" aria-current="page">
           {children}
         </span>
       )}

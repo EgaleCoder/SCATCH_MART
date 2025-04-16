@@ -4,7 +4,7 @@ import { useAdminContext } from "../../context/adminContext";
 import Loader from "../Home/ShowProduct/CardLoader";
 
 const UserTable = () => {
-  const { admin, loading } = useAdminContext();
+  const { admin, loading, adminDeleteUser } = useAdminContext();
 
   if (loading) {
     return (
@@ -15,6 +15,11 @@ const UserTable = () => {
   }
   const { users } = admin;
 
+  const deleteUser = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      await adminDeleteUser(userId);
+    }
+  };
   return (
     <Container>
       <p className="text-2xl m-2 text-center">{users.length} Active Users</p>
@@ -52,8 +57,14 @@ const UserTable = () => {
               <td className="px-6 py-4">Scatch User</td>
               <td>{user.cart.length}</td>
               <td className="px-6 py-4">
-                <a href="#" className="text-blue-600 hover:underline">
-                  Edit user
+                <a
+                  href="#"
+                  className="text-red-600 hover:underline"
+                  onClick={() => {
+                    deleteUser(user._id);
+                  }}
+                >
+                  Delete user
                 </a>
               </td>
             </Row>

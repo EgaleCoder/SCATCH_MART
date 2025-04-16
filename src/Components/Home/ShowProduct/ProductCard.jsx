@@ -19,37 +19,42 @@ const ProductCard = ({ products }) => {
 
   return (
     <StyledWrapper>
-    {isLoading
-      ? Array(10)
-          .fill(0)
-          .map((_, index) => (
-            <div className="card" key={index}>
-              <div className="image skeleton"></div>
-              <span className="title skeleton" style={{ width: "60%", height: "0.9em" }}></span>
-              <span className="price skeleton" style={{ width: "40%", height: "0.9em" }}></span>
-            </div>
-          ))
-      : products.map((product, index) => (
-          <NavLink to={`/product/${product._id}`} key={index}>
-            <div className="card">
-              <div className="image">
-                <img
-                  src={product.image.trim()}
-                  alt={product.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
+      {isLoading
+        ? Array(10)
+            .fill(0)
+            .map((_, index) => (
+              <div className="card" key={index}>
+                <div className="image skeleton"></div>
+                <span
+                  className="title skeleton"
+                  style={{ width: "60%", height: "0.9em" }}
+                ></span>
+                <span
+                  className="price skeleton"
+                  style={{ width: "40%", height: "0.9em" }}
+                ></span>
               </div>
-              <span className="title">{product.name}</span>
-              <span className="price">₹ {product.price}</span>
-            </div>
-          </NavLink>
-        ))}
-  </StyledWrapper>
-  
+            ))
+        : products.map((product, index) => (
+            <NavLink to={`/product/${product._id}`} key={index}>
+              <div className="card">
+                <div className="image">
+                  <img
+                    src={product.image.trim()}
+                    alt={product.name}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
+                <span className="title">{product.name}</span>
+                <span className="price">₹ {product.price}</span>
+              </div>
+            </NavLink>
+          ))}
+    </StyledWrapper>
   );
 };
 
@@ -118,6 +123,10 @@ const StyledWrapper = styled.div`
     position: absolute;
     left: 0.625em;
     bottom: 1.875em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 90%;
     font-weight: 400;
     color: #000;
   }

@@ -173,6 +173,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background:#d8e6f7;
   .card {
     --p: 32px;
     --h-form: auto;
@@ -186,7 +187,7 @@ const StyledWrapper = styled.div`
     height: var(--h-form);
     max-width: 100%;
     border-radius: 16px;
-    background: white;
+    background: #8cbcf7;
     position: relative;
     display: flex;
     align-items: center;
@@ -366,7 +367,7 @@ const StyledWrapper = styled.div`
     padding: 4px 0;
     width: var(--blind-w);
     border-radius: 4px;
-    background-color: #fff;
+    background-color: #d8e6f7;
     color: #4d4d4d;
     display: inline-flex;
     align-items: center;
@@ -433,7 +434,7 @@ const StyledWrapper = styled.div`
 
   .form .input {
     resize: vertical;
-    background: white;
+    background: #d8e6f7;
     border: 1px solid #8f8f8f;
     border-radius: 6px;
     outline: none;
@@ -475,7 +476,7 @@ const StyledWrapper = styled.div`
     width: 100%;
     outline: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #d8e6f7;
     background-image: linear-gradient(
       -180deg,
       rgba(255, 255, 255, 0.09) 0%,
