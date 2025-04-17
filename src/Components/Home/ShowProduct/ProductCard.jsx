@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useProductsContext } from "../../../context/productContext.jsx";
 import { NavLink } from "react-router-dom";
@@ -6,9 +6,11 @@ import { NavLink } from "react-router-dom";
 const ProductCard = ({ products }) => {
   const { isLoading } = useProductsContext();
   const [loading, setLoading] = useState();
-  if (isLoading) {
+
+  useEffect(() => {
     setLoading(isLoading);
-  }
+  }, []);
+
   if (products.length === 0) {
     return <div>No products available</div>;
   }
