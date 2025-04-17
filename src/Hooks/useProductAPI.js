@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import API from '../utils/axios'
+import API from "../utils/axios";
 
 const PRODUCT_API = "/api/scatch-products";
 

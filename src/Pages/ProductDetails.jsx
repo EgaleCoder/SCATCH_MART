@@ -6,7 +6,7 @@ import { useAuthContext } from "../context/authContext.jsx";
 import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import Navbar from "../Components/Home/Navbar";
-import CardLoader from "../Components/Home/ShowProduct/CardLoader.jsx";
+import Loader from "../Components/Home/ShowProduct/CardLoader.jsx";
 import {
   AddToCart,
   BuyNow,
@@ -20,9 +20,9 @@ const ProductDetail = () => {
   const { id } = useParams();
   const { getSingleProduct, isSingleLoading, productDetails, productSize } =
     useProductsContext();
+  const { isAuthenticated } = useAuthContext();
 
-  const { isAuthenticated, loading } = useAuthContext();
-
+  //Dynamic Api Data
   const {
     id: productId,
     name,
@@ -36,8 +36,9 @@ const ProductDetail = () => {
 
   useEffect(() => {
     getSingleProduct(id);
-  }, [id, getSingleProduct]);
+  }, [id]);
 
+  //Static Data
   const product = {
     rating: 3.7,
     reviews: 817,
@@ -60,15 +61,12 @@ const ProductDetail = () => {
       1: 3,
     },
   };
-
-  if (isSingleLoading) {
+  if (isSingleLoading)
     return (
       <div className="flex justify-center items-center h-screen">
-        <CardLoader />
+        <Loader />
       </div>
     );
-  }
-
   return (
     <>
       <Navbar />
@@ -77,7 +75,7 @@ const ProductDetail = () => {
         <FlexContainer>
           {/* Images */}
           <ImageContainer>
-            <MyImg img={image} />
+            <MyImg imgs={image} />
             <hr className="text-gray-300 mt-3" />
           </ImageContainer>
           <DetailsContainer>

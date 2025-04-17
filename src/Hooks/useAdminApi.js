@@ -73,9 +73,11 @@ const useAdminAuth = (dispatch) => {
           withCredentials: true,
         });
         dispatch({ type: "SET_PRODUCT", payload: res?.data });
+        console.log("Api Call", res);
         adminPanel();
       } catch (error) {
-        dispatch({ type: "SET_ERROR" });
+        console.log("Api Call", error.message);
+        dispatch({ type: "SET_ERROR", payload: error?.message });
       }
     },
     [dispatch]

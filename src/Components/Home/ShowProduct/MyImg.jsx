@@ -1,32 +1,38 @@
- import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const MyImg = ({ img }) => {
-  // const [mainImg, setMainImg] = useState(imgs[0]);
+const MyImg = ({ imgs }) => {
+  const [mainImg, setMainImg] = useState("");
+
+  useEffect(() => {
+    if (imgs && imgs.length > 0) {
+      setMainImg(imgs[0]);
+    }
+  }, [imgs]); 
   return (
     <ImageSection>
       {/* 1st Column */}
       <div className="grid grid-four-column">
-        {/* {imgs.map((curElm, index) => {
-          return (
-            <figure>
-              <img
-                src={curElm.url}
-                alt={curElm.filename}
-                className="box-img-style"
-                key={index}
-                onClick={() => {
-                  setMainImg(curElm);
-                }}
-              />
-            </figure>
-          );
-        })} */}
+        {imgs &&
+          imgs.map((curElm, index) => {
+            return (
+              <figure key={index}>
+                <img
+                  src={curElm}
+                  alt={`product-img-${index}`}
+                  className="box-img-style"
+                  onClick={() => {
+                    setMainImg(curElm);
+                  }}
+                />
+              </figure>
+            );
+          })}
       </div>
       {/* 2nd column  */}
 
       <div className="main-screen">
-        <img src={img} alt="image" />
+        {mainImg ? <img src={mainImg} alt="image" /> : <p>Loading image...</p>}
       </div>
     </ImageSection>
   );

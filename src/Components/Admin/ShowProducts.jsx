@@ -43,7 +43,7 @@ const ProductTable = () => {
                 <Td>
                   <img
                     className="w-10 h-10 "
-                    src={product.image}
+                    src={product.image[0]}
                     alt={product.name}
                   />
                 </Td>

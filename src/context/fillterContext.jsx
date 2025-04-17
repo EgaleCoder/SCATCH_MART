@@ -9,7 +9,7 @@ const initialState = {
   allProducts: [],
   filter: { 
     text: "",
-    category: "All" // ✅ Default category should be "All"
+    category: "All" 
   },
 };
 
@@ -17,7 +17,7 @@ export const FilterProvider = ({ children }) => {
   const { products } = useProductsContext();
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // ✅ Only update filter values, do not dispatch FILTER_PRODUCTS here
+  // Only update filter values, do not dispatch FILTER_PRODUCTS here
   const updateFilterValue = (event) => {
     const { name, value } = event.target;
 
@@ -31,9 +31,9 @@ export const FilterProvider = ({ children }) => {
   }, [products]);
   
 
-  // ✅ Apply filtering when filters change
+  // Apply filtering when filters change
   useEffect(() => {
-    if (state.allProducts.length > 0) { // ✅ Prevent running on empty state
+    if (state.allProducts.length > 0) { //Prevent running on empty state
       dispatch({ type: "FILTER_PRODUCTS" });
     }
   }, [state.filter]);

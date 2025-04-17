@@ -8,7 +8,7 @@ const AddProduct = () => {
   const { adminAddProduct } = useAdminContext();
   const [error, setError] = useState("");
   const [product, setProduct] = useState({
-    image: "",
+    image: ["", "", "", ""],
     name: "",
     price: "",
     discount: "",
@@ -60,9 +60,8 @@ const AddProduct = () => {
       };
       await adminAddProduct(payload);
       alert("Product Added");
-      // Reset the form
       setProduct({
-        image: "",
+        image: ["", "", "", ""],
         name: "",
         price: "",
         discount: "",
@@ -77,6 +76,7 @@ const AddProduct = () => {
         },
       });
     } catch (error) {
+      console.log(error.message);
       setError(error.message);
     }
   };
@@ -92,29 +92,34 @@ const AddProduct = () => {
           <p className="message">Fill Detail of Your New Product</p>
         )}
         <div className="flex">
-          <label>
-            <input
-              name="image"
-              type="url"
-              required
-              className="input"
-              value={product.image}
-              onChange={handleChange}
-            />
-            <span>Image</span>
-          </label>
-          <label>
-            <input
-              name="name"
-              type="text"
-              required
-              className="input"
-              value={product.name}
-              onChange={handleChange}
-            />
-            <span>Product Name</span>
-          </label>
+          {product.image.map((img, index) => (
+            <label key={index}>
+              <input
+                type="url"
+                required
+                className="input"
+                value={img}
+                onChange={(e) => {
+                  const newImages = [...product.image];
+                  newImages[index] = e.target.value;
+                  setProduct((prev) => ({ ...prev, image: newImages }));
+                }}
+              />
+              <span>Image URL {index + 1}</span>
+            </label>
+          ))}
         </div>
+        <label>
+          <input
+            name="name"
+            type="text"
+            required
+            className="input"
+            value={product.name}
+            onChange={handleChange}
+          />
+          <span>Product Name</span>
+        </label>
 
         <div className="flex">
           <label>

@@ -1,26 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useProductsContext } from "../../../context/productContext.jsx";
-import CardLoader from "./CardLoader.jsx";
 import { NavLink } from "react-router-dom";
 
 const ProductCard = ({ products }) => {
   const { isLoading } = useProductsContext();
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       <CardLoader />
-  //     </div>
-  //   );
-  // }
+  const [loading, setLoading] = useState();
+  if (isLoading) {
+    setLoading(isLoading);
+  }
   if (products.length === 0) {
     return <div>No products available</div>;
   }
 
   return (
     <StyledWrapper>
-      {isLoading
-        ? Array(10)
+      {loading
+        ? Array(products.length)
             .fill(0)
             .map((_, index) => (
               <div className="card" key={index}>
@@ -40,7 +36,7 @@ const ProductCard = ({ products }) => {
               <div className="card">
                 <div className="image">
                   <img
-                    src={product.image.trim()}
+                    src={product.image[0]}
                     alt={product.name}
                     style={{
                       width: "100%",
