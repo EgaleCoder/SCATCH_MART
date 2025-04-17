@@ -1,57 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useProductsContext } from "../../../context/productContext.jsx";
 import { NavLink } from "react-router-dom";
 
 const ProductCard = ({ products }) => {
-  const { isLoading } = useProductsContext();
-  const [loading, setLoading] = useState();
-
-  useEffect(() => {
-    setLoading(isLoading);
-  }, []);
-
   if (products.length === 0) {
     return <div>No products available</div>;
   }
 
   return (
     <StyledWrapper>
-      {loading
-        ? Array(products.length)
-            .fill(0)
-            .map((_, index) => (
-              <div className="card" key={index}>
-                <div className="image skeleton"></div>
-                <span
-                  className="title skeleton"
-                  style={{ width: "60%", height: "0.9em" }}
-                ></span>
-                <span
-                  className="price skeleton"
-                  style={{ width: "40%", height: "0.9em" }}
-                ></span>
-              </div>
-            ))
-        : products.map((product, index) => (
-            <NavLink to={`/product/${product._id}`} key={index}>
-              <div className="card">
-                <div className="image">
-                  <img
-                    src={product.image[0]}
-                    alt={product.name}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                    }}
-                  />
-                </div>
-                <span className="title">{product.name}</span>
-                <span className="price">₹ {product.price}</span>
-              </div>
-            </NavLink>
-          ))}
+      {products.map((product, index) => (
+        <NavLink to={`/product/${product._id}`} key={index}>
+          <div className="card">
+            <div className="image">
+              <img
+                src={product.image[0]}
+                alt={product.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+            <span className="title">{product.name}</span>
+            <span className="price">₹ {product.price}</span>
+          </div>
+        </NavLink>
+      ))}
     </StyledWrapper>
   );
 };
