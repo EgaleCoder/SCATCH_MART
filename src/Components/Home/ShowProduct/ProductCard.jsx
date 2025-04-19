@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { formatPrice } from "../../../utils/priceFormat";
 
 const ProductCard = ({ products }) => {
   if (products.length === 0) {
@@ -24,7 +25,7 @@ const ProductCard = ({ products }) => {
               />
             </div>
             <span className="title">{product.name}</span>
-            <span className="price">₹ {product.price}</span>
+            <span className="price">{formatPrice(product.price)}</span>
           </div>
         </NavLink>
       ))}

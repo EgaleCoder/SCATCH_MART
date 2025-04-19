@@ -8,6 +8,7 @@ import { useCartContext } from "../context/cartContext";
 import { NavLink } from "react-router-dom";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
 import Pay from "../Components/Home/Buttons/Pay";
+import { formatPrice } from "../utils/priceFormat";
 
 export default function Cart() {
   const { cart, loading, getCartData } = useCartContext();
@@ -59,8 +60,8 @@ export default function Cart() {
                   <div className="item-details">
                     <h3>{item.product.name}</h3>
                     <p>
-                      Size: {item.product.size.type} | Price: ₹
-                      {item.product.price}
+                      Size: {item.product.size.type} | Price:
+                      {formatPrice(item.product.price)}
                     </p>
                   </div>
                   <div className="price-details">
@@ -86,19 +87,19 @@ export default function Cart() {
                 <dl>
                   <div className="row">
                     <dt>Subtotal</dt>
-                    <dd>₹{subtotal.toFixed(2)}</dd>
+                    <dd>{formatPrice(Number(subtotal.toFixed(2)))}</dd>
                   </div>
                   <div className="row">
                     <dt>VAT (10%)</dt>
-                    <dd>₹{vat.toFixed(2)}</dd>
+                    <dd>{formatPrice(Number(vat.toFixed(2)))}</dd>
                   </div>
                   <div className="row">
                     <dt>Discount</dt>
-                    <dd>-₹{totalDiscount.toFixed(2)}</dd>
+                    <dd>-{formatPrice(Number(totalDiscount.toFixed(2)))}</dd>
                   </div>
                   <div className="row total">
                     <dt>Total</dt>
-                    <dd>₹{total.toFixed(2)}</dd>
+                    <dd>{formatPrice(Number(total.toFixed(2)))}</dd>
                   </div>
                 </dl>
 

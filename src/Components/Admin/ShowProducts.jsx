@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useAdminContext } from "../../context/adminContext";
 import Loader from "../Home/ShowProduct/CardLoader";
+import { formatPrice } from "../../utils/priceFormat";
 
 const ProductTable = () => {
   const { admin, loading, adminDeleteProduct } = useAdminContext();
@@ -53,7 +54,7 @@ const ProductTable = () => {
                 <Td>{product.category}</Td>
                 <Td>{product.discount}%</Td>
                 <Td>Yes</Td>
-                <Td>₹{product.price}/-</Td>
+                <Td>{formatPrice(product.price)}/-</Td>
                 <Td>
                   <ActionLinks>
                     <a href="#" className="edit">

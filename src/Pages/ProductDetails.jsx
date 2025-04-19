@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useProductsContext } from "../context/productContext.jsx";
 import { useAuthContext } from "../context/authContext.jsx";
+import { formatPrice } from "../utils/priceFormat.js";
 import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import Navbar from "../Components/Home/Navbar";
@@ -83,7 +84,7 @@ const ProductDetail = () => {
               <Title>{name}</Title>
               <p className="text-lg">{description}</p>
               <hr className="text-gray-300 mt-3" />
-              <Price>₹{price}/-</Price>
+              <Price>{price}/-</Price>
               <p className="text-lg">{discount}% OFF</p>
               <Rating>⭐ (Reviews)</Rating>
               <p style={{ color: "green", marginBottom: "10px" }}>
