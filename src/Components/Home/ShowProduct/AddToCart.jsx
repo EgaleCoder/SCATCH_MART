@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useCartApi } from "../../../Hooks/useCartApi";
 import { useCartContext } from "../../../context/cartContext";
 
-export const AddToCart = ({ product, quantity }) => {
+export const AddToCart = ({ product, quantity, setAdded }) => {
   const { dispatch, loading } = useCartContext();
   const { addToCart } = useCartApi(dispatch);
 
@@ -14,6 +14,7 @@ export const AddToCart = ({ product, quantity }) => {
         className="CartBtn"
         onClick={() => {
           addToCart(product._id, quantity);
+          setAdded(true);
         }}
       >
         <span className="IconContainer">

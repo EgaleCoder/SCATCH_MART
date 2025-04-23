@@ -19,6 +19,7 @@ const useAuthApi = (dispatch) => {
         );
         checkUser();
         dispatch({ type: "LOGIN", payload: res.data });
+        return { success: true };
       } catch (error) {
         dispatch({
           type: "SET_ERROR",

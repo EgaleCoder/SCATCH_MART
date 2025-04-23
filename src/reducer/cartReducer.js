@@ -4,8 +4,6 @@ const cartReducer = (state, action) => {
       return { ...state, loading: true };
     case "SET_ERROR":
       return { ...state, loading: false, error: true };
-    case "ADD_TO_CART":
-      return { ...state, cart: action.payload };
     case "SET_CART_DATA":
       return { ...state, cart: action.payload, loading: false };
     default:

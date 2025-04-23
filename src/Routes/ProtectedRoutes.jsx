@@ -1,9 +1,10 @@
-import { Navigate } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useAdminContext } from "../context/adminContext";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
 
 export const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
   const { isAuthenticated, loading } = useAuthContext();
 
   if (loading)
@@ -13,7 +14,8 @@ export const ProtectedRoute = ({ children }) => {
       </div>
     );
 
-  if (!isAuthenticated) return <Navigate to="/signup" replace />;
+  if (!isAuthenticated)
+    return <Navigate to="/login" state={{ from: location }} replace />;
 
   return children;
 };

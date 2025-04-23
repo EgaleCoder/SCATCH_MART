@@ -8,6 +8,7 @@ import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import Navbar from "../Components/Home/Navbar";
 import Loader from "../Components/Home/ShowProduct/CardLoader.jsx";
+import ViewCart from "../Components/Home/Buttons/ViewCart.jsx";
 import {
   AddToCart,
   BuyNow,
@@ -17,6 +18,7 @@ import MyImg from "../Components/Home/ShowProduct/MyImg.jsx";
 import FeaturesSection from "../Components/Home/ShowProduct/FeatureSection.jsx";
 
 const ProductDetail = () => {
+  const [added, setAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
   const { getSingleProduct, isSingleLoading, productDetails, productSize } =
@@ -34,6 +36,11 @@ const ProductDetail = () => {
     discount,
   } = productDetails;
   const { type, length, width, height } = productSize;
+
+  const originalPrice = price;
+  const discountPrice = Math.round(
+    originalPrice - (originalPrice * discount) / 100
+  );
 
   useEffect(() => {
     getSingleProduct(id);
@@ -84,19 +91,29 @@ const ProductDetail = () => {
               <Title>{name}</Title>
               <p className="text-lg">{description}</p>
               <hr className="text-gray-300 mt-3" />
-              <Price>{price}/-</Price>
-              <p className="text-lg">{discount}% OFF</p>
-              <Rating>⭐ (Reviews)</Rating>
+              <Price>{formatPrice(discountPrice)}/-</Price>
+              <div className="text-lg flex">
+                ₹<p className="original-price mr-4 text-xl">{price}/-</p>
+                <p>{discount}% OFF</p>
+              </div>
+              <Rating>⭐⭐⭐⭐⭐ (Reviews)</Rating>
               <p style={{ color: "green", marginBottom: "10px" }}>
                 Free Delivery
               </p>
               <div className="btns flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-start">
                 {isAuthenticated ? (
-                  <AddToCart quantity={quantity} product={productDetails} />
+                  added ? (
+                    <ViewCart />
+                  ) : (
+                    <AddToCart
+                      quantity={quantity}
+                      product={productDetails}
+                      setAdded={setAdded}
+                    />
+                  )
                 ) : (
                   <BuyNow />
                 )}
-
                 <QuantitySelector
                   quantity={quantity}
                   setQuantity={setQuantity}
@@ -220,6 +237,10 @@ const Container = styled.div`
   padding: 10px;
   background: white;
   border-radius: 10px;
+  .original-price {
+    text-decoration: line-through;
+    color: black;
+  }
 `;
 
 const FlexContainer = styled.div`

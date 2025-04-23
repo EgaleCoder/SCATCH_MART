@@ -15,9 +15,10 @@ export const useCartApi = (dispatch) => {
           { withCredentials: true }
         );
         dispatch({
-          type: "ADD_TO_CART",
-          payload: res.data,
+          type: "SET_CART_DATA",
+          payload: res.data.cart,
         });
+        console.log("RES.DATA", res.data.cart);
         return { success: true };
       } catch (err) {
         dispatch({ type: "SET_ERROR", payload: err });

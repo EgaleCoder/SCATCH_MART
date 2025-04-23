@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 
 const Profile = () => {
   const { user, logoutUser, isAuthenticated, deleteUser } = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logoutUser();
-    navigate("/");
+    navigate(location.pathname, { replace: true });
   };
 
   const handleDeleteUser = async () => {
@@ -309,8 +310,17 @@ const StyledWrapper = styled.div`
     --main-color: #000;
     --submain-color: #78858f;
     --bg-color: #fff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
       sans-serif;
     position: relative;
     width: 250px;
