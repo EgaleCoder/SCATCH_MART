@@ -8,7 +8,14 @@ const useProductApi = (dispatch) => {
     dispatch({ type: "SET_LOADING" });
     try {
       const response = await API.get(PRODUCT_API);
-      dispatch({ type: "SET_PRODUCTS", payload: response.data.products });
+
+      //Shuffle products after api call 
+      const products = response.data.products;
+      for (let i = products.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [products[i], products[j]] = [products[j], products[i]];
+      }
+      dispatch({ type: "SET_PRODUCTS", payload: products });
     } catch (error) {
       dispatch({ type: "SET_ERROR" });
     }

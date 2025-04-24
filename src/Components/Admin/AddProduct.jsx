@@ -208,8 +208,9 @@ const AddProduct = () => {
               <option value="" disabled>
                 Select Category
               </option>
-              <option value="Travel">Travel</option>
+              <option value="Suitcases & Trolley Bags">Suitcases & Trolley Bags</option>
               <option value="Backpacks">Backpacks</option>
+              <option value="Duffle Bags">Duffle Bags</option>
               <option value="School Bags">School Bags</option>
               <option value="Handbags">Handbags</option>
               <option value="Laptop Bags">Laptop Bags</option>
@@ -221,7 +222,7 @@ const AddProduct = () => {
           <input
             name="height"
             type="number"
-            max="70"
+            max="100"
             placeholder="Height(cm)"
             className="input"
             required
@@ -231,7 +232,7 @@ const AddProduct = () => {
           <input
             name="width"
             type="number"
-            max="50"
+            max="100"
             placeholder="Width(cm)"
             className="input"
             required
@@ -241,7 +242,7 @@ const AddProduct = () => {
           <input
             name="length"
             type="number"
-            max="50"
+            max="100"
             placeholder="Length(cm)"
             className="input"
             required

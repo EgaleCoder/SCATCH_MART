@@ -3,11 +3,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { formatPrice } from "../../../utils/priceFormat";
 
-const ProductCard = ({ products }) => {
-  if (products.length === 0) {
-    return <div>No products available</div>;
-  }
-
+function RelatedProducts({ products }) {
   return (
     <StyledWrapper>
       {products.map((product, index) => (
@@ -31,21 +27,21 @@ const ProductCard = ({ products }) => {
       ))}
     </StyledWrapper>
   );
-};
+}
 
 const StyledWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 40px;
   margin-bottom: 2rem;
   height: auto;
 
   .card {
     position: relative;
-    width: 13.875em;
-    height: 18.5em;
+    width: 15.875em;
+    height: 20.5em;
     box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 120ms;
@@ -72,13 +68,13 @@ const StyledWrapper = styled.div`
   .card img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Ensures proper fitting */
+    object-fit: contain; 
   }
 
   .card::after {
     content: "Add to Cart";
     padding-top: 1em;
-    padding-left: 3.6em;
+    padding-left: 4.6em;
     position: absolute;
     left: 0;
     bottom: -60px;
@@ -152,4 +148,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default ProductCard;
+export default RelatedProducts;

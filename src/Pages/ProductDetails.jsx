@@ -9,6 +9,7 @@ import Footer from "../Components/Home/Footer.jsx";
 import Navbar from "../Components/Home/Navbar";
 import Loader from "../Components/Home/ShowProduct/CardLoader.jsx";
 import ViewCart from "../Components/Home/Buttons/ViewCart.jsx";
+import RelatedProducts from "../Components/Home/ShowProduct/RelatedProducts.jsx";
 import {
   AddToCart,
   BuyNow,
@@ -21,8 +22,13 @@ const ProductDetail = () => {
   const [added, setAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
-  const { getSingleProduct, isSingleLoading, productDetails, productSize } =
-    useProductsContext();
+  const {
+    getSingleProduct,
+    isSingleLoading,
+    productDetails,
+    productSize,
+    products,
+  } = useProductsContext();
   const { isAuthenticated } = useAuthContext();
 
   //Dynamic Api Data
@@ -69,6 +75,16 @@ const ProductDetail = () => {
       1: 3,
     },
   };
+
+  //Related Products
+
+  const selectedProduct = productDetails;
+  const relatedProducts = products.filter(
+    (product) =>
+      product.category === selectedProduct.category &&
+      product._id !== selectedProduct._id
+  );
+
   if (isSingleLoading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -91,10 +107,12 @@ const ProductDetail = () => {
               <Title>{name}</Title>
               <p className="text-lg">{description}</p>
               <hr className="text-gray-300 mt-3" />
-              <Price>{formatPrice(discountPrice)}/-</Price>
+              <Price>{formatPrice(discountPrice)}</Price>
               <div className="text-lg flex">
-                ₹<p className="original-price mr-4 text-xl">{price}/-</p>
-                <p>{discount}% OFF</p>
+                <p className="original-price mr-4 text-xl text-gray-700">
+                  ₹{price}
+                </p>
+                <p className="text-red-700 text-2xl">{discount}% OFF</p>
               </div>
               <Rating>⭐⭐⭐⭐⭐ (Reviews)</Rating>
               <p style={{ color: "green", marginBottom: "10px" }}>
@@ -225,6 +243,13 @@ const ProductDetail = () => {
             </StyledWrapper>
           </DetailsContainer>
         </FlexContainer>
+        <span className="flex items-center mt-2 mb-4 md:mt-4 lg:mt-6 md:text-3xl lg:text-4xl font-semibold">
+          <span className="shrink-0 pe-4 text-purple-900">
+            Related Products
+          </span>
+          <span className="h-px flex-1 bg-gradient-to-l from-transparent to-purple-700"></span>
+        </span>
+      <RelatedProducts products={relatedProducts} />
       </Container>
       <Footer />
     </>
@@ -239,7 +264,6 @@ const Container = styled.div`
   border-radius: 10px;
   .original-price {
     text-decoration: line-through;
-    color: black;
   }
 `;
 
