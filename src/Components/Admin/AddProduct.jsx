@@ -376,7 +376,7 @@ const StyledWrapper = styled.div`
     border-radius: 10px;
     color: #fff;
     width: 30%;
-    aligh-item: center;
+    align-item: center;
     justify-content: center;
     font-size: 16px;
     transform: 0.3s ease;
