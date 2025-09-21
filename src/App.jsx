@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Loader from "./Components/Home/ShowProduct/CardLoader";
 import { ProtectedRoute, AdminRoute } from "./Routes/ProtectedRoutes";
 import ShowProducts from "./Components/Admin/ShowProducts";
+import AdminDetails from "./Components/Admin/AdminDetails";
 
 // Lazy loaded components
 const Home = lazy(() => import("./Pages/Home"));
@@ -51,6 +52,7 @@ function App() {
             <Route path="activeuser" element={<ActiveUser />} />
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="showproducts" element={<ShowProducts />} />
+            <Route path="admin-details" element={<AdminDetails />} />
           </Route>
 
           {/* Protected Routes */}

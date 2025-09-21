@@ -9,6 +9,12 @@ function Sidebar({ admin }) {
   const location = useLocation();
   const { adminLogout, isAdminLoggedIn } = useAdminContext();
 
+  useEffect(() => {
+    if (!isAdminLoggedIn) {
+      navigate("/admin-login");
+    }
+  }, [isAdminLoggedIn, navigate]);
+
   if (!admin) {
     return (
       <div className="h-screen flex items-center justify-center">
@@ -22,11 +28,7 @@ function Sidebar({ admin }) {
     e.preventDefault();
     await adminLogout();
   };
-  useEffect(() => {
-    if (!isAdminLoggedIn) {
-      navigate("/admin-login");
-    }
-  }, [isAdminLoggedIn]);
+
   return (
     <>
       <SidebarWrapper>
@@ -153,7 +155,12 @@ function Sidebar({ admin }) {
                 </summary>
                 <SubMenu>
                   <li>
-                    <NavItem href="#">Details</NavItem>
+                    <NavItem
+                      to="/admin/admin-details"
+                      $active={location.pathname === "/admin/admin-details"}
+                    >
+                      Details
+                    </NavItem>
                   </li>
                   <li>
                     <NavItem href="#">Security</NavItem>

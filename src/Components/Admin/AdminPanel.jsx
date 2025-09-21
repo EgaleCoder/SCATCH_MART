@@ -1,5 +1,6 @@
 import React from "react";
 import AdminNavbar from "./AdminNavbar";
+import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import { useAdminContext } from "../../context/adminContext";
@@ -21,7 +22,7 @@ const AdminPanel = () => {
   // console.log("users", users);
   // console.log("orders", orders);
   return (
-    <>
+    <SidebarWrapper>
       <div className="block gap-[20px]">
         <div className="w-full">
           <AdminNavbar />
@@ -37,8 +38,18 @@ const AdminPanel = () => {
           </div>
         </div>
       </div>
-    </>
+    </SidebarWrapper>
   );
 };
+
+const SidebarWrapper = styled.div`
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // height: 100vh;
+  // width: 270px;
+  background-color: #033136ff;
+  // border-right: 1px solid #0c737e;
+`;
 
 export default AdminPanel;
