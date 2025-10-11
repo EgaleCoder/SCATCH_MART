@@ -8,12 +8,11 @@ const Loader = () => {
         <div className="spinner" />
         <div className="loader">
           <p>loading</p>
-          <div className="words">
-            <span className="word">posts</span>
-            <span className="word">images</span>
-            <span className="word">followers</span>
-            <span className="word">hashtags</span>
-            <span className="word">posts</span>
+          <div className="words"> 
+            <span className="word">Ready</span>
+            <span className="word">Products</span>
+            <span className="word">Cart</span>
+            <span className="word">Orders</span>
           </div>
         </div>
       </div>

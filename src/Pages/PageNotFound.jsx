@@ -8,30 +8,22 @@ const NotFoundPage = () => {
     <>
       <Navbar />
       <StyledWrapper>
-        <div className="container flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">
-          <div className="w-full lg:w-1/2 mx-8 text-center md:text-left">
-            <div className="text-6xl sm:text-7xl text-blue-400 font-extrabold mb-6">
-              404
-            </div>
-            <p className="text-xl sm:text-2xl md:text-3xl font-light leading-snug mb-8">
+        <ContentContainer>
+          <TextColumn>
+            <ErrorHeading>404</ErrorHeading>
+            <ErrorDescription>
               Sorry, we couldn't find the page you're looking for.
-            </p>
-            <NavLink
-              to="/"
-              className="inline-block px-6 py-3 text-sm font-medium leading-5 shadow-2xl text-white transition duration-300 border border-transparent rounded-lg focus:outline-none bg-blue-400 hover:bg-blue-500 active:bg-red-600"
-            >
-              Back to Homepage
-            </NavLink>
-          </div>
+            </ErrorDescription>
+            <HomeLink to="/">Back to Homepage</HomeLink>
+          </TextColumn>
 
-          <div className="w-full lg:w-1/2 mx-5 my-8 lg:my-12 flex justify-center lg:justify-end">
-            <img
+          <ImageColumn>
+            <NotFoundImage
               src="https://user-images.githubusercontent.com/43953425/166269493-acd08ccb-4df3-4474-95c7-ad1034d3c070.svg"
               alt="Page not found"
-              className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
             />
-          </div>
-        </div>
+          </ImageColumn>
+        </ContentContainer>
       </StyledWrapper>
     </>
   );
@@ -42,21 +34,128 @@ export default NotFoundPage;
 const StyledWrapper = styled.div`
   min-height: 100vh;
   width: 100%;
-  background-color: #f9fafb; /* Tailwind's bg-gray-50 */
+  background-color: #f9fafb;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 
-  .container {
-    max-width: 1200px;
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
+`;
+
+const ContentContainer = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  color: #374151;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    padding: 0 1.25rem;
+  }
+`;
+
+const TextColumn = styled.div`
+  width: 100%;
+  max-width: 32rem;
+  text-align: center;
+  margin-inline: auto;
+
+  @media (min-width: 768px) {
+    text-align: left;
+    margin-inline: 0;
+  }
+`;
+
+const ErrorHeading = styled.h1`
+  font-size: 3.75rem;
+  font-weight: 800;
+  color: #60a5fa;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 640px) {
+    font-size: 4.5rem;
+  }
+`;
+
+const ErrorDescription = styled.p`
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+
+  @media (min-width: 640px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+`;
+
+const HomeLink = styled(NavLink)`
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #60a5fa;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #3b82f6;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    background-color: #ef4444;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+  }
+`;
+
+const ImageColumn = styled.div`
+  width: 100%;
+  max-width: 32rem;
+  display: flex;
+  justify-content: center;
+
+  @media (min-width: 1024px) {
+    justify-content: flex-end;
+  }
+`;
+
+const NotFoundImage = styled.img`
+  width: 100%;
+  max-width: 28rem;
+
+  @media (min-width: 640px) {
+    max-width: 32rem;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 36rem;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 40rem;
   }
 
   @media (max-width: 768px) {
-    padding: 2rem 1rem;
-
-    img {
-      margin-top: 2rem;
-    }
+    margin-top: 2rem;
   }
 `;

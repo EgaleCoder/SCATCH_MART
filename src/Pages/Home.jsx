@@ -11,38 +11,120 @@ function Home() {
   return (
     <>
       <Navbar />
-      <div className=" main w-full px-2 md:px-4 mt-4 md:mt-6 lg:mt-2">
+      <MainSection>
         <a href="#">
           <BackgroundDiv
             loading="lazy"
             style={{ backgroundImage: `url(${TOPBANNER})` }}
           ></BackgroundDiv>
         </a>
-        <span className="flex items-center mt-2 md:mt-4 lg:mt-6 md:text-3xl lg:text-4xl font-semibold">
-          <span className="shrink-0 pe-4 text-purple-900">
-            Top Categories to choose from
-          </span>
-          <span className="h-px flex-1 bg-gradient-to-l from-transparent to-purple-700"></span>
-        </span>
-        <div className="catogary mt-2 md:mt-4 lg:mt-6">
+        <SectionTitle>
+          <SectionTitleText>Top Categories to choose from</SectionTitleText>
+          <SectionTitleDivider />
+        </SectionTitle>
+        <CategoryBannerSection>
           <a href="#">
             <BackgroundDivCatogary
               loading="lazy"
               style={{ backgroundImage: `url(${CATAGORYBANNER})` }}
             ></BackgroundDivCatogary>
           </a>
-        </div>
-        <div className="h-auto  mt-2 md:mt-4 lg:mt-4">
+        </CategoryBannerSection>
+        <CategoryCardSection>
           <CategoryCard />
-        </div>
-        <div className="h-auto mt-2 md:mt-4 lg:mt-6 ">
+        </CategoryCardSection>
+        <ProductsSection>
           <ShowProducts />
-        </div>
-      </div>
+        </ProductsSection>
+      </MainSection>
       <Footer />
     </>
   );
 }
+
+const MainSection = styled.div`
+  width: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 1rem;
+
+  @media (min-width: 768px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 0.5rem;
+  }
+`;
+
+const SectionTitle = styled.span`
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-weight: 600;
+
+  @media (min-width: 768px) {
+    margin-top: 1rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 1.5rem;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+`;
+
+const SectionTitleText = styled.span`
+  flex-shrink: 0;
+  padding-inline-end: 1rem;
+  color: #312e81;
+`;
+
+const SectionTitleDivider = styled.span`
+  height: 1px;
+  flex: 1 1 0%;
+  background: linear-gradient(to left, transparent, #6b21a8);
+`;
+
+const CategoryBannerSection = styled.div`
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 1.5rem;
+  }
+`;
+
+const CategoryCardSection = styled.div`
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 1rem;
+  }
+`;
+
+const ProductsSection = styled.div`
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 1.5rem;
+  }
+`;
 
 // Styled component for background div
 const BackgroundDiv = styled.div`

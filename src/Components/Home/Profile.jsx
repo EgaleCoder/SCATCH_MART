@@ -291,7 +291,7 @@ const Profile = () => {
             <p className="cookieHeading">Hello User</p>
             <p className="cookieDescription">To access your SCATCH account</p>
             <div className="buttonContainer">
-              <NavLink to="/login">
+              <NavLink to="/login" state={{ from: location }}>
                 <button className="acceptButton">Login</button>
               </NavLink>
               <NavLink to="/signup">
