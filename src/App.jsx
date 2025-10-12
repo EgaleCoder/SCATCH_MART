@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Loader from "./Components/Home/ShowProduct/CardLoader";
 import { ProtectedRoute, AdminRoute } from "./Routes/ProtectedRoutes";
 import ShowProducts from "./Components/Admin/ShowProducts";
+import ForgotPasswordForm from "./Pages/ForgetPassword";
 import AdminDetails from "./Components/Admin/AdminDetails";
 
 // Lazy loaded components
@@ -22,6 +23,7 @@ const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
 
 function App() {
   return (
+  <>
     <Router>
       <Suspense
         fallback={
@@ -36,6 +38,7 @@ function App() {
           <Route path="/signup" element={<Signin />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password"  element={<ForgotPasswordForm/>}/>
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<PageNotFound />} />
 
@@ -67,6 +70,7 @@ function App() {
         </Routes>
       </Suspense>
     </Router>
+    </>
   );
 }
 

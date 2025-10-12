@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useCartApi } from "../../../Hooks/useCartApi";
 import { useCartContext } from "../../../context/cartContext";
+import { toast } from "react-toastify";
 
 export const AddToCart = ({ product, quantity, setAdded }) => {
   const { dispatch, loading, cart } = useCartContext();
@@ -25,12 +26,26 @@ export const AddToCart = ({ product, quantity, setAdded }) => {
       <button
         className="CartBtn"
         onClick={() => {
-          if (!productId) return;
-          if (isInCart) {
-            setAdded(true);
+          if (!productId) {
+            toast.error("Unable to identify this product. Please try again.");
             return;
           }
-          addToCart(productId, quantity);
+          if (isInCart) {
+            setAdded(true);
+            toast.info("Item already in your cart.");
+            return;
+          }
+          addToCart(productId, quantity)
+            .then((res) => {
+              if (res?.success) {
+                toast.success("Item added to cart.");
+              } else {
+                toast.error(res?.error || "Failed to add to cart.");
+              }
+            })
+            .catch(() => {
+              toast.error("Something went wrong. Please try again.");
+            });
           setAdded(true);
         }}
         disabled={loading || isInCart}

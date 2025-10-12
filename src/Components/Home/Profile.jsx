@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const { user, logoutUser, isAuthenticated, deleteUser } = useAuthContext();
@@ -10,7 +12,8 @@ const Profile = () => {
 
   const handleLogout = async () => {
     await logoutUser();
-    navigate(location.pathname, { replace: true });
+    navigate("/", { state: { from: location } });
+    notify();
   };
 
   const handleDeleteUser = async () => {
@@ -23,9 +26,12 @@ const Profile = () => {
       if (res?.success) {
         logoutUser();
         navigate("/");
+        notifyDelete();
       }
     }
   };
+  const notify = () => toast.success("User Logout Successfully");
+  const notifyDelete = () => toast.success("Account Deleted Successfully");
   return (
     <>
       {isAuthenticated ? (

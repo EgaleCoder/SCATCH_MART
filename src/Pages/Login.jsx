@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import Navbar from "../Components/Home/Navbar";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
 import Footer from "../Components/Home/Footer";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { loading, loginUser, isAuthenticated } = useAuthContext();
@@ -22,6 +24,9 @@ const Login = () => {
       setShowAlert(true);
       setEmail("");
       setPassword("");
+      toast.error(res?.error || "Unable to sign in. Please check your credentials.");
+    } else {
+      toast.success("Login Succesfully!");
     }
   };
 
@@ -77,7 +82,7 @@ const Login = () => {
                 <label className="label_input" htmlFor="password-input">
                   Password
                 </label>
-                <a href="#">Forgot password?</a>
+                <NavLink to={"/forgot-password"}>Forgot password?</NavLink>
               </div>
               <input
                 placeholder="Password"
@@ -95,6 +100,11 @@ const Login = () => {
               <button className="submit" type="button" onClick={login}>
                 Submit
               </button>
+              <NavLink to={"/signup"} className="signup-link mt-5">
+                <span className="text-black-400">
+                  <u>Don't have an account?</u>
+                </span>
+              </NavLink>
             </form>
             <label htmlFor="blind-input" className="avatar">
               <svg
@@ -364,7 +374,7 @@ const StyledWrapper = styled.div`
     border: none;
     right: calc(var(--p) + (var(--input-px) / 2));
     bottom: calc(
-      var(--p) + var(--submit-h) + var(--space-y) + (var(--input-py) / 1) + 3px
+      var(--p) + var(--submit-h) + var(--space-y) + (var(--input-py) / 1) + 48px
     );
     padding: 4px 0;
     width: var(--blind-w);

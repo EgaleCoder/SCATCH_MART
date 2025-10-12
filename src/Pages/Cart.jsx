@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
 import Pay from "../Components/Home/Buttons/Pay";
 import { formatPrice } from "../utils/priceFormat";
+import { toast } from "react-toastify";
 
 export default function Cart() {
   const { cart, loading, getCartData } = useCartContext();
@@ -31,14 +32,16 @@ export default function Cart() {
   const vat = subtotal * 0.1;
   const total = subtotal + vat - totalDiscount;
 
-  const handleRemoveItem = async (productId) => {
+  const handleRemoveItem = async (productId, productName) => {
     try {
       const res = await API.post("/api/cart/delete", {
         productId,
       });
       getCartData();
+      toast.success(`${productName} removed from your cart.`);
       return res;
     } catch (err) {
+      toast.error("Couldn't remove that item. Please try again.");
       return err;
     }
   };
@@ -73,7 +76,7 @@ export default function Cart() {
                     <RemoveButton
                       type="button"
                       onClick={() => {
-                        handleRemoveItem(item.product._id);
+                        handleRemoveItem(item.product._id, item.product.name);
                       }}
                     >
                       {loading ? "Removing..." : "Remove"}

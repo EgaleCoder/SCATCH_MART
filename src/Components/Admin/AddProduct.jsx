@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useAdminContext } from "../../context/adminContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -58,8 +59,12 @@ const AddProduct = () => {
           length: Number(product.size.length),
         },
       };
-      await adminAddProduct(payload);
-      alert("Product Added");
+      const res = await adminAddProduct(payload);
+      if (res?.success) {
+        toast.success("Product published successfully.");
+      } else {
+        toast.error(res?.error || "Could not add product. Please review the form.");
+      }
       setProduct({
         image: ["", "", "", ""],
         name: "",
@@ -78,6 +83,7 @@ const AddProduct = () => {
     } catch (error) {
       console.log(error.message);
       setError(error.message);
+      toast.error("Unexpected error while adding product.");
     }
   };
 

@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import API from "../utils/axios";
+import { toast } from "react-toastify";
 
 const LOGIN_API = "/api/owners/admin/login";
 const LOGOUT_API = "/api/owners/admin/logout";
@@ -19,12 +20,14 @@ const useAdminAuth = (dispatch) => {
           { withCredentials: true }
         );
         dispatch({ type: "LOGIN", payload: res?.data });
+        toast.success("Admin signed in successfully.");
         adminPanel();
       } catch (error) {
         dispatch({
           type: "SET_ERROR",
           payload: error?.response?.data?.message || "Something went wrong",
         });
+        toast.error(error?.response?.data?.message || "Admin login failed.");
       }
     },
     [dispatch]
@@ -35,8 +38,10 @@ const useAdminAuth = (dispatch) => {
     try {
       const res = await API.post(LOGOUT_API, {}, { withCredentials: true });
       dispatch({ type: "LOGOUT" });
+      toast.success("Admin logged out.");
     } catch (error) {
       dispatch({ type: "SET_ERROR", payload: error?.response?.data?.message });
+      toast.error(error?.response?.data?.message || "Unable to logout right now.");
     }
   }, [dispatch]);
 
@@ -57,9 +62,11 @@ const useAdminAuth = (dispatch) => {
       try {
         const res = await API.delete(URL, { withCredentials: true });
         dispatch({ type: "USER_DELETED", payload: res?.data });
+        toast.success("User removed successfully.");
         adminPanel();
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error?.message });
+        toast.error(error?.response?.data?.message || "Failed to remove user.");
       }
     },
     [dispatch]
@@ -73,11 +80,14 @@ const useAdminAuth = (dispatch) => {
           withCredentials: true,
         });
         dispatch({ type: "SET_PRODUCT", payload: res?.data });
-        console.log("Api Call", res);
+        toast.success("Product created successfully.");
         adminPanel();
+        return res?.data;
       } catch (error) {
         console.log("Api Call", error.message);
         dispatch({ type: "SET_ERROR", payload: error?.message });
+        toast.error(error?.response?.data?.message || "Product creation failed.");
+        throw error;
       }
     },
     [dispatch]
@@ -90,9 +100,11 @@ const useAdminAuth = (dispatch) => {
       try {
         const res = await API.delete(URL, { withCredentials: true });
         dispatch({ type: "PRODUCT_DELETED", payload: res?.data });
+        toast.success("Product deleted successfully.");
         adminPanel();
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error?.data?.message });
+        toast.error(error?.response?.data?.message || "Failed to delete product.");
       }
     },
     [dispatch]

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Navbar from "../Components/Home/Navbar";
 import Footer from "../Components/Home/Footer";
-import TOPBANNER from "../assets/TOP BANNER.png";
+import TOPBANNER from "../assets/Banner.png";
 import CATAGORYBANNER from "../assets/CATAGORY BANNER.png";
 import ShowProducts from "./ShowProducts";
 import CategoryCard from "../Components/Home/CategoryCard";
