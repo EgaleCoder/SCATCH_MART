@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useCartApi } from "../../../Hooks/useCartApi";
 import { useCartContext } from "../../../context/cartContext";
 
 export const AddToCart = ({ product, quantity, setAdded }) => {
-  const { dispatch, loading } = useCartContext();
+  const { dispatch, loading, cart } = useCartContext();
   const { addToCart } = useCartApi(dispatch);
+
+  const productId = product?._id;
+  const isInCart = useMemo(() => {
+    if (!Array.isArray(cart) || !productId) return false;
+    return cart.some((item) => item?.product?._id === productId);
+  }, [cart, productId]);
+
+  useEffect(() => {
+    if (isInCart) {
+      setAdded(true);
+    }
+  }, [isInCart, setAdded]);
 
   return (
     <StyledWrapper>
       <button
         className="CartBtn"
         onClick={() => {
-          addToCart(product._id, quantity);
+          if (!productId) return;
+          if (isInCart) {
+            setAdded(true);
+            return;
+          }
+          addToCart(productId, quantity);
           setAdded(true);
         }}
+        disabled={loading || isInCart}
       >
         <span className="IconContainer">
           <svg
@@ -30,6 +48,8 @@ export const AddToCart = ({ product, quantity, setAdded }) => {
         </span>
         {loading ? (
           <p className="text">Adding...</p>
+        ) : isInCart ? (
+          <p className="text">IN CART</p>
         ) : (
           <p className="text">ADD TO CART</p>
         )}

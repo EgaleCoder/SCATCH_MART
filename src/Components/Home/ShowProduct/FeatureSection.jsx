@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 const features = [
   {
@@ -15,17 +16,50 @@ const features = [
   },
 ];
 
+const FeatureItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+`;
+
+const FeatureIcon = styled.div`
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const FeatureText = styled.p`
+  font-size: 0.875rem;
+  font-weight: 500;
+`;
+
 export default function FeaturesSection() {
   return (
-    <div className="flex items-center justify-around bg-blue-100 p-4 rounded-lg shadow-md max-w-4xl mx-auto">
+    <Container>
       {features.map((feature, index) => (
-        <div key={index} className="flex flex-col items-center gap-2 text-gray-700">
-          <div className="bg-white p-3 rounded-full shadow-md">
-            <span className="text-2xl">{feature.icon}</span>
-          </div>
-          <p className="text-sm font-semibold">{feature.text}</p>
-        </div>
+        <FeatureItem key={index}>
+          <FeatureIcon>{feature.icon}</FeatureIcon>
+          <FeatureText>{feature.text}</FeatureText>
+        </FeatureItem>
       ))}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f0f7ff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+`;

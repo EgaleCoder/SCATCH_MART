@@ -13,7 +13,7 @@ const FooterContainer = styled.footer`
 `;
 
 const FooterWrapper = styled.div`
-  max-width: 1280px;
+  width: 100%;
   margin: 2rem auto;
   margin-bottom: 2rem;
   display: grid;
@@ -102,7 +102,7 @@ const BottomFooter = styled.div`
 display: flex;
 justify-content: space-between;
 align-items: center;
-margin-top: 2rem;
+margin-top: 1rem;
 flex-wrap: wrap;
 gap: 1rem;
 

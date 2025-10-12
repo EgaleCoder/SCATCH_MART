@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useFilter } from "../../context/fillterContext.jsx";
 
 const Input = () => {
@@ -6,6 +6,14 @@ const Input = () => {
     filter: { text },
     updateFilterValue,
   } = useFilter();
+
+  const inputRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    inputRef.current.blur();
+  };
+
   return (
     <div className="relative flex items-center">
       <svg
@@ -23,15 +31,11 @@ const Input = () => {
         />
       </svg>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-        className="w-full"
-      >
+      <form onSubmit={handleSubmit} className="w-full">
         <input
-          placeholder="Try HandBag, Bagpack or Search by Product"
-          className="border-2 border-gray-400 px-8 py-3 w-75 lg:w-60 md:w-50 transition-all outline-none"
+          ref={inputRef}
+          placeholder="Search by Product Name..."
+          className="border-2 border-gray-400 px-8 py-3 w-75 lg:w-75 md:w-50 transition-all outline-none"
           name="text"
           value={text}
           onChange={updateFilterValue}

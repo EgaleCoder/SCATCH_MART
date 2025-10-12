@@ -3,48 +3,44 @@ import { NavLink } from "react-router-dom";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import UserProfile from "../User/UserProfile";
 
-export default function Example() {
+export default function Navbar() {
   return (
-    <Navbar>
-      <Container>
-        <NavbarContent>
-          <NavLink to={"/"}>
-            <Logo>SCATCH MART</Logo>
-          </NavLink>
-          <RightSection>
-            <NavLink to="/cart">
-              <IconWrapper>
-                <ShoppingCartIcon className="h-6 w-6 text-black" />
-                <span className="text-sm text-black">Cart</span>
-              </IconWrapper>
-            </NavLink>
+    <NavContainer>
+      <NavbarContent>
+        <NavLink to={"/"}>
+          <Logo>SCATCH MART</Logo>
+        </NavLink>
+        <RightSection>
+          <NavLink to="/cart">
             <IconWrapper>
-              <UserProfile />
-              <span className="text-sm text-black">Profile</span>
+              <ShoppingCartIcon className="h-6 w-6 text-black" />
+              <span className="text-sm text-black">Cart</span>
             </IconWrapper>
-          </RightSection>
-        </NavbarContent>
-      </Container>
-    </Navbar>
+          </NavLink>
+          <IconWrapper>
+            <UserProfile />
+            <span className="text-sm text-black">Profile</span>
+          </IconWrapper>
+        </RightSection>
+      </NavbarContent>
+    </NavContainer>
   );
 }
 
 // Styled Components
-const Navbar = styled.nav`
+const NavContainer = styled.nav`
   background-color: #60a5fa;
-`;
-
-const Container = styled.div`
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
 
   @media (min-width: 640px) {
-    padding: 0 1.5rem;
+    padding: 0 2rem;
   }
 
   @media (min-width: 1024px) {
-    padding: 0 2rem;
+    padding: 0 4rem;
   }
 `;
 
@@ -53,6 +49,8 @@ const NavbarContent = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 4rem;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const Logo = styled.div`
@@ -69,7 +67,6 @@ const RightSection = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-right: 1.25rem;
 `;
 
 const IconWrapper = styled.div`
@@ -77,6 +74,9 @@ const IconWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  border-left: 1px solid #4b5563;
-  padding-left: 1.5rem;
+
+  @media (min-width: 768px) {
+    border-left: 1px solid #4b5563;
+    padding-left: 1.5rem;
+  }
 `;

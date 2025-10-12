@@ -33,24 +33,37 @@ const ProductDetail = () => {
 
   //Dynamic Api Data
   const {
-    id: productId,
-    name,
-    price,
-    image,
-    description,
-    material,
-    discount,
-  } = productDetails;
-  const { type, length, width, height } = productSize;
+    _id: productId,
+    name = "",
+    price = 0,
+    image = [],
+    description = "",
+    material = "",
+    discount = 0,
+    category,
+  } = productDetails || {};
+  const {
+    type = "",
+    length = "",
+    width = "",
+    height = "",
+  } = productSize || {};
 
-  const originalPrice = price;
-  const discountPrice = Math.round(
-    originalPrice - (originalPrice * discount) / 100
-  );
+  const discountPrice =
+    discount > 0 && price > 0
+      ? Math.round(price - (price * discount) / 100)
+      : price;
 
   useEffect(() => {
-    getSingleProduct(id);
-  }, [id]);
+    setAdded(false);
+    setQuantity(1);
+  }, [productId]);
+
+  useEffect(() => {
+    if (id) {
+      getSingleProduct(id);
+    }
+  }, [id, getSingleProduct]);
 
   //Static Data
   const product = {
@@ -81,11 +94,11 @@ const ProductDetail = () => {
   const selectedProduct = productDetails;
   const relatedProducts = products.filter(
     (product) =>
-      product.category === selectedProduct.category &&
+      product.category === category &&
       product._id !== selectedProduct._id
   );
 
-  if (isSingleLoading)
+  if (isSingleLoading || !productId)
     return (
       <div className="flex justify-center items-center h-screen">
         <Loader />

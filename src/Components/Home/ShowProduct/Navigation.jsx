@@ -44,7 +44,7 @@ const BreadcrumbItem = ({ to, ariaLabel, children }) => {
     <li>
       {to ? (
         <NavLink
-          to={to}
+          to={isCurrent ? "" : "/"}
           className="block text-blue-600 hover:underline"
           aria-label={ariaLabel}
         >
@@ -52,7 +52,7 @@ const BreadcrumbItem = ({ to, ariaLabel, children }) => {
         </NavLink>
       ) : (
         <span className="block text-gray-800 font-semibold" aria-current="page">
-          {children}
+          
         </span>
       )}
     </li>
