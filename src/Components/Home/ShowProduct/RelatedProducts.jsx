@@ -1,9 +1,37 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { keyframes } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { formatPrice } from "../../../utils/priceFormat";
 
-function RelatedProducts({ products }) {
+function RelatedProducts({ products, isLoading }) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay for skeleton effect
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading || loading) {
+    return (
+      <StyledWrapper>
+        {[...Array(4)].map((_, index) => (
+          <SkeletonCard key={index} className="card">
+            <div className="skeleton-image" />
+            <div className="skeleton-title" />
+            <div className="skeleton-price" />
+          </SkeletonCard>
+        ))}
+      </StyledWrapper>
+    );
+  }
+
+  if (!products || products.length === 0) {
+    return <NoProducts>No related products found</NoProducts>;
+  }
+
   return (
     <StyledWrapper>
       {products.map((product, index) => (
@@ -18,6 +46,7 @@ function RelatedProducts({ products }) {
                   height: "100%",
                   objectFit: "contain",
                 }}
+                loading="lazy"
               />
             </div>
             <span className="title">{product.name}</span>
@@ -28,6 +57,51 @@ function RelatedProducts({ products }) {
     </StyledWrapper>
   );
 }
+
+// Skeleton loading animation
+const loadingAnimation = keyframes`
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+`;
+
+const SkeletonCard = styled.div`
+  .skeleton-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: ${loadingAnimation} 1.5s infinite;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+
+  .skeleton-title,
+  .skeleton-price {
+    height: 20px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: ${loadingAnimation} 1.5s infinite;
+    margin: 8px 0;
+    border-radius: 4px;
+  }
+
+  .skeleton-title {
+    width: 80%;
+  }
+
+  .skeleton-price {
+    width: 40%;
+  }
+`;
+
+const NoProducts = styled.div`
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+  width: 100%;
+`;
+
 
 const StyledWrapper = styled.div`
   display: flex;

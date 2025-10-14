@@ -1,11 +1,75 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { formatPrice } from "../../../utils/priceFormat";
 
-const ProductCard = ({ products }) => {
-  if (products.length === 0) {
-    return <div>No products available</div>;
+const ProductCard = ({ products, isLoading = false }) => {
+  // Skeleton loading animation
+  const loadingAnimation = keyframes`
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  `;
+
+  const SkeletonCard = styled.div`
+    position: relative;
+    width: 13.875em;
+    height: 18.5em;
+    background: white;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
+    padding: 0.5em;
+    padding-bottom: 3.4em;
+    border: 0.1px solid #eaeaf2;
+    overflow: hidden;
+
+    .skeleton-image {
+      width: 100%;
+      height: 70%;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: ${loadingAnimation} 1.5s infinite;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    .skeleton-title,
+    .skeleton-price {
+      height: 16px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: ${loadingAnimation} 1.5s infinite;
+      margin: 8px 0;
+      border-radius: 4px;
+      position: absolute;
+      left: 0.625em;
+    }
+
+    .skeleton-title {
+      width: 80%;
+      bottom: 2.5em;
+    }
+
+    .skeleton-price {
+      width: 40%;
+      bottom: 0.5em;
+    }
+  `;
+
+  if (isLoading) {
+    return (
+      <StyledWrapper>
+        {[...Array(8)].map((_, index) => (
+          <SkeletonCard key={`skeleton-${index}`} className="card">
+            <div className="skeleton-image" />
+            <div className="skeleton-title" />
+            <div className="skeleton-price" />
+          </SkeletonCard>
+        ))}
+      </StyledWrapper>
+    );
+  }
+
+  if (!products || products.length === 0) {
+    return <NoProducts>No products available</NoProducts>;
   }
 
   return (
@@ -22,6 +86,7 @@ const ProductCard = ({ products }) => {
                   height: "100%",
                   objectFit: "contain",
                 }}
+                loading="lazy"
               />
             </div>
             <span className="title">{product.name}</span>
@@ -32,6 +97,15 @@ const ProductCard = ({ products }) => {
     </StyledWrapper>
   );
 };
+
+const NoProducts = styled.div`
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+  width: 100%;
+  grid-column: 1 / -1;
+`;
 
 const StyledWrapper = styled.div`
   display: flex;

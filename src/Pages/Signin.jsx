@@ -1,8 +1,9 @@
-import { React, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Components/Home/Footer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
+import { AuthFormSkeletonSignup } from "../Components/Common/SkeletonLoader";
 import { toast } from "react-toastify";
 import Navbar from "../Components/Home/Navbar";
 
@@ -12,6 +13,7 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { checkUser, createUser, loading } = useAuthContext();
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -50,13 +52,26 @@ const Signin = () => {
   };
 
 
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      setShowSkeleton(false);
+      timer = setTimeout(() => setShowSkeleton(true), 1200);
+    } else {
+      setShowSkeleton(false);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [loading]);
+
   return (
     <>
       <Navbar />
       {
         loading ? (
-          <div className="h-screen flex items-center justify-center" >
-            <Loader />
+          <div className="min-h-screen flex items-center justify-center bg-blue-100 px-4" >
+             <AuthFormSkeletonSignup />
           </div >
         ) : (
 

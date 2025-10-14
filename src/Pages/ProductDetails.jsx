@@ -8,6 +8,7 @@ import Navigation from "../Components/Home/ShowProduct/Navigation.jsx";
 import Footer from "../Components/Home/Footer.jsx";
 import Navbar from "../Components/Home/Navbar";
 import Loader from "../Components/Home/ShowProduct/CardLoader.jsx";
+import { ProductDetailSkeleton } from "../Components/Common/SkeletonLoader";
 import ViewCart from "../Components/Home/Buttons/ViewCart.jsx";
 import RelatedProducts from "../Components/Home/ShowProduct/RelatedProducts.jsx";
 import {
@@ -21,6 +22,7 @@ import FeaturesSection from "../Components/Home/ShowProduct/FeatureSection.jsx";
 const ProductDetail = () => {
   const [added, setAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [showSkeleton, setShowSkeleton] = useState(false);
   const { id } = useParams();
   const {
     getSingleProduct,
@@ -65,6 +67,19 @@ const ProductDetail = () => {
     }
   }, [id, getSingleProduct]);
 
+  useEffect(() => {
+    let timer;
+    if (isSingleLoading || !productId) {
+      setShowSkeleton(false);
+      timer = setTimeout(() => setShowSkeleton(true), 1200);
+    } else {
+      setShowSkeleton(false);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isSingleLoading, productId]);
+
   //Static Data
   const product = {
     rating: 3.7,
@@ -100,9 +115,16 @@ const ProductDetail = () => {
 
   if (isSingleLoading || !productId)
     return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader />
-      </div>
+      <>
+        <Navbar />
+        <Navigation title="Loading..." singleProduct />
+        <div className="min-h-screen bg-white flex flex-col items-center justify-center py-12 px-4 w-full">
+            <div className="w-full max-w-6xl">
+              <ProductDetailSkeleton />
+            </div>
+        </div>
+        <Footer />
+      </>
     );
   return (
     <>

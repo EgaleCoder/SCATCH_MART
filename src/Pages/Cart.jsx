@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import API from "../utils/axios";
 import styled from "styled-components";
 import Navigation from "../Components/Home/ShowProduct/Navigation";
@@ -7,16 +7,34 @@ import Footer from "../Components/Home/Footer";
 import { useCartContext } from "../context/cartContext";
 import { NavLink } from "react-router-dom";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
+import { CartSkeleton } from "../Components/Common/SkeletonLoader";
 import Pay from "../Components/Home/Buttons/Pay";
 import { formatPrice } from "../utils/priceFormat";
 import { toast } from "react-toastify";
 
 export default function Cart() {
   const { cart, loading, getCartData } = useCartContext();
+  const [showSkeleton, setShowSkeleton] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      setShowSkeleton(false);
+      timer = setTimeout(() => setShowSkeleton(true), 1200);
+    } else {
+      setShowSkeleton(false);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [loading]);
+
   if (loading)
     return (
       <LoadingContainer>
-        <Loader />
+        {!showSkeleton ? <Loader /> : <CartSkeleton />}
       </LoadingContainer>
     );
 

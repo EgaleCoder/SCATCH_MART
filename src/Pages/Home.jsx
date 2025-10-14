@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import Navbar from "../Components/Home/Navbar";
 import Footer from "../Components/Home/Footer";
 import TOPBANNER from "../assets/Banner.png";
@@ -7,33 +7,98 @@ import CATAGORYBANNER from "../assets/CATAGORY BANNER.png";
 import ShowProducts from "./ShowProducts";
 import CategoryCard from "../Components/Home/CategoryCard";
 
+// Skeleton loading animation
+const shimmerAnimation = keyframes`
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+`;
+
+// Skeleton component for banner
+const SkeletonBanner = styled.div`
+  width: 100%;
+  height: 70vh;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: ${shimmerAnimation} 1.5s infinite;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  
+  @media (max-width: 640px) {
+    height: 20vh;
+  }
+`;
+
+// Skeleton component for section title
+const SkeletonTitle = styled.div`
+  height: 2.5rem;
+  width: 300px;
+  max-width: 100%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: ${shimmerAnimation} 1.5s infinite;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+`;
+
 function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <Navbar />
       <MainSection>
-        <a href="#">
-          <BackgroundDiv
-            loading="lazy"
-            style={{ backgroundImage: `url(${TOPBANNER})` }}
-          ></BackgroundDiv>
-        </a>
-        <SectionTitle>
-          <SectionTitleText>Top Categories to choose from</SectionTitleText>
-          <SectionTitleDivider />
-        </SectionTitle>
-        <CategoryBannerSection>
+        {isLoading ? (
+          <SkeletonBanner />
+        ) : (
           <a href="#">
-            <BackgroundDivCatogary
+            <BackgroundDiv
               loading="lazy"
-              style={{ backgroundImage: `url(${CATAGORYBANNER})` }}
-            ></BackgroundDivCatogary>
+              style={{ backgroundImage: `url(${TOPBANNER})` }}
+            />
           </a>
+        )}
+
+        {isLoading ? (
+          <SkeletonTitle />
+        ) : (
+          <SectionTitle>
+            <SectionTitleText>Top Categories to choose from</SectionTitleText>
+            <SectionTitleDivider />
+          </SectionTitle>
+        )}
+
+        <CategoryBannerSection>
+          {isLoading ? (
+            <SkeletonBanner style={{ height: '40vh' }} />
+          ) : (
+            <a href="#">
+              <BackgroundDivCatogary
+                loading="lazy"
+                style={{ backgroundImage: `url(${CATAGORYBANNER})` }}
+              />
+            </a>
+          )}
         </CategoryBannerSection>
+
         <CategoryCardSection>
           <CategoryCard />
         </CategoryCardSection>
+
         <ProductsSection>
+          {isLoading ? (
+            <SkeletonTitle style={{ width: '200px' }} />
+          ) : (
+            <SectionTitle>
+            </SectionTitle>
+          )}
           <ShowProducts />
         </ProductsSection>
       </MainSection>
