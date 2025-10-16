@@ -9,11 +9,15 @@ const initialState = {
   user: null,
   loading: false,
   error: null,
+  otpSent: false,
+  isOtpVerified: false,
+  isPasswordReset: false,
+  otpData: null
 };
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { loginUser, checkUser, logoutUser, createUser, deleteUser } =
+  const { loginUser, checkUser, logoutUser, createUser, deleteUser, sendOtp, verifyOtp, resetPassword } =
     useAuthApi(dispatch);
 
   useEffect(() => {
@@ -30,6 +34,9 @@ export const AuthProvider = ({ children }) => {
         createUser,
         deleteUser,
         loginUser,
+        sendOtp,
+        verifyOtp,
+        resetPassword
       }}
     >
       {children}

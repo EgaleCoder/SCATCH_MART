@@ -6,6 +6,9 @@ const API_PROFILE = "/api/users/profile";
 const API_LOGOUT = "/api/users/logout";
 const API_CREATE_USER = "api/users/create";
 const API_DELETE_USER = "/api/users/delete-user";
+const API_SEND_OTP = "/api/users/send-otp";
+const API_VERIFY_OTP = "/api/users/verify-otp";
+const API_RESET_PASSWORD = "/api/users/reset-password";
 
 const useAuthApi = (dispatch) => {
   const loginUser = useCallback(
@@ -103,7 +106,67 @@ const useAuthApi = (dispatch) => {
     [dispatch]
   );
 
-  return { loginUser, checkUser, logoutUser, createUser, deleteUser };
+  const sendOtp = useCallback(
+    async (email) => {
+      try {
+        dispatch({ type: "SET_LOADING", payload: true });
+        const res = await API.post(API_SEND_OTP, { email }, { withCredentials: true });
+        dispatch({ type: "SEND_OTP_SUCCESS", payload: res.data });
+        return { success: true, message: res.data.message };
+      } catch (error) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response?.data?.message || "Failed to send OTP!",
+        });
+        return { success: false, error: error.response?.data?.message };
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    },
+    [dispatch]
+  );
+
+  const verifyOtp = useCallback(
+    async (email, otp) => {
+      try {
+        dispatch({ type: "SET_LOADING", payload: true });
+        const res = await API.post(API_VERIFY_OTP, { email, otp }, { withCredentials: true });
+        dispatch({ type: "VERIFY_OTP_SUCCESS", payload: res.data });
+        return { success: true, message: res.data.message };
+      } catch (error) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response?.data?.message || "Invalid OTP!",
+        });
+        return { success: false, error: error.response?.data?.message };
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    },
+    [dispatch]
+  );
+
+  const resetPassword = useCallback(
+    async (newPassword) => {
+      try {
+        dispatch({ type: "SET_LOADING", payload: true });
+        const res = await API.post(API_RESET_PASSWORD, { newPassword }, { withCredentials: true });
+        dispatch({ type: "RESET_PASSWORD_SUCCESS", payload: res.data });
+        return { success: true, message: res.data.message };
+      } catch (error) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: error.response?.data?.message || "Failed to reset password!",
+        });
+        return { success: false, error: error.response?.data?.message };
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    },
+    [dispatch]
+  );
+
+  return { loginUser, checkUser, logoutUser, createUser, deleteUser, sendOtp, verifyOtp, resetPassword };
 };
 
 export default useAuthApi;

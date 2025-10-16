@@ -84,9 +84,7 @@ const useAdminAuth = (dispatch) => {
         adminPanel();
         return res?.data;
       } catch (error) {
-        console.log("Api Call", error.message);
         dispatch({ type: "SET_ERROR", payload: error?.message });
-        toast.error(error?.response?.data?.message || "Product creation failed.");
         throw error;
       }
     },

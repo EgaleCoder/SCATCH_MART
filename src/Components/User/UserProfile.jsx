@@ -35,6 +35,7 @@ const UserIconContainer = styled(UserIcon)`
   }
 `;
 
+// ✅ Use `$showProfile` instead of `showProfile`
 const ProfileContainer = styled.div`
   position: absolute;
   top: 100%;
@@ -42,10 +43,10 @@ const ProfileContainer = styled.div`
   z-index: 50;
   width: 100vw;
   max-width: 250px;
-  visibility: ${(props) => (props.showProfile ? "visible" : "hidden")};
-  opacity: ${(props) => (props.showProfile ? "1" : "0")};
+  visibility: ${({ $showProfile }) => ($showProfile ? "visible" : "hidden")};
+  opacity: ${({ $showProfile }) => ($showProfile ? "1" : "0")};
   transition: all 0.2s ease-in-out;
-  pointer-events: ${(props) => (props.showProfile ? "auto" : "none")};
+  pointer-events: ${({ $showProfile }) => ($showProfile ? "auto" : "none")};
 
   @media (max-width: 640px) {
     position: fixed;
@@ -55,12 +56,13 @@ const ProfileContainer = styled.div`
     width: auto;
     max-width: none;
     margin: 0 auto;
-    transform: ${(props) => (props.showProfile ? "translateY(0)" : "translateY(-10px)")};
+    transform: ${({ $showProfile }) =>
+      $showProfile ? "translateY(0)" : "translateY(-10px)"};
   }
 `;
 
 const Overlay = styled.div`
-  display: ${(props) => (props.showProfile ? "block" : "none")};
+  display: ${({ $showProfile }) => ($showProfile ? "block" : "none")};
   position: fixed;
   inset: 0;
   background: transparent;
@@ -84,12 +86,20 @@ const UserProfile = () => {
 
   return (
     <>
-      <Overlay showProfile={showProfile} onClick={closeProfile} />
+      {/* ✅ pass $showProfile instead of showProfile */}
+      <Overlay $showProfile={showProfile} onClick={closeProfile} />
       <UserProfileContainer>
-        <ToggleButton type="button" onClick={toggleProfile} aria-label="Toggle profile">
+        <ToggleButton
+          type="button"
+          onClick={toggleProfile}
+          aria-label="Toggle profile"
+        >
           <UserIconContainer />
         </ToggleButton>
-        <ProfileContainer showProfile={showProfile} onClick={(event) => event.stopPropagation()}>
+        <ProfileContainer
+          $showProfile={showProfile}
+          onClick={(event) => event.stopPropagation()}
+        >
           <Profile />
         </ProfileContainer>
       </UserProfileContainer>

@@ -27,6 +27,35 @@ const authReducer = (state, action) => {
         error: action.payload,
         loading: false,
       };
+    case "SEND_OTP_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        otpSent: true,
+        otpData: action.payload
+      };
+    case "VERIFY_OTP_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        isOtpVerified: true,
+        otpData: {
+          ...state.otpData,
+          ...action.payload
+        }
+      };
+    case "RESET_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        isPasswordReset: true,
+        otpSent: false,
+        isOtpVerified: false,
+        otpData: null
+      };
     case "CREATE_USER_SUCCESS":
       return { ...state, loading: false, user: action.payload };
     case "CREATE_USER_FAIL":

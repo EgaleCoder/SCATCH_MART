@@ -4,55 +4,6 @@ import { NavLink } from "react-router-dom";
 import { formatPrice } from "../../../utils/priceFormat";
 
 const ProductCard = ({ products, isLoading = false }) => {
-  // Skeleton loading animation
-  const loadingAnimation = keyframes`
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  `;
-
-  const SkeletonCard = styled.div`
-    position: relative;
-    width: 13.875em;
-    height: 18.5em;
-    background: white;
-    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
-    padding: 0.5em;
-    padding-bottom: 3.4em;
-    border: 0.1px solid #eaeaf2;
-    overflow: hidden;
-
-    .skeleton-image {
-      width: 100%;
-      height: 70%;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: ${loadingAnimation} 1.5s infinite;
-      margin-bottom: 10px;
-      border-radius: 4px;
-    }
-
-    .skeleton-title,
-    .skeleton-price {
-      height: 16px;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: ${loadingAnimation} 1.5s infinite;
-      margin: 8px 0;
-      border-radius: 4px;
-      position: absolute;
-      left: 0.625em;
-    }
-
-    .skeleton-title {
-      width: 80%;
-      bottom: 2.5em;
-    }
-
-    .skeleton-price {
-      width: 40%;
-      bottom: 0.5em;
-    }
-  `;
 
   if (isLoading) {
     return (
@@ -225,5 +176,54 @@ const StyledWrapper = styled.div`
     }
   }
 `;
+// Skeleton loading animation
+const loadingAnimation = keyframes`
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  `;
+
+const SkeletonCard = styled.div`
+    position: relative;
+    width: 13.875em;
+    height: 18.5em;
+    background: white;
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
+    padding: 0.5em;
+    padding-bottom: 3.4em;
+    border: 0.1px solid #eaeaf2;
+    overflow: hidden;
+
+    .skeleton-image {
+      width: 100%;
+      height: 70%;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: ${loadingAnimation} 1.5s infinite;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    .skeleton-title,
+    .skeleton-price {
+      height: 16px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: ${loadingAnimation} 1.5s infinite;
+      margin: 8px 0;
+      border-radius: 4px;
+      position: absolute;
+      left: 0.625em;
+    }
+
+    .skeleton-title {
+      width: 80%;
+      bottom: 2.5em;
+    }
+
+    .skeleton-price {
+      width: 40%;
+      bottom: 0.5em;
+    }
+  `;
 
 export default ProductCard;

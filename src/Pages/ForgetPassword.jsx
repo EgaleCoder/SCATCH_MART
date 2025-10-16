@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useAuthContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
+
+
 
 const ForgotPasswordForm = () => {
+  const navigate = useNavigate();
+  const {
+    sendOtp,
+    verifyOtp,
+    resetPassword,
+    loading: authLoading,
+  } = useAuthContext();
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(0);
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState('');
-  
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+
   // Timer for OTP resend
   useEffect(() => {
     let interval = null;
@@ -23,10 +34,10 @@ const ForgotPasswordForm = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const showMessage = (msg, type = 'success') => {
+  const showMessage = (msg, type = "success") => {
     setMessage(msg);
     setMessageType(type);
-    setTimeout(() => setMessage(''), 1500);
+    setTimeout(() => setMessage(""), 1500);
   };
 
   const handleSendOTP = async (e) => {
@@ -47,56 +58,63 @@ const ForgotPasswordForm = () => {
 
       setLoading(true);
 
-      // Simulate API call (2 seconds delay)
-      setTimeout(() => {
+      const result = await sendOtp(email);
+
+      if (result.success) {
         setLoading(false);
         setStep(2);
         setTimer(60);
         showMessage("OTP sent successfully!", "success");
-        toast.success("OTP sent to your inbox.");
-
-      }, 2000);
-
+        toast.success(result.message || "OTP sent to your inbox.");
+      } else {
+        setLoading(false);
+        showMessage(result.error || "Failed to send OTP", "error");
+        toast.error(result.error || "Failed to send OTP. Please try again.");
+      }
     } catch (error) {
       setLoading(false);
       showMessage("Server error, please try again later.", "error");
       toast.error("Server error. Please try again shortly.");
-
-      console.error("Send OTP Error:", error);
     }
   };
 
   const handleVerifyOTP = async (e) => {
     if (e) e.preventDefault();
-    
+
     if (!otp || otp.length !== 6) {
       showMessage("Please enter 6-digit OTP", "error");
       toast.error("Enter the 6-digit OTP we sent.");
-
       return;
     }
 
     setLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      // For demo, accept 123456 as valid OTP
-      if (otp === '123456') {
+
+    try {
+      const result = await verifyOtp(email, otp);
+
+      if (result.success) {
+        setLoading(false);
         setStep(3);
         showMessage("OTP verified successfully!");
-        toast.success("OTP confirmed. Let's reset your password.");
+        toast.success(
+          result.message || "OTP confirmed. Let's reset your password."
+        );
       } else {
-        showMessage("Invalid OTP. Try 123456 for demo.", "error");
-        toast.error("Incorrect OTP. Use 123456 for this demo.");
+        setLoading(false);
+        showMessage(result.error || "Invalid OTP", "error");
+        toast.error(result.error || "Incorrect OTP. Please try again.");
       }
-
-    }, 1500);
+    } catch (error) {
+      setLoading(false);
+      showMessage("Verification failed", "error");
+      toast.error("Failed to verify OTP. Please try again.");
+      console.error("Verify OTP Error:", error);
+    }
   };
 
   const handleResetPassword = async (e) => {
     if (e) e.preventDefault();
-    
+
     if (!newPassword || !confirmPassword) {
       showMessage("Please fill all fields", "error");
       toast.error("Fill in both password fields.");
@@ -116,31 +134,58 @@ const ForgotPasswordForm = () => {
     }
 
     setLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      showMessage("Password reset successfully!");
-      toast.success("Password updated. You can log in now.");
 
-      
-      // Reset form after success
-      setTimeout(() => {
-        setStep(1);
-        setEmail('');
-        setOtp('');
-        setNewPassword('');
-        setConfirmPassword('');
-      }, 1500);
-    }, 2000);
+    try {
+      const result = await resetPassword(newPassword);
+      if (result.success) {
+        setLoading(false);
+        showMessage("Password reset successfully!");
+        toast.success(
+          result.message || "Password updated. You can log in now."
+        );
+
+        // Redirect to login page after success
+        setTimeout(() => {
+          setStep(1);
+          setEmail("");
+          setOtp("");
+          setNewPassword("");
+          setConfirmPassword("");
+          navigate("/login");
+        }, 1500);
+      } else {
+        setLoading(false);
+        showMessage(result.error || "Failed to reset password", "error");
+        toast.error(
+          result.error || "Failed to reset password. Please try again."
+        );
+      }
+    } catch (error) {
+      setLoading(false);
+      showMessage("Password reset failed", "error");
+      toast.error("Failed to reset password. Please try again.");
+    }
   };
 
-  const handleResendOTP = () => {
+  const handleResendOTP = async () => {
     if (timer > 0) return;
-    
-    setTimer(60);
-    showMessage("OTP sent again to your email!");
-    toast.success("OTP re-sent. Check your inbox.");
+
+    try {
+      const result = await sendOtp(email);
+
+      if (result.success) {
+        setTimer(60);
+        showMessage("OTP sent again to your email!");
+        toast.success(result.message || "OTP re-sent. Check your inbox.");
+      } else {
+        showMessage(result.error || "Failed to resend OTP", "error");
+        toast.error(result.error || "Failed to resend OTP. Please try again.");
+      }
+    } catch (error) {
+      showMessage("Failed to resend OTP", "error");
+      toast.error("Failed to resend OTP. Please try again.");
+      console.error("Resend OTP Error:", error);
+    }
   };
 
   return (
@@ -164,7 +209,7 @@ const ForgotPasswordForm = () => {
             <span className="text-sm font-medium text-gray-600">{step}/3</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${(step / 3) * 100}%` }}
             ></div>
@@ -173,11 +218,12 @@ const ForgotPasswordForm = () => {
 
         {/* Message Display */}
         {message && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            messageType === 'success' 
-              ? 'bg-green-50 text-green-700 border border-green-200' 
-              : 'bg-red-50 text-red-700 border border-red-200'
-          }`}>
+          <div
+            className={`mb-6 p-4 rounded-lg ${messageType === "success"
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+              }`}
+          >
             {message}
           </div>
         )}
@@ -186,7 +232,10 @@ const ForgotPasswordForm = () => {
         {step === 1 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -208,7 +257,7 @@ const ForgotPasswordForm = () => {
               disabled={loading}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Sending OTP...' : 'Send OTP to Email'}
+              {loading ? "Sending OTP..." : "Send OTP to Email"}
             </button>
           </div>
         )}
@@ -217,27 +266,27 @@ const ForgotPasswordForm = () => {
         {step === 2 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="otp"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Enter 6-Digit OTP
               </label>
               <input
                 type="text"
                 id="otp"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                onChange={(e) =>
+                  setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-center text-2xl font-mono tracking-widest"
                 placeholder="000000"
                 maxLength="6"
                 required
               />
-              <p className="text-sm text-gray-500 mt-2">
-                OTP sent to: {email}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">
-                Demo: Use 123456 as OTP
-              </p>
+              <p className="text-sm text-gray-500 mt-2">OTP sent to: {email}</p>
             </div>
-            
+
             <div className="flex justify-between items-center">
               <button
                 type="button"
@@ -245,7 +294,7 @@ const ForgotPasswordForm = () => {
                 disabled={timer > 0}
                 className="text-blue-600 hover:text-blue-700 font-medium text-sm disabled:text-gray-400 disabled:cursor-not-allowed"
               >
-                {timer > 0 ? `Resend in ${timer}s` : 'Resend OTP'}
+                {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
               </button>
               <button
                 type="button"
@@ -261,7 +310,7 @@ const ForgotPasswordForm = () => {
               disabled={loading}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Verifying...' : 'Verify OTP'}
+              {loading ? "Verifying..." : "Verify OTP"}
             </button>
           </div>
         )}
@@ -270,7 +319,10 @@ const ForgotPasswordForm = () => {
         {step === 3 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="newPassword"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 New Password
               </label>
               <input
@@ -283,9 +335,12 @@ const ForgotPasswordForm = () => {
                 required
               />
             </div>
-            
+
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Confirm New Password
               </label>
               <input
@@ -306,21 +361,21 @@ const ForgotPasswordForm = () => {
                 <li>Must match confirmation</li>
               </ul>
             </div>
-            
+
             <button
               onClick={handleResetPassword}
               disabled={loading}
               className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Updating Password...' : 'Update Password'}
+              {loading ? "Updating Password..." : "Update Password"}
             </button>
           </div>
         )}
 
         {/* Back to Login Link */}
         <div className="mt-8 text-center">
-          <button 
-            onClick={() => window.location.href = '/login'}
+          <button
+            onClick={() => (window.location.href = "/login")}
             className="text-blue-600 hover:text-blue-700 font-medium text-sm"
           >
             ? Back to Login
