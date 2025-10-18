@@ -19,7 +19,7 @@ const AdminPanel = lazy(() => import("./Components/Admin/AdminPanel"));
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
 const ActiveUser = lazy(() => import("./Components/Admin/ActiveUser"));
 const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
-const MakeOrder = lazy(() => import("./Pages/makeOrder"));
+const MakeOrder = lazy(() => import("./Pages/MakeOrder"));
 const ForgotPasswordForm = lazy(() => import("./Pages/ForgetPassword"));
 
 
