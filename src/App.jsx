@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Loader from "./Components/Home/ShowProduct/CardLoader";
 import { ProtectedRoute, AdminRoute } from "./Routes/ProtectedRoutes";
 import ShowProducts from "./Components/Admin/ShowProducts";
-import ForgotPasswordForm from "./Pages/ForgetPassword";
 import AdminDetails from "./Components/Admin/AdminDetails";
 
 // Lazy loaded components
@@ -20,56 +19,60 @@ const AdminPanel = lazy(() => import("./Components/Admin/AdminPanel"));
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
 const ActiveUser = lazy(() => import("./Components/Admin/ActiveUser"));
 const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
+const MakeOrder = lazy(() => import("./Pages/makeOrder"));
+const ForgotPasswordForm = lazy(() => import("./Pages/ForgetPassword"));
+
 
 function App() {
   return (
-  <>
-    <Router>
-      <Suspense
-        fallback={
-          <div className="h-screen flex items-center justify-center">
-            <Loader />
-          </div>
-        }
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/signup" element={<Signin />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password"  element={<ForgotPasswordForm/>}/>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<PageNotFound />} />
+    <>
+      <Router>
+        <Suspense
+          fallback={
+            <div className="h-screen flex items-center justify-center">
+              <Loader />
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/signup" element={<Signin />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+            <Route path="/make-order" element={<MakeOrder />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<PageNotFound />} />
 
-          {/* Admin Routes */}
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <AdminPanel />
-              </AdminRoute>
-            }
-          >
-            <Route index element={<Dasshboard />} />
-            <Route path="activeuser" element={<ActiveUser />} />
-            <Route path="addproduct" element={<AddProduct />} />
-            <Route path="showproducts" element={<ShowProducts />} />
-            <Route path="admin-details" element={<AdminDetails />} />
-          </Route>
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminPanel />
+                </AdminRoute>
+              }
+            >
+              <Route index element={<Dasshboard />} />
+              <Route path="activeuser" element={<ActiveUser />} />
+              <Route path="addproduct" element={<AddProduct />} />
+              <Route path="showproducts" element={<ShowProducts />} />
+              <Route path="admin-details" element={<AdminDetails />} />
+            </Route>
 
-          {/* Protected Routes */}
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Suspense>
-    </Router>
+            {/* Protected Routes */}
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
+      </Router>
     </>
   );
 }

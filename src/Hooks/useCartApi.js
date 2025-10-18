@@ -18,7 +18,6 @@ export const useCartApi = (dispatch) => {
           type: "SET_CART_DATA",
           payload: res.data.cart,
         });
-        console.log("RES.DATA", res.data.cart);
         return { success: true };
       } catch (err) {
         dispatch({ type: "SET_ERROR", payload: err });

@@ -1,0 +1,60 @@
+import { createContext, useEffect } from "react";
+import { useOrderApi } from "../Hooks/useOrderApi";
+import { useContext } from "react";
+import { useReducer } from "react";
+import reducer from "../reducer/orderReducer";
+
+const OrderContext = createContext();
+
+const initialState = {
+  formData: {
+    fullName: '',
+    phone: '',
+    addressLine: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: '',
+    paymentMethod: '',
+    cardNumber: '',
+    cardName: '',
+    expiryDate: '',
+    cvv: '',
+  },
+  currentStep: 1,
+  showSuccessModal: false,
+  orderId: '',
+  orderData: null,
+  totalAmount: null,
+  totalQuantity: null,
+  loading: false,
+  error: null,
+};
+
+const OrderProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { placeOrder } = useOrderApi(dispatch);
+
+  return (
+    <OrderContext.Provider
+      value={{
+        ...state,
+        dispatch,
+        placeOrder,
+        // Additional helper functions
+        nextStep: () => dispatch({ type: "NEXT_STEP" }),
+        prevStep: () => dispatch({ type: "PREV_STEP" }),
+        resetOrder: () => dispatch({ type: "RESET_ORDER_FORM" }),
+        hideSuccessModal: () => dispatch({ type: "HIDE_SUCCESS_MODAL" })
+      }}
+    >
+      {children}
+    </OrderContext.Provider>
+  );
+};
+
+const useOrderContext = () => {
+  return useContext(OrderContext);
+};
+
+export { OrderProvider, useOrderContext };

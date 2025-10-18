@@ -55,20 +55,20 @@ function Home() {
             </a>
           )}
         </CategoryBannerSection>
-
         <CategoryCardSection>
           <CategoryCard />
         </CategoryCardSection>
-
-        <ProductsSection>
-          {isLoading ? (
-            <SkeletonTitle style={{ width: '200px' }} />
-          ) : (
-            <SectionTitle>
-            </SectionTitle>
-          )}
-          <ShowProducts />
-        </ProductsSection>
+        <div id="products">
+          <ProductsSection>
+            {isLoading ? (
+              <SkeletonTitle style={{ width: '200px' }} />
+            ) : (
+              <SectionTitle>
+              </SectionTitle>
+            )}
+            <ShowProducts />
+          </ProductsSection>
+        </div>
       </MainSection>
       <Footer />
     </>

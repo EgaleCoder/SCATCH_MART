@@ -8,9 +8,9 @@ import { useCartContext } from "../context/cartContext";
 import { NavLink } from "react-router-dom";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
 import { CartSkeleton } from "../Components/Common/SkeletonLoader";
-import Pay from "../Components/Home/Buttons/Pay";
 import { formatPrice } from "../utils/priceFormat";
 import { toast } from "react-toastify";
+import PlaceOrderButton from "../Components/Home/Buttons/placeOrderButton";
 
 export default function Cart() {
   const { cart, loading, getCartData } = useCartContext();
@@ -38,29 +38,19 @@ export default function Cart() {
       </LoadingContainer>
     );
 
-  const subtotal = cart.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
-    0
-  );
-  const totalDiscount = cart.reduce(
-    (acc, item) =>
-      acc + item.product.price * item.quantity * (item.product.discount / 100),
-    0
-  );
-  const vat = subtotal * 0.1;
-  const total = subtotal + vat - totalDiscount;
+  useEffect(() => {
+    getCartData();
+  }, [getCartData]);
 
   const handleRemoveItem = async (productId, productName) => {
     try {
-      const res = await API.post("/api/cart/delete", {
+      await API.post("/api/cart/delete", {
         productId,
       });
-      getCartData();
       toast.success(`${productName} removed from your cart.`);
-      return res;
+      getCartData();
     } catch (err) {
       toast.error("Couldn't remove that item. Please try again.");
-      return err;
     }
   };
 
@@ -72,22 +62,31 @@ export default function Cart() {
         <CartContainer>
           <CartHeader>Your Cart</CartHeader>
           {cart.length === 0 ? (
-            <EmptyState>Your cart is empty.</EmptyState>
+            <EmptyState>
+              <h2>Your cart is empty. Add items to get started!</h2>
+              <NavLink to="/">
+                <ButtonLink>Add Items to your cart</ButtonLink>
+              </NavLink>
+            </EmptyState>
           ) : (
             cart.map((item) => (
-              <CartList key={item._id}>
+
+              <CartList key={item._id} >
                 <CartItem>
+
                   <CartItemImage
                     src={item.product.image[0]}
                     alt={item.product.name}
                   />
-                  <ItemDetails>
-                    <ItemTitle>{item.product.name}</ItemTitle>
-                    <ItemMeta>
-                      Size: {item.product.size.type} | Price:
-                      {formatPrice(item.product.price)}
-                    </ItemMeta>
-                  </ItemDetails>
+                  <NavLink to={`/product/${item.product._id}`} >
+                    <ItemDetails>
+                      <ItemTitle>{item.product.name}</ItemTitle>
+                      <ItemMeta>
+                        Size: {item.product.size.type} | Price:
+                        {formatPrice(item.product.price - item.product.price * (item.product.discount / 100))} | Show more...
+                      </ItemMeta>
+                    </ItemDetails>
+                  </NavLink>
                   <PriceDetails>
                     <QuantityLabel>(Quantity)</QuantityLabel>
                     <QuantityValue>{item.quantity}</QuantityValue>
@@ -104,52 +103,11 @@ export default function Cart() {
               </CartList>
             ))
           )}
-
           {cart.length > 0 && (
             <SummaryWrapper>
-              <BillCard>
-                <BillList>
-                  <BillRow>
-                    <dt>Subtotal</dt>
-                    <dd>{formatPrice(Number(subtotal.toFixed(2)))}</dd>
-                  </BillRow>
-                  <BillRow>
-                    <dt>VAT (10%)</dt>
-                    <dd>{formatPrice(Number(vat.toFixed(2)))}</dd>
-                  </BillRow>
-                  <BillRow>
-                    <dt>Discount</dt>
-                    <dd>-{formatPrice(Number(totalDiscount.toFixed(2)))}</dd>
-                  </BillRow>
-                  <BillTotalRow>
-                    <dt>Total</dt>
-                    <dd>{formatPrice(Number(total.toFixed(2)))}</dd>
-                  </BillTotalRow>
-                </BillList>
-
-                <DiscountBadge>
-                  <DiscountIcon
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
-                    />
-                  </DiscountIcon>
-                  <DiscountText>2 Discounts Applied</DiscountText>
-                </DiscountBadge>
-
-                <CheckoutContainer>
-                  <NavLink to={"/"}>
-                    <Pay />
-                  </NavLink>
-                </CheckoutContainer>
-              </BillCard>
+              <NavLink to="/make-order">
+                <PlaceOrderButton />
+              </NavLink>
             </SummaryWrapper>
           )}
         </CartContainer>
@@ -182,11 +140,16 @@ const CartHeader = styled.header`
   color: #1a202c;
 `;
 
-const EmptyState = styled.p`
+const EmptyState = styled.div`
   text-align: center;
   color: #718096;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
   font-size: 1.25rem;
-  height: 50vh;
+  height: 40vh;
 `;
 
 const CartList = styled.div`
@@ -343,3 +306,19 @@ const CheckoutContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+const ButtonLink = styled.button`
+  background-color: #4338ca;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #3730a3;
+  }
+`;
+

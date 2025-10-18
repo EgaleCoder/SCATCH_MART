@@ -9,6 +9,7 @@ import ErrorBoundary from "./utils/ErrorBoundary.jsx";
 import { AdminProvider } from "./context/adminContext.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { OrderProvider } from "./context/orderContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
         <AppProvider>
           <FilterProvider>
             <CartProvider>
+              <OrderProvider>
               <>
                 <App />
                 <ToastContainer
@@ -29,6 +31,7 @@ createRoot(document.getElementById("root")).render(
                   theme="colored"
                 />
               </>
+            </OrderProvider>
             </CartProvider>
           </FilterProvider>
         </AppProvider>
