@@ -25,27 +25,46 @@ const ProductCard = ({ products, isLoading = false }) => {
 
   return (
     <StyledWrapper>
-      {products.map((product, index) => (
-        <NavLink to={`/product/${product._id}`} key={index}>
-          <div className="card">
-            <div className="image">
-              <img
-                src={product.image[0]}
-                alt={product.name}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                }}
-                loading="lazy"
-              />
+      {products.map((product, index) => {
+        // 🧠 Declare JS variables here (before return)
+        const discount = product?.discount ?? 0;
+        const price = Number(product?.price) || 0;
+
+        const discountPrice =
+          discount > 0 && price > 0
+            ? Math.round(price - (price * discount) / 100)
+            : price;
+
+        return (
+          <NavLink to={`/product/${product._id}`} key={index}>
+            <div className="card">
+              <div className="image">
+                <img
+                  src={product.image?.[0]}
+                  alt={product.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                  loading="lazy"
+                />
+              </div>
+
+              <span className="title">{product.name}</span>
+
+              {/* ✅ Use formatPrice correctly */}
+              <span className="price">
+                {product?.price
+                  ? formatPrice(discountPrice)
+                  : "Price not available"}
+              </span>
             </div>
-            <span className="title">{product.name}</span>
-            <span className="price">{formatPrice(product.price)}</span>
-          </div>
-        </NavLink>
-      ))}
+          </NavLink>
+        );
+      })}
     </StyledWrapper>
+
   );
 };
 
