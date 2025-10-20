@@ -3,13 +3,43 @@ import styled, { keyframes } from "styled-components";
 import Navbar from "../Components/Home/Navbar";
 import Footer from "../Components/Home/Footer";
 import TOPBANNER from "../assets/Banner.png";
-import CATAGORYBANNER from "../assets/CATAGORY BANNER.png";
+import CATAGORYBANNER from "../assets/TOP BANNER.png";
+import BagImages from "../assets/BagsCategories.png";
 import ShowProducts from "./ShowProducts";
 import CategoryCard from "../Components/Home/CategoryCard";
-
+import BagsCategories from "../Components/Home/BagsCategories";
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
+
+  // const categories = [
+  //   {
+  //     icon: "🎨",
+  //     name: "Creative Design",
+  //     description: "Stunning visual designs that capture attention and imagination",
+  //   },
+  //   {
+  //     icon: "💻",
+  //     name: "Development",
+  //     description: "Modern web solutions built with cutting-edge technology",
+  //   },
+  //   {
+  //     icon: "📱",
+  //     name: "Mobile Apps",
+  //     description: "Seamless mobile experiences for iOS and Android platforms",
+  //   },
+  //   {
+  //     icon: "🚀",
+  //     name: "Marketing",
+  //     description: "Strategic campaigns that drive growth and engagement",
+  //   },
+  //   {
+  //     icon: "📊",
+  //     name: "Analytics",
+  //     description: "Data-driven insights to optimize your business performance",
+  //   },
+  // ];
+
 
   useEffect(() => {
     // Simulate loading delay
@@ -23,17 +53,15 @@ function Home() {
     <>
       <Navbar />
       <MainSection>
+          <BagsCategories imageUrl={BagImages} />
+
         {isLoading ? (
           <SkeletonBanner />
         ) : (
           <a href="#">
-            <BackgroundDiv
-              loading="lazy"
-              style={{ backgroundImage: `url(${TOPBANNER})` }}
-            />
+            <BackgroundDiv style={{ backgroundImage: `url(${CATAGORYBANNER})` }} />
           </a>
         )}
-
         {isLoading ? (
           <SkeletonTitle />
         ) : (
@@ -44,7 +72,7 @@ function Home() {
         )}
 
         <CategoryBannerSection>
-          {isLoading ? (
+          {/* {isLoading ? (
             <SkeletonBanner style={{ height: '40vh' }} />
           ) : (
             <a href="#">
@@ -53,7 +81,21 @@ function Home() {
                 style={{ backgroundImage: `url(${CATAGORYBANNER})` }}
               />
             </a>
-          )}
+          )} */}
+
+          {/* <MainContainer>
+            <BoxesWrapper>
+              {categories.map((cat, index) => (
+                <Box key={index}>
+                  <BoxImage>{cat.icon}</BoxImage>
+                  <BoxContent>
+                    <BoxName>{cat.name}</BoxName>
+                    <BoxDescription>{cat.description}</BoxDescription>
+                  </BoxContent>
+                </Box>
+              ))}
+            </BoxesWrapper>
+          </MainContainer> */}
         </CategoryBannerSection>
         <CategoryCardSection>
           <CategoryCard />
@@ -183,6 +225,7 @@ const BackgroundDivCatogary = styled.div`
   width: 100%;
   height: 70vh;
   background-size: 100% 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -228,5 +271,151 @@ const SkeletonTitle = styled.div`
   border-radius: 4px;
   margin: 1.5rem 0;
 `;
+
+
+// const MainContainer = styled.div`
+//   width: 100%;
+//   height: 400px;
+//   background-color: white;
+//   margin-top: 1rem;
+//   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+//   padding: 20px;
+//   overflow-x: auto;
+//   overflow-y: hidden;
+//   display: flex;
+//   justify-content: center;
+
+//   /* Smooth scrolling */
+//   scroll-behavior: smooth;
+
+//   /* Custom Scrollbar */
+//   &::-webkit-scrollbar {
+//     height: 6px;
+//   }
+//   &::-webkit-scrollbar-track {
+//     background: #f1f1f1;
+//     border-radius: 10px;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     background: #888;
+//     border-radius: 10px;
+//   }
+//   &::-webkit-scrollbar-thumb:hover {
+//     background: #555;
+//   }
+
+//   @media (max-width: 768px) {
+//     height: 280px;
+//     padding: 15px;
+//       justify-content: normal;
+//   }
+
+//   @media (max-width: 480px) {
+//     height: 260px;
+//     padding: 12px;
+//   }
+// `;
+
+// const BoxesWrapper = styled.div`
+//   display: flex;
+//   gap: 40px;
+//   height: 100%;
+//   min-width: min-content;
+//   transition: all 0.3s ease;
+
+//   @media (max-width: 768px) {
+//     gap: 15px;
+//     transform: scale(0.9);
+//     transform-origin: top center;
+//   }
+
+//   @media (max-width: 480px) {
+//     gap: 13px;
+//     transform: scale(0.8);
+//   }
+// `;
+
+// const Box = styled.div`
+//   flex: 0 0 auto;
+//   width: 250px;
+//   height: 100%;
+//   // background: linear-gradient(145deg, #ffffff, #f8f9fa);
+//   padding: 15px;
+//   display: flex;
+//   flex-direction: column;
+//   transition: transform 0.3s ease, box-shadow 0.3s ease;
+//   cursor: pointer;
+
+//   &:hover {
+//     transform: translateY(-2px);
+//     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+//   }
+
+//   @media (max-width: 768px) {
+//     width: 160px;
+//   }
+
+//   @media (max-width: 480px) {
+//     width: 140px;
+//     padding: 12px;
+//   }
+// `;
+
+// const BoxImage = styled.div`
+//   width: 100%;
+//   height: 300px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 48px;
+//   margin-bottom: 18px;
+//   transition: background 0.3s ease;
+
+//   @media (max-width: 768px) {
+//     height: 180px;
+//     font-size: 40px;
+//   }
+
+//   @media (max-width: 480px) {
+//     height: 120px;
+//     font-size: 36px;
+//   }
+// `;
+
+// const BoxContent = styled.div`
+//   flex: 1;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+// `;
+
+// const BoxName = styled.div`
+//   font-size: 16px;
+//   font-weight: 700;
+//   color: #1a1a1a;
+//   text-align: center;
+
+//   @media (max-width: 768px) {
+//     font-size: 14px;
+//   }
+
+//   @media (max-width: 480px) {
+//     font-size: 13px;
+//   }
+// `;
+
+// const BoxDescription = styled.div`
+//   font-size: 12px;
+//   color: #666;
+//   text-align: center;
+
+//   @media (max-width: 768px) {
+//     font-size: 11px;
+//   }
+
+//   @media (max-width: 480px) {
+//     font-size: 10px;
+//   }
+// `;
 
 export default Home;
