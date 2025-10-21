@@ -3,17 +3,22 @@ import styled from "styled-components";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 import { toast } from "react-toastify";
+import Loader from "../Home/ShowProduct/CardLoader";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
-  const { user, logoutUser, isAuthenticated, deleteUser } = useAuthContext();
+  const { user, logoutUser, isAuthenticated, deleteUser, loading } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = async () => {
+    if (loading) return; // Prevent multiple clicks
     await logoutUser();
-    navigate("/", { state: { from: location } });
-    notify();
+    // Small delay to ensure state update is processed
+    setTimeout(() => {
+      navigate("/", { state: { from: location } });
+      notify();
+    }, 100);
   };
 
   const handleDeleteUser = async () => {
@@ -30,6 +35,13 @@ const Profile = () => {
       }
     }
   };
+  if (loading) {
+    return (
+      <LoadingContainer>
+        <Loader />
+      </LoadingContainer>
+    )
+  }
   const notify = () => toast.success("User Logout Successfully");
   const notifyDelete = () => toast.success("Account Deleted Successfully");
   return (
@@ -273,13 +285,18 @@ const Profile = () => {
                 <path d="M3 6h18l-1.5 14h-15z" />
                 <path d="M7 10a5 5 0 0 0 10 0" />
               </svg>
-              <a className="para" href="#">
+              <NavLink to="/order-list">
                 My Orders
-              </a>
+              </NavLink>
             </div>
             <div className="card__wrapper">
-              <button className="card__btn mx-4" onClick={handleLogout}>
-                LogOut
+              <button 
+                className="card__btn mx-4" 
+                onClick={handleLogout}
+                disabled={loading}
+                style={{ opacity: loading ? 0.6 : 1 }}
+              >
+                {loading ? "Logging out..." : "LogOut"}
               </button>
               <button
                 className="card__btn card__btn-solid"
@@ -310,6 +327,18 @@ const Profile = () => {
     </>
   );
 };
+
+const LoadingContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const StyledWrapper = styled.div`
   .card {

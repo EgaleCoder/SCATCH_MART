@@ -3,14 +3,13 @@ import styled from "styled-components";
 import { useAdminContext } from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
-import { AuthFormSkeletonLogin } from "../Components/Common/SkeletonLoader";
 import Navbar from "../Components/Home/Navbar";
 const Form = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { adminLogin, error, loading, isAdminLoggedIn } = useAdminContext();
-  const [showSkeleton, setShowSkeleton] = useState(false);
+
 
   const login = async (e) => {
     e.preventDefault();
@@ -24,26 +23,13 @@ const Form = () => {
     }
   }, [isAdminLoggedIn]);
 
-  useEffect(() => {
-    let timer;
-    if (loading) {
-      setShowSkeleton(false);
-      timer = setTimeout(() => setShowSkeleton(true), 1200);
-    } else {
-      setShowSkeleton(false);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [loading]);
-
   if (loading) {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
-          <AuthFormSkeletonLogin />
-        </div>
+        <LoaderOverlay>
+          <Loader />
+        </LoaderOverlay>
       </>
     );
   }
@@ -279,5 +265,16 @@ const StyledWrapper = styled.div`
     color: #60a5fa;
     font-size: 9px;
   }`;
+
+const LoaderOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+`;
 
 export default Form;

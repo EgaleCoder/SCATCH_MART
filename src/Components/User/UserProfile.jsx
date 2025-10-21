@@ -3,6 +3,41 @@ import Profile from "../Home/Profile";
 import { UserIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
 
+
+const UserProfile = () => {
+  const [showProfile, setShowProfile] = useState(false);
+
+  const toggleProfile = () => {
+    setShowProfile((prev) => !prev);
+  };
+
+  const closeProfile = () => {
+    setShowProfile(false);
+  };
+
+  return (
+    <>
+      {/* ✅ pass $showProfile instead of showProfile */}
+      <Overlay $showProfile={showProfile} onClick={closeProfile} />
+      <UserProfileContainer>
+        <ToggleButton
+          type="button"
+          onClick={toggleProfile}
+          aria-label="Toggle profile"
+        >
+          <UserIconContainer />
+        </ToggleButton>
+        <ProfileContainer
+          $showProfile={showProfile}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <Profile />
+        </ProfileContainer>
+      </UserProfileContainer>
+    </>
+  );
+};
+
 const UserProfileContainer = styled.div`
   position: relative;
   display: flex;
@@ -57,7 +92,7 @@ const ProfileContainer = styled.div`
     max-width: none;
     margin: 0 auto;
     transform: ${({ $showProfile }) =>
-      $showProfile ? "translateY(0)" : "translateY(-10px)"};
+    $showProfile ? "translateY(0)" : "translateY(-10px)"};
   }
 `;
 
@@ -72,39 +107,5 @@ const Overlay = styled.div`
     display: none;
   }
 `;
-
-const UserProfile = () => {
-  const [showProfile, setShowProfile] = useState(false);
-
-  const toggleProfile = () => {
-    setShowProfile((prev) => !prev);
-  };
-
-  const closeProfile = () => {
-    setShowProfile(false);
-  };
-
-  return (
-    <>
-      {/* ✅ pass $showProfile instead of showProfile */}
-      <Overlay $showProfile={showProfile} onClick={closeProfile} />
-      <UserProfileContainer>
-        <ToggleButton
-          type="button"
-          onClick={toggleProfile}
-          aria-label="Toggle profile"
-        >
-          <UserIconContainer />
-        </ToggleButton>
-        <ProfileContainer
-          $showProfile={showProfile}
-          onClick={(event) => event.stopPropagation()}
-        >
-          <Profile />
-        </ProfileContainer>
-      </UserProfileContainer>
-    </>
-  );
-};
 
 export default UserProfile;

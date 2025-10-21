@@ -5,13 +5,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import Navbar from "../Components/Home/Navbar";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
-import { AuthFormSkeletonLogin } from "../Components/Common/SkeletonLoader";
 import Footer from "../Components/Home/Footer";
 import { toast } from "react-toastify";
 
 const Login = () => {
   const { loading, loginUser, isAuthenticated } = useAuthContext();
-  const [showSkeleton, setShowSkeleton] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
@@ -39,26 +37,14 @@ const Login = () => {
     }
   }, [isAuthenticated, location, navigate]);
 
-  useEffect(() => {
-    let timer;
-    if (loading) {
-      setShowSkeleton(false);
-      timer = setTimeout(() => setShowSkeleton(true), 1200);
-    } else {
-      setShowSkeleton(false);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [loading]);
-
   return (
     <>
       <Navbar />
+      <div className="min-h-screen">
       {loading ? (
-        <div className="min-h-screen flex items-center justify-center bg-[#d8e6f7] px-4">
-          <AuthFormSkeletonLogin />
-        </div>
+        <LoaderOverlay>
+          <Loader />
+        </LoaderOverlay>
       ) : (
         <StyledWrapper>
           <div className="card">
@@ -190,6 +176,7 @@ const Login = () => {
           </div>
         </StyledWrapper>
       )}
+      </div>
       <Footer />
     </>
   );
@@ -539,6 +526,16 @@ const StyledWrapper = styled.div`
     /* text-emphasis: circle; */
     -webkit-text-security: disc;
   }
+`;
+const LoaderOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
 `;
 
 export default Login;

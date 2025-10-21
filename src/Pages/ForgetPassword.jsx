@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import styled from "styled-components";
 import { useAuthContext } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-
+import Loader from "../Components/Home/ShowProduct/CardLoader";
 
 
 const ForgotPasswordForm = () => {
@@ -202,6 +203,12 @@ const ForgotPasswordForm = () => {
           </p>
         </div>
 
+        {loading && (
+          <LoaderOverlay>
+            <Loader />
+          </LoaderOverlay>
+        )}
+        
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
@@ -367,7 +374,7 @@ const ForgotPasswordForm = () => {
               disabled={loading}
               className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Updating Password..." : "Update Password"}
+              {loading ? "Resetting Password..." : "Reset Password"}
             </button>
           </div>
         )}
@@ -385,5 +392,16 @@ const ForgotPasswordForm = () => {
     </div>
   );
 };
+
+const LoaderOverlay = styled.div`
+position: fixed;
+inset: 0;
+z-index: 50;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(4px);
+`;
 
 export default ForgotPasswordForm;
