@@ -21,7 +21,7 @@ const ActiveUser = lazy(() => import("./Components/Admin/ActiveUser"));
 const AddProduct = lazy(() => import("./Components/Admin/AddProduct"));
 const MakeOrder = lazy(() => import("./Pages/MakeOrder"));
 const ForgotPasswordForm = lazy(() => import("./Pages/ForgetPassword"));
-
+const OrderListPage = lazy(() => import("./Pages/User/OrderList"));
 
 function App() {
   return (
@@ -41,8 +41,6 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-            <Route path="/make-order" element={<MakeOrder />} />
-            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<PageNotFound />} />
 
             {/* Admin Routes */}
@@ -67,6 +65,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-list"
+              element={
+                <ProtectedRoute>
+                  <OrderListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/make-order"
+              element={
+                <ProtectedRoute>
+                  <MakeOrder />
                 </ProtectedRoute>
               }
             />
