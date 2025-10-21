@@ -62,6 +62,8 @@ const useAuthApi = (dispatch) => {
         type: "SET_ERROR",
         payload: err.response?.data?.message || "Logout failed!",
       });
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [dispatch]);
 

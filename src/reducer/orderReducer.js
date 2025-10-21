@@ -48,6 +48,22 @@ const orderReducer = (state, action) => {
           cvv: ''
         }
       };
+      
+    case "FETCH_ORDERS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        orders: action.payload,
+        error: null
+      };
+      
+    case "FETCH_ORDERS_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        orders: []
+      };
 
     case "PLACE_ORDER_SUCCESS":
       return {

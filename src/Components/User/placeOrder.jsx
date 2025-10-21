@@ -4,13 +4,12 @@ import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { useOrderContext } from '../../context/orderContext';
 import { useCartContext } from '../../context/cartContext';
 import { formatPrice } from '../../utils/priceFormat';
-
+import Loader from '../Home/ShowProduct/CardLoader';
 
 
 export default function PlaceOrder() {
   const { cart } = useCartContext();
   const {
-    formData,
     currentStep,
     showSuccessModal,
     orderId,
@@ -19,6 +18,7 @@ export default function PlaceOrder() {
     totalQuantity,
     totalAmount,
     error,
+    formData,
     dispatch,
     nextStep,
     prevStep,
@@ -53,13 +53,17 @@ export default function PlaceOrder() {
   };
 
   const handleSubmit = async () => {
-    await placeOrder(formData);
+    await placeOrder(formData, cart);
   };
-
   return (
     <>
       <GlobalStyle />
       <Container>
+        {loading && (
+          <ModalOverlay>
+            <Loader />
+          </ModalOverlay>
+        )}
         {showSuccessModal && (
           <ModalOverlay>
             <ModalContent>

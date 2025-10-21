@@ -7,6 +7,14 @@ import reducer from "../reducer/orderReducer";
 const OrderContext = createContext();
 
 const initialState = {
+  orderData: null,
+  totalAmount: 0,
+  totalQuantity: 0,
+  currentStep: 1,
+  showSuccessModal: false,
+  orderId: '',
+  loading: false,
+  error: null,
   formData: {
     fullName: '',
     phone: '',
@@ -19,21 +27,13 @@ const initialState = {
     cardNumber: '',
     cardName: '',
     expiryDate: '',
-    cvv: '',
-  },
-  currentStep: 1,
-  showSuccessModal: false,
-  orderId: '',
-  orderData: null,
-  totalAmount: null,
-  totalQuantity: null,
-  loading: false,
-  error: null,
+    cvv: ''
+  }
 };
 
 const OrderProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { placeOrder } = useOrderApi(dispatch);
+  const { placeOrder, fetchUserOrders } = useOrderApi(dispatch);
 
   return (
     <OrderContext.Provider
@@ -41,6 +41,7 @@ const OrderProvider = ({ children }) => {
         ...state,
         dispatch,
         placeOrder,
+        fetchUserOrders,
         // Additional helper functions
         nextStep: () => dispatch({ type: "NEXT_STEP" }),
         prevStep: () => dispatch({ type: "PREV_STEP" }),
