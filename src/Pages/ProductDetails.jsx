@@ -145,7 +145,7 @@ const ProductDetail = () => {
               <Price>{formatPrice(discountPrice)}</Price>
               <div className="text-lg flex">
                 <p className="original-price mr-4 text-xl text-gray-700">
-                  ₹{price}
+                  {formatPrice(price)}
                 </p>
                 <p className="text-red-700 text-2xl">{discount}% OFF</p>
               </div>
