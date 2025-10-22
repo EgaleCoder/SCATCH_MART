@@ -1,10 +1,10 @@
 import React from 'react'
-import AdminAllorders from '../../Components/Admin/AdminAllorders'
+import AdminAllOrders from '../../Components/Admin/AdminAllOrders'
 
 function AdminAllOrders() {
     return (
         <>
-            <AdminAllorders />
+            <AdminAllOrders />
         </>
     )
 }
