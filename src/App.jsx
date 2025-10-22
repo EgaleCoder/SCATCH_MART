@@ -8,7 +8,7 @@ import AdminDetails from "./Components/Admin/AdminDetails";
 
 // Lazy loaded components
 const Home = lazy(() => import("./Pages/Home"));
-const Dasshboard = lazy(() => import("./Components/Admin/Home"));
+const Dashboard = lazy(() => import("./Components/Admin/Home"));
 const ProductDetails = lazy(() => import("./Pages/ProductDetails"));
 const Signin = lazy(() => import("./Pages/Signin"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -36,33 +36,16 @@ function App() {
           }
         >
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/signup" element={<Signin />} />
-            <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/forgot-password" element={<ForgotPasswordForm />} />
             <Route path="*" element={<PageNotFound />} />
 
-
-            {/* Admin Routes */}
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <AdminPanel />
-                </AdminRoute>
-              }
-            >
-              <Route index element={<Dasshboard />} />
-              <Route path="activeuser" element={<ActiveUser />} />
-              <Route path="addproduct" element={<AddProduct />} />
-              <Route path="showproducts" element={<ShowProducts />} />
-              <Route path="admin-details" element={<AdminDetails />} />
-              <Route path="all-orders" element={<AdminAllOrders />} />
-
-            </Route>
-            {/* Protected Routes */}
+            {/* Protected (User) Routes */}
             <Route
               path="/cart"
               element={
@@ -95,6 +78,23 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminPanel />
+                </AdminRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="activeuser" element={<ActiveUser />} />
+              <Route path="addproduct" element={<AddProduct />} />
+              <Route path="showproducts" element={<ShowProducts />} />
+              <Route path="admin-details" element={<AdminDetails />} />
+              <Route path="all-orders" element={<AdminAllOrders />} />
+            </Route>
           </Routes>
         </Suspense>
       </Router>
