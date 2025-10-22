@@ -15,6 +15,8 @@ const initialState = {
   orderId: '',
   loading: false,
   error: null,
+  orders: [],
+  adminOrders: [],
   formData: {
     fullName: '',
     phone: '',
@@ -33,7 +35,7 @@ const initialState = {
 
 const OrderProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { placeOrder, fetchUserOrders } = useOrderApi(dispatch);
+  const { placeOrder, fetchUserOrders, fetchAllOrdersForAdmin, updateOrderStatus } = useOrderApi(dispatch);
 
   return (
     <OrderContext.Provider
@@ -42,11 +44,15 @@ const OrderProvider = ({ children }) => {
         dispatch,
         placeOrder,
         fetchUserOrders,
+        fetchAllOrdersForAdmin,
+        updateOrderStatus,
         // Additional helper functions
         nextStep: () => dispatch({ type: "NEXT_STEP" }),
         prevStep: () => dispatch({ type: "PREV_STEP" }),
         resetOrder: () => dispatch({ type: "RESET_ORDER_FORM" }),
-        hideSuccessModal: () => dispatch({ type: "HIDE_SUCCESS_MODAL" })
+        hideSuccessModal: () => dispatch({ type: "HIDE_SUCCESS_MODAL" }),
+        clearAdminOrders: () => dispatch({ type: "CLEAR_ADMIN_ORDERS" }),
+        clearUserOrders: () => dispatch({ type: "CLEAR_USER_ORDERS" })
       }}
     >
       {children}

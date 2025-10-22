@@ -3,6 +3,8 @@ import API from "../utils/axios";
 
 const API_PLACE_ORDER = "/api/orders/place-order";
 const API_GET_USER_ORDER = "/api/orders/my-orders";
+const API_GET_ALL_ORDERS_FOR_ADMIN = "/api/orders/admin/all";
+const API_UPDATE_ORDER_STATUS = "/api/orders/admin";
 
 export const useOrderApi = (dispatch) => {
   const placeOrder = useCallback(
@@ -18,7 +20,7 @@ export const useOrderApi = (dispatch) => {
             acc + item.product.price * item.quantity * (item.product.discount / 100),
           0
         );
-        const shipping = 10; 
+        const shipping = 10;
         const totalAmount = subtotal + shipping - totalDiscount;
 
         const completeOrderData = {
@@ -108,5 +110,47 @@ export const useOrderApi = (dispatch) => {
     }
   }, [dispatch]);
 
-  return { placeOrder, fetchUserOrders };
-};
+  const fetchAllOrdersForAdmin = useCallback(async () => {
+    dispatch({ type: "SET_LOADING", payload: true });
+    try {
+      const res = await API.get(API_GET_ALL_ORDERS_FOR_ADMIN, {
+        withCredentials: true,
+      });
+
+      dispatch({
+        type: "FETCH_ADMIN_ORDERS_SUCCESS",
+        payload: res.data.orders || [],
+      });
+      // console.log("API Admin orders", res);
+      return { success: true, orders: res.data.orders || [] };
+    } catch (err) {
+      const error = err.response?.data?.message || err.message;
+      dispatch({ type: "FETCH_ADMIN_ORDERS_FAILURE", payload: error });
+      return { success: false, error };
+    }
+  }, [dispatch]);
+
+  const updateOrderStatus = useCallback(async (orderId, status, itemId, itemProductId) => {
+    dispatch({ type: "SET_LOADING", payload: true });
+    try {
+      const res = await API.post(
+        `${API_UPDATE_ORDER_STATUS}/${orderId}/status`,
+        { itemId, status, itemProductId },
+        { withCredentials: true }
+      );
+      dispatch({
+        type: "UPDATE_ORDER_STATUS_SUCCESS",
+        payload: { orderId, status, updatedOrder: res.data.order }
+      });
+      console.log("API Update order status", res);
+      return { success: true, order: res.data.order };
+    } catch (err) {
+      const error = err.response?.data?.message || err.message;
+      dispatch({ type: "UPDATE_ORDER_STATUS_FAILURE", payload: error });
+      console.log("API Update order status error", error);
+      return { success: false, error };
+    }
+  }, [dispatch]);
+
+  return { placeOrder, fetchUserOrders, fetchAllOrdersForAdmin, updateOrderStatus }
+}

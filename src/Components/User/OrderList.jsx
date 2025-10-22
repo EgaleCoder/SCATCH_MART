@@ -60,7 +60,6 @@ const OrderList = () => {
         <OrdersGrid>
           {orders.map((order) => {
             const status = order.items?.[0]?.status;
-
             return (
               <OrderCard key={order._id}>
                 <ProductImageContainer>

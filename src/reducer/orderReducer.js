@@ -48,7 +48,7 @@ const orderReducer = (state, action) => {
           cvv: ''
         }
       };
-      
+
     case "FETCH_ORDERS_SUCCESS":
       return {
         ...state,
@@ -56,13 +56,27 @@ const orderReducer = (state, action) => {
         orders: action.payload,
         error: null
       };
-      
+
     case "FETCH_ORDERS_FAILURE":
       return {
         ...state,
         loading: false,
         error: action.payload,
         orders: []
+      };
+
+    case "FETCH_ADMIN_ORDERS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        adminOrders: action.payload,
+        error: null
+      };
+
+    case "CLEAR_ADMIN_ORDERS":
+      return {
+        ...state,
+        adminOrders: []
       };
 
     case "PLACE_ORDER_SUCCESS":
@@ -77,6 +91,24 @@ const orderReducer = (state, action) => {
         error: null
       };
 
+    case "UPDATE_ORDER_STATUS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        adminOrders: state.adminOrders.map(order =>
+          (order._id === action.payload.orderId || order.id === action.payload.orderId)
+            ? { ...order, status: action.payload.status, ...action.payload.updatedOrder }
+            : order
+        ),
+        error: null
+      };
+
+    case "UPDATE_ORDER_STATUS_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
     default:
       return state;
   }
