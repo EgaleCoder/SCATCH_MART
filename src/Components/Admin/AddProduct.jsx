@@ -93,7 +93,7 @@ const AddProduct = () => {
         <p className="title">Add New Product</p>
 
         {error ? (
-          <p>{error}</p>
+          <p className="error">{error}</p>
         ) : (
           <p className="message">Fill Detail of Your New Product</p>
         )}
@@ -257,24 +257,34 @@ const AddProduct = () => {
           />
         </div>
 
-        <button type="submit" className="submit">
-          Add Product
-        </button>
+        <ButtonWrapper>
+          <button type="submit" className="submit">
+            Add Product
+          </button>
+        </ButtonWrapper>
       </form>
     </StyledWrapper>
   );
 };
 
 const StyledWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+
   .form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     max-width: 750px;
+    width: 100%;
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 20px;
-    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .title {
@@ -286,6 +296,7 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     padding-left: 30px;
+    margin-bottom: 10px;
   }
 
   .title::before,
@@ -311,22 +322,20 @@ const StyledWrapper = styled.div`
     animation: pulse 1s linear infinite;
   }
 
-  .message,
-  .signin {
+  .message {
     color: rgba(88, 87, 87, 0.822);
     font-size: 14px;
+    margin-bottom: 10px;
   }
 
-  .signin {
-    text-align: center;
-  }
-
-  .signin a {
-    color: royalblue;
-  }
-
-  .signin a:hover {
-    text-decoration: underline royalblue;
+  .error {
+    color: #e53e3e;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: #fee;
+    border-radius: 6px;
+    border-left: 3px solid #e53e3e;
   }
 
   .flex {
@@ -346,6 +355,7 @@ const StyledWrapper = styled.div`
     outline: 0;
     border: 1px solid rgba(105, 105, 105, 0.397);
     border-radius: 10px;
+    font-size: 14px;
   }
 
   .form label .input + span {
@@ -378,18 +388,23 @@ const StyledWrapper = styled.div`
     border: none;
     outline: none;
     background-color: #093e44;
-    padding: 10px;
+    padding: 12px 24px;
     border-radius: 10px;
     color: #fff;
-    width: 30%;
-    align-item: center;
-    justify-content: center;
     font-size: 16px;
-    transform: 0.3s ease;
-  }
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-  .submit:hover {
-    background-color: rgb(46, 102, 108);
+    &:hover {
+      background-color: #0c737e;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 
   @keyframes pulse {
@@ -402,6 +417,28 @@ const StyledWrapper = styled.div`
       opacity: 0;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .form {
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 24px;
+    }
+
+    .flex {
+      flex-direction: column;
+    }
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 `;
 
 const SelectWrapper = styled.div`
@@ -426,9 +463,11 @@ const Select = styled.select`
   outline: none;
   background-color: white;
   color: #333;
+  cursor: pointer;
 
   &:focus {
-    border-color: royalblue;
+    border-color: #093e44;
+    box-shadow: 0 0 0 3px rgba(9, 62, 68, 0.1);
   }
 `;
 
