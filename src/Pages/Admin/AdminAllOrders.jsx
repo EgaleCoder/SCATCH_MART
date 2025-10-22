@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminAllOrders from '../../Components/Admin/AdminAllOrders'
 
-function AdminAllOrders() {
+function AdminAllOrdersPage() {
     return (
         <>
             <AdminAllOrders />
@@ -9,4 +9,4 @@ function AdminAllOrders() {
     )
 }
 
-export default AdminAllOrders
+export default AdminAllOrdersPage
