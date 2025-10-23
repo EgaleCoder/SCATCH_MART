@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../Components/Home/Footer";
+import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import Loader from "../Components/Home/ShowProduct/CardLoader";
