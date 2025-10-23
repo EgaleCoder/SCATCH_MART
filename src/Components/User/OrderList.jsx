@@ -3,15 +3,32 @@ import styled from 'styled-components';
 import { useOrderContext } from '../../context/orderContext';
 import { formatPrice } from '../../utils/priceFormat';
 import Loader from '../Home/ShowProduct/CardLoader';
+import {toast} from 'react-toastify';
 
 
 const OrderList = () => {
-  const { orders, loading, error, fetchUserOrders } = useOrderContext();
+  const { orders, loading, error, fetchUserOrders, cancelOrder } = useOrderContext();
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     fetchUserOrders();
   }, [fetchUserOrders]);
+
+const handleCancelOrder = async (orderId) => {
+  try {
+    const res = await cancelOrder(orderId);
+    if (res?.success) {
+      toast.success(res.message || "Order cancelled successfully!");
+      fetchUserOrders();
+    } else {
+      toast.error(res.error || "Failed to cancel order!");
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Failed to cancel order!");
+  }
+};
+
+
 
   const getStatusText = (status) => {
     const statusTexts = {
@@ -35,10 +52,6 @@ const OrderList = () => {
 
   if (loading) {
     return <LoadingText>Loading orders...</LoadingText>;
-  }
-
-  if (error) {
-    return <ErrorText>Error: {error}</ErrorText>;
   }
 
   if (!orders || orders.length === 0) {

@@ -5,6 +5,7 @@ const API_PLACE_ORDER = "/api/orders/place-order";
 const API_GET_USER_ORDER = "/api/orders/my-orders";
 const API_GET_ALL_ORDERS_FOR_ADMIN = "/api/orders/admin/all";
 const API_UPDATE_ORDER_STATUS = "/api/orders/admin";
+const API_CANCEL_ORDER = "/api/orders/cancel";
 
 export const useOrderApi = (dispatch) => {
   const placeOrder = useCallback(
@@ -152,5 +153,26 @@ export const useOrderApi = (dispatch) => {
     }
   }, [dispatch]);
 
-  return { placeOrder, fetchUserOrders, fetchAllOrdersForAdmin, updateOrderStatus }
+  const cancelOrder = useCallback(async (orderId) => {
+    dispatch({ type: "SET_LOADING", payload: true });
+    try {
+      const res = await API.post(
+        `${API_CANCEL_ORDER}/${orderId}`,
+        { withCredentials: true }
+      );
+      dispatch({
+        type: "CANCEL_ORDER_SUCCESS",
+        payload: { orderId, updatedOrder: res.data.order }
+      });
+      // console.log("API Cancel order", res);
+      return { success: true, order: res.data.order };
+    } catch (err) {
+      const error = err.response?.data?.message || err.message;
+      dispatch({ type: "CANCEL_ORDER_FAILURE", payload: error });
+      // console.log("API Cancel order error", error);
+      return { success: false, error };
+    }
+  }, [dispatch]);
+
+  return { placeOrder, fetchUserOrders, fetchAllOrdersForAdmin, updateOrderStatus, cancelOrder }
 }

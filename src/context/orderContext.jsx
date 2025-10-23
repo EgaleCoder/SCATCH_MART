@@ -35,7 +35,7 @@ const initialState = {
 
 const OrderProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { placeOrder, fetchUserOrders, fetchAllOrdersForAdmin, updateOrderStatus } = useOrderApi(dispatch);
+  const { placeOrder, fetchUserOrders, fetchAllOrdersForAdmin, updateOrderStatus, cancelOrder } = useOrderApi(dispatch);
 
   return (
     <OrderContext.Provider
@@ -43,6 +43,7 @@ const OrderProvider = ({ children }) => {
         ...state,
         dispatch,
         placeOrder,
+        cancelOrder,
         fetchUserOrders,
         fetchAllOrdersForAdmin,
         updateOrderStatus,

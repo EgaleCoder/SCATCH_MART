@@ -109,6 +109,26 @@ const orderReducer = (state, action) => {
         loading: false,
         error: action.payload
       };
+
+    case "CANCEL_ORDER_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        adminOrders: state.adminOrders.map(order =>
+          (order._id === action.payload.orderId || order.id === action.payload.orderId)
+            ? { ...order, status: action.payload.status, ...action.payload.updatedOrder }
+            : order
+        ),
+        error: null
+      };
+
+    case "CANCEL_ORDER_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+
     default:
       return state;
   }
