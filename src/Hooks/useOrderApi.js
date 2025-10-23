@@ -130,24 +130,24 @@ export const useOrderApi = (dispatch) => {
     }
   }, [dispatch]);
 
-  const updateOrderStatus = useCallback(async (orderId, status, itemId, itemProductId) => {
+  const updateOrderStatus = useCallback(async (orderId, status) => {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       const res = await API.post(
         `${API_UPDATE_ORDER_STATUS}/${orderId}/status`,
-        { itemId, status, itemProductId },
+        { status },
         { withCredentials: true }
       );
       dispatch({
         type: "UPDATE_ORDER_STATUS_SUCCESS",
         payload: { orderId, status, updatedOrder: res.data.order }
       });
-      console.log("API Update order status", res);
+      // console.log("API Update order status", res);
       return { success: true, order: res.data.order };
     } catch (err) {
       const error = err.response?.data?.message || err.message;
       dispatch({ type: "UPDATE_ORDER_STATUS_FAILURE", payload: error });
-      console.log("API Update order status error", error);
+      // console.log("API Update order status error", error);
       return { success: false, error };
     }
   }, [dispatch]);

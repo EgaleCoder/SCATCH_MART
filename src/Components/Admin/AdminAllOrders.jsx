@@ -9,7 +9,7 @@ const AdminOrderList = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
 
-  const { adminOrders, fetchAllOrdersForAdmin, updateOrderStatus, loading, dispatch } = useOrderContext();
+  const { adminOrders, fetchAllOrdersForAdmin, updateOrderStatus, loading } = useOrderContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,9 +19,8 @@ const AdminOrderList = () => {
   }, [fetchAllOrdersForAdmin, updateOrderStatus]);
 
 
-  const handleStatusChange = async (orderId, newStatus, itemProductId, itemId) => {
-
-    const res = await updateOrderStatus(orderId, newStatus, itemProductId, itemId);
+  const handleStatusChange = async (orderId, newStatus) => {
+    const res = await updateOrderStatus(orderId, newStatus);
 
     if (res?.success) {
       await fetchAllOrdersForAdmin();
@@ -44,22 +43,6 @@ const AdminOrderList = () => {
     return statusTexts[status?.toLowerCase()] || 'Unknown';
   };
 
-  const getOrderStatusCounts = (order) => {
-    const statusCounts = {};
-    order.items?.forEach(item => {
-      const status = item.status?.toLowerCase();
-      statusCounts[status] = (statusCounts[status] || 0) + 1;
-    });
-    return statusCounts;
-  };
-
-  const getAllSameStatus = (order) => {
-    if (!order.items || order.items.length === 0) return null;
-    const firstStatus = order.items[0].status;
-    const allSame = order.items.every(item => item.status === firstStatus);
-    return allSame ? firstStatus : null;
-  };
-
   const handleOpenModal = (order) => {
     setSelectedOrder(order);
   };
@@ -70,10 +53,7 @@ const AdminOrderList = () => {
 
   const filteredOrders = statusFilter === 'all'
     ? adminOrders
-    : adminOrders.filter((order) => {
-      // Filter by any item having the selected status
-      return order.items?.some(item => item.status === statusFilter);
-    });
+    : adminOrders.filter((order) => order.status === statusFilter);
 
   if (loading) {
     return <ModalOverlay><Loader /></ModalOverlay>;
@@ -120,27 +100,27 @@ const AdminOrderList = () => {
               <StatLabel>Total Orders</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'pending')).length}</StatNumber>Items
+              <StatNumber>{adminOrders.filter(o => o.status === 'pending').length}</StatNumber>
               <StatLabel>Pending</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'confirmed')).length}</StatNumber>Items
+              <StatNumber>{adminOrders.filter(o => o.status === 'confirmed').length}</StatNumber>
               <StatLabel>Confirmed</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'shipped')).length}</StatNumber>Items
+              <StatNumber>{adminOrders.filter(o => o.status === 'shipped').length}</StatNumber>
               <StatLabel>Shipped</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'delivered')).length}</StatNumber>Items
+              <StatNumber>{adminOrders.filter(o => o.status === 'delivered').length}</StatNumber>
               <StatLabel>Delivered</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'cancelled')).length}</StatNumber>Items
+              <StatNumber>{adminOrders.filter(o => o.status === 'cancelled').length}</StatNumber>
               <StatLabel>Cancelled</StatLabel>
             </StatCard>
           </StatsBar>
-          <NoOrdersText>No orders found.</NoOrdersText>
+          <NoOrdersText>No orders found for this status.</NoOrdersText>
         </Container>
       </PageContainer>
     );
@@ -173,32 +153,29 @@ const AdminOrderList = () => {
             <StatLabel>Total Orders</StatLabel>
           </StatCard>
           <StatCard>
-            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'pending')).length}</StatNumber>Items
+            <StatNumber>{adminOrders.filter(o => o.status === 'pending').length}</StatNumber>
             <StatLabel>Pending</StatLabel>
           </StatCard>
           <StatCard>
-            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'confirmed')).length}</StatNumber>Items
+            <StatNumber>{adminOrders.filter(o => o.status === 'confirmed').length}</StatNumber>
             <StatLabel>Confirmed</StatLabel>
           </StatCard>
           <StatCard>
-            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'shipped')).length}</StatNumber>Items
+            <StatNumber>{adminOrders.filter(o => o.status === 'shipped').length}</StatNumber>
             <StatLabel>Shipped</StatLabel>
           </StatCard>
           <StatCard>
-            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'delivered')).length}</StatNumber>Items
+            <StatNumber>{adminOrders.filter(o => o.status === 'delivered').length}</StatNumber>
             <StatLabel>Delivered</StatLabel>
           </StatCard>
           <StatCard>
-            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'cancelled')).length}</StatNumber>Items
+            <StatNumber>{adminOrders.filter(o => o.status === 'cancelled').length}</StatNumber>
             <StatLabel>Cancelled</StatLabel>
           </StatCard>
         </StatsBar>
 
         <OrdersGrid>
           {filteredOrders.map((order) => {
-            const statusCounts = getOrderStatusCounts(order);
-            const sameStatus = getAllSameStatus(order);
-
             return (
               <OrderCard key={order._id}>
                 <ProductImageContainer>
@@ -214,22 +191,9 @@ const AdminOrderList = () => {
                       <ProductName>
                         {order.items?.length} {order.items?.length === 1 ? 'Product' : 'Products'} in Order
                       </ProductName>
-
-                      {/* Show single badge if all items have same status */}
-                      {sameStatus ? (
-                        <StatusBadge $status={sameStatus}>
-                          {getStatusText(sameStatus)}
-                        </StatusBadge>
-                      ) : (
-                        /* Show multiple status badges with counts */
-                        <StatusBadgeGroup>
-                          {Object.entries(statusCounts).map(([status, count]) => (
-                            <StatusBadgeWithCount key={status} $status={status}>
-                              {getStatusText(status)}: {count}
-                            </StatusBadgeWithCount>
-                          ))}
-                        </StatusBadgeGroup>
-                      )}
+                      <StatusBadge $status={order.status}>
+                        {getStatusText(order.status)}
+                      </StatusBadge>
                     </HeaderRow>
 
                     <InfoText>Order ID: {order.orderId || order._id}</InfoText>
@@ -273,9 +237,32 @@ const AdminOrderList = () => {
               </ModalHeader>
 
               <ModalBody>
-                {/* Order Items Section with Status Management */}
+                {/* Order Status Management Section */}
                 <Section>
-                  <SectionTitle>Order Items & Status Management</SectionTitle>
+                  <SectionTitle>Order Status Management</SectionTitle>
+                  <StatusManagementCard>
+                    <StatusControlGroup>
+                      <StatusLabel>Current Status:</StatusLabel>
+                      <StatusSelect
+                        value={selectedOrder.status}
+                        onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value)}
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </StatusSelect>
+                    </StatusControlGroup>
+                    <StatusBadge $status={selectedOrder.status}>
+                      {getStatusText(selectedOrder.status)}
+                    </StatusBadge>
+                  </StatusManagementCard>
+                </Section>
+
+                {/* Order Items Section */}
+                <Section>
+                  <SectionTitle>Order Items</SectionTitle>
                   <ItemsList>
                     {selectedOrder.items?.map((item, index) => (
                       <ItemCard key={index}>
@@ -287,24 +274,6 @@ const AdminOrderList = () => {
                           <ItemName>{item.product?.name}</ItemName>
                           <ItemInfo>Quantity: {item.quantity}</ItemInfo>
                           <ItemInfo>Price: {formatPrice(item.price)}</ItemInfo>
-                          <StatusManagement>
-                            <StatusControlGroup>
-                              <StatusLabel>Update Status:</StatusLabel>
-                              <StatusSelect
-                                value={item.status}
-                                onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value, item._id, item.product._id)}
-                              >
-                                <option value="pending">Pending</option>
-                                <option value="confirmed">Confirmed</option>
-                                <option value="shipped">Shipped</option>
-                                <option value="delivered">Delivered</option>
-                                <option value="cancelled">Cancelled</option>
-                              </StatusSelect>
-                            </StatusControlGroup>
-                            <StatusBadge $status={item.status}>
-                              {getStatusText(item.status)}
-                            </StatusBadge>
-                          </StatusManagement>
                         </ItemDetails>
                         <ItemPrice>{formatPrice(item.price * item.quantity)}</ItemPrice>
                       </ItemCard>
@@ -582,13 +551,6 @@ const ProductName = styled.h3`
   }
 `;
 
-const StatusBadgeGroup = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-`;
-
 const StatusBadge = styled.span`
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
@@ -604,11 +566,6 @@ const StatusBadge = styled.span`
           $status === "delivered" ? "#4ade80" :
             $status === "cancelled" ? "#f87171" :
               "#d1d5db"};
-`;
-
-const StatusBadgeWithCount = styled(StatusBadge)`
-  font-size: 0.7rem;
-  padding: 0.2rem 0.6rem;
 `;
 
 const InfoText = styled.p`
@@ -759,6 +716,64 @@ const SectionTitle = styled.h3`
   font-weight: 600;
 `;
 
+const StatusManagementCard = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+  border: 2px solid #e2e8f0;
+  gap: 1rem;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const StatusControlGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+`;
+
+const StatusLabel = styled.label`
+  color: #2d3748;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+`;
+
+const StatusSelect = styled.select`
+  padding: 0.5rem 1rem;
+  border: 2px solid #cbd5e0;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: #2d3748;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 150px;
+
+  &:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+  }
+
+  &:hover {
+    border-color: #a0aec0;
+  }
+`;
+
 const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -847,50 +862,6 @@ const ItemInfo = styled.p`
   color: #4a5568;
   font-size: 0.875rem;
   margin: 0;
-`;
-
-const StatusManagement = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
-`;
-
-const StatusControlGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const StatusLabel = styled.label`
-  color: #2d3748;
-  font-weight: 500;
-  font-size: 0.875rem;
-  white-space: nowrap;
-`;
-
-const StatusSelect = styled.select`
-  padding: 0.375rem 0.75rem;
-  border: 2px solid #cbd5e0;
-  border-radius: 0.375rem;
-  background-color: white;
-  color: #2d3748;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-  }
-
-  &:hover {
-    border-color: #a0aec0;
-  }
 `;
 
 const ItemPrice = styled.div`

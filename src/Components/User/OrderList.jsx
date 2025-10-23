@@ -19,7 +19,8 @@ const OrderList = () => {
       shipped: 'Shipped',
       processing: 'Processing',
       pending: 'Pending',
-      cancelled: 'Cancelled'
+      cancelled: 'Cancelled',
+      confirmed: 'Confirmed'
     };
     return statusTexts[status?.toLowerCase()];
   };
@@ -59,7 +60,7 @@ const OrderList = () => {
         <Title>My Orders</Title>
         <OrdersGrid>
           {orders.map((order) => {
-            const status = order.items?.[0]?.status;
+            const status = order.status;
             return (
               <OrderCard key={order._id}>
                 <ProductImageContainer>
@@ -84,7 +85,9 @@ const OrderList = () => {
                     <InfoText>Date: {new Date(order.createdAt).toLocaleDateString()}</InfoText>
                     <InfoText>Total Items: {order.totalQuantity} | Payment Method: {order.paymentMethod}</InfoText>
                   </TopSection>
-
+                  <Buttons>
+                    <CencleButton onClick={() => handleCancelOrder(order._id)}>Cancel Order</CencleButton>
+                  </Buttons>
                   <BottomSection>
                     <Price>{formatPrice(order.totalAmount)}</Price>
                     <ViewButton onClick={() => handleOpenModal(order)}>View Details</ViewButton>
@@ -134,9 +137,6 @@ const OrderList = () => {
                           <ItemName>{item.product?.name}</ItemName>
                           <ItemInfo>Quantity: {item.quantity}</ItemInfo>
                           <ItemInfo>Price: {formatPrice(item.price)}</ItemInfo>
-                          <ItemStatusBadge $status={item.status}>
-                            {getStatusText(item.status)}
-                          </ItemStatusBadge>
                         </ItemDetails>
                         <ItemPrice>{formatPrice(item.price * item.quantity)}</ItemPrice>
                       </ItemCard>
@@ -390,9 +390,11 @@ const StatusBadge = styled.span`
   letter-spacing: 0.5px;
   background-color: ${({ $status }) =>
     $status === "pending" ? " #facc15" :
-      $status === "delivered" ? " #4ade80" :
-        $status === "cancelled" ? " #f87171" :
-          "#d1d5db"};
+      $status === "confirmed" ? " #60a5fa" :
+        $status === "shipped" ? " #a78bfa" :
+          $status === "delivered" ? " #4ade80" :
+            $status === "cancelled" ? " #f87171" :
+              " #d1d5db"};
 `;
 
 const InfoText = styled.p`
@@ -664,6 +666,11 @@ const ItemInfo = styled.p`
   margin: 0;
 `;
 
+const Buttons = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 const ItemStatusBadge = styled.span`
   padding: 0.25rem 0.5rem;
   border-radius: 9999px;
@@ -674,11 +681,28 @@ const ItemStatusBadge = styled.span`
   letter-spacing: 0.5px;
   background-color: ${({ $status }) =>
     $status === "pending" ? " #facc15" :
-      $status === "delivered" ? " #4ade80" :
-        $status === "cancelled" ? " #f87171" :
-          "#d1d5db"};
+      $status === "confirmed" ? " #60a5fa" :
+        $status === "shipped" ? " #a78bfa" :
+          $status === "delivered" ? " #4ade80" :
+            $status === "cancelled" ? " #f87171" :
+              " #d1d5db"};
   display: inline-block;
   margin-top: 0.25rem;
+`;
+
+const CencleButton = styled.button`
+  border: 1px solid #f87171;
+  width: fit-content;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color:#f72f2f;
+  }
 `;
 
 const ItemPrice = styled.div`
