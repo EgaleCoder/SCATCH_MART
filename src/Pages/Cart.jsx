@@ -16,6 +16,7 @@ export default function Cart() {
   const { cart, loading, getCartData } = useCartContext();
   const [showSkeleton, setShowSkeleton] = useState(false);
 
+
   useEffect(() => {
     let timer;
     if (loading) {
@@ -31,16 +32,25 @@ export default function Cart() {
     };
   }, [loading]);
 
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        await getCartData();
+      } catch (error) {
+        toast.error("Error fetching cart data");
+      }
+    };
+
+    fetchCart();
+  }, [getCartData]);
+
+
   if (loading)
     return (
       <LoadingContainer>
         {!showSkeleton ? <Loader /> : <CartSkeleton />}
       </LoadingContainer>
     );
-
-  useEffect(() => {
-    getCartData();
-  }, [getCartData]);
 
   const handleRemoveItem = async (productId, productName) => {
     try {
