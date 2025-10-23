@@ -9,7 +9,7 @@ const AdminOrderList = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
 
-  const { adminOrders, fetchAllOrdersForAdmin, updateOrderStatus, loading } = useOrderContext();
+  const { adminOrders, fetchAllOrdersForAdmin, updateOrderStatus, loading, dispatch } = useOrderContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -240,24 +240,35 @@ const AdminOrderList = () => {
                 {/* Order Status Management Section */}
                 <Section>
                   <SectionTitle>Order Status Management</SectionTitle>
-                  <StatusManagementCard>
-                    <StatusControlGroup>
-                      <StatusLabel>Current Status:</StatusLabel>
-                      <StatusSelect
-                        value={selectedOrder.status}
-                        onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value)}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                      </StatusSelect>
-                    </StatusControlGroup>
-                    <StatusBadge $status={selectedOrder.status}>
-                      {getStatusText(selectedOrder.status)}
-                    </StatusBadge>
-                  </StatusManagementCard>
+                  {selectedOrder.status === 'cancelled' ? (
+                    <StatusManagementCard>
+                      <StatusControlGroup>
+                        <StatusLabel>Order Status:</StatusLabel>
+                        <StatusBadge $status={selectedOrder.status}>
+                          {getStatusText(selectedOrder.status)}
+                        </StatusBadge>
+                      </StatusControlGroup>
+                      <CancelledMessage>This order has been cancelled and cannot be modified.</CancelledMessage>
+                    </StatusManagementCard>
+                  ) : (
+                    <StatusManagementCard>
+                      <StatusControlGroup>
+                        <StatusLabel>Current Status:</StatusLabel>
+                        <StatusSelect
+                          value={selectedOrder.status}
+                          onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="confirmed">Confirmed</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="delivered">Delivered</option>
+                        </StatusSelect>
+                      </StatusControlGroup>
+                      <StatusBadge $status={selectedOrder.status}>
+                        {getStatusText(selectedOrder.status)}
+                      </StatusBadge>
+                    </StatusManagementCard>
+                  )}
                 </Section>
 
                 {/* Order Items Section */}
@@ -729,6 +740,17 @@ const StatusManagementCard = styled.div`
   @media (max-width: 480px) {
     flex-direction: column;
     align-items: stretch;
+  }
+`;
+
+const CancelledMessage = styled.p`
+  color: #718096;
+  font-size: 0.875rem;
+  margin: 0;
+  font-style: italic;
+
+  @media (max-width: 480px) {
+    text-align: center;
   }
 `;
 
