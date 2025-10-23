@@ -21,20 +21,21 @@ const Profile = () => {
     }, 100);
   };
 
-  const handleDeleteUser = async () => {
-    const userId = user.id;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete your account?"
-    );
-    if (confirmDelete) {
-      const res = await deleteUser(userId);
-      if (res?.success) {
-        logoutUser();
-        navigate("/");
-        notifyDelete();
-      }
-    }
-  };
+  // const handleDeleteUser = async () => {
+  //   const userId = user.id;
+  //   const confirmDelete = window.confirm(
+  //     "Are you sure you want to delete your account?"
+  //   );
+  //   if (confirmDelete) {
+  //     const res = await deleteUser(userId);
+  //     if (res?.success) {
+  //       logoutUser();
+  //       navigate("/");
+  //       notifyDelete();
+  //     }
+  //   }
+  // };
+
   if (loading) {
     return (
       <LoadingContainer>
@@ -298,12 +299,15 @@ const Profile = () => {
               >
                 {loading ? "Logging out..." : "LogOut"}
               </button>
-              <button
+
+              {/* Delete User button for user */}
+              
+              {/* <button
                 className="card__btn card__btn-solid"
                 onClick={handleDeleteUser}
               >
                 Delete Account
-              </button>
+              </button> */}
             </div>
           </div>
         </StyledWrapper>
