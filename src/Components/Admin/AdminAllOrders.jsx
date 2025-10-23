@@ -198,7 +198,7 @@ const AdminOrderList = () => {
 
                     <InfoText>Order ID: {order.orderId || order._id}</InfoText>
                     <InfoText>Date: {new Date(order.createdAt).toLocaleDateString()}</InfoText>
-                    <InfoText>Customer: {order.shippingAddress?.fullName}</InfoText>
+                    <InfoText>Customer: {order.user?.fullname}</InfoText>
                     <InfoText>Total Items: {order.totalQuantity} | Payment: {order.paymentMethod}</InfoText>
                   </TopSection>
 
