@@ -6,326 +6,381 @@ import Loader from '../../Components/Home/ShowProduct/CardLoader';
 import { toast } from 'react-toastify';
 
 const AdminOrderList = () => {
-    const [selectedOrder, setSelectedOrder] = useState(null);
-    const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('all');
 
-    const { adminOrders, fetchAllOrdersForAdmin, updateOrderStatus, loading, dispatch } = useOrderContext();
+  const { adminOrders, fetchAllOrdersForAdmin, updateOrderStatus, loading, dispatch } = useOrderContext();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchAllOrdersForAdmin();
-        };
-        fetchData();
-    }, [fetchAllOrdersForAdmin, updateOrderStatus]);
-
-    
-    const handleStatusChange = async (orderId, newStatus, itemProductId, itemId) => {
-
-        const res = await updateOrderStatus(orderId, newStatus, itemProductId, itemId);
-
-        if (res?.success) {
-            await fetchAllOrdersForAdmin();
-            toast.success("Order status updated successfully!");
-        } else {
-            toast.error("Failed to update status!");
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchAllOrdersForAdmin();
     };
+    fetchData();
+  }, [fetchAllOrdersForAdmin, updateOrderStatus]);
 
 
-    const getStatusText = (status) => {
-        const statusTexts = {
-            delivered: 'Delivered',
-            shipped: 'Shipped',
-            confirmed: 'Confirmed',
-            pending: 'Pending',
-            cancelled: 'Cancelled'
-        };
-        return statusTexts[status?.toLowerCase()] || 'Unknown';
-    };
+  const handleStatusChange = async (orderId, newStatus, itemProductId, itemId) => {
 
-    const getOrderStatusCounts = (order) => {
-        const statusCounts = {};
-        order.items?.forEach(item => {
-            const status = item.status?.toLowerCase();
-            statusCounts[status] = (statusCounts[status] || 0) + 1;
-        });
-        return statusCounts;
-    };
-    
-    const getAllSameStatus = (order) => {
-        if (!order.items || order.items.length === 0) return null;
-        const firstStatus = order.items[0].status;
-        const allSame = order.items.every(item => item.status === firstStatus);
-        return allSame ? firstStatus : null;
-    };
+    const res = await updateOrderStatus(orderId, newStatus, itemProductId, itemId);
 
-    const handleOpenModal = (order) => {
-        setSelectedOrder(order);
-    };
-
-    const handleCloseModal = () => {
-        setSelectedOrder(null);
-    };
-
-    const filteredOrders = statusFilter === 'all'
-        ? adminOrders
-        : adminOrders.filter((order) => {
-            // Filter by any item having the selected status
-            return order.items?.some(item => item.status === statusFilter);
-        });
-
-    if (loading) {
-        return <ModalOverlay><Loader /></ModalOverlay>;
+    if (res?.success) {
+      await fetchAllOrdersForAdmin();
+      toast.success("Order status updated successfully!");
+      handleCloseModal();
+    } else {
+      toast.error("Failed to update status!");
     }
+  };
 
-    if (!adminOrders || adminOrders.length === 0) {
-        return (
-            <PageContainer>
-                <Container>
-                    <Header>
-                        <Title>Order Management</Title>
-                    </Header>
-                    <NoOrdersText>No orders found.</NoOrdersText>
-                </Container>
-            </PageContainer>
-        );
-    }
 
+  const getStatusText = (status) => {
+    const statusTexts = {
+      delivered: 'Delivered',
+      shipped: 'Shipped',
+      confirmed: 'Confirmed',
+      pending: 'Pending',
+      cancelled: 'Cancelled'
+    };
+    return statusTexts[status?.toLowerCase()] || 'Unknown';
+  };
+
+  const getOrderStatusCounts = (order) => {
+    const statusCounts = {};
+    order.items?.forEach(item => {
+      const status = item.status?.toLowerCase();
+      statusCounts[status] = (statusCounts[status] || 0) + 1;
+    });
+    return statusCounts;
+  };
+
+  const getAllSameStatus = (order) => {
+    if (!order.items || order.items.length === 0) return null;
+    const firstStatus = order.items[0].status;
+    const allSame = order.items.every(item => item.status === firstStatus);
+    return allSame ? firstStatus : null;
+  };
+
+  const handleOpenModal = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedOrder(null);
+  };
+
+  const filteredOrders = statusFilter === 'all'
+    ? adminOrders
+    : adminOrders.filter((order) => {
+      // Filter by any item having the selected status
+      return order.items?.some(item => item.status === statusFilter);
+    });
+
+  if (loading) {
+    return <ModalOverlay><Loader /></ModalOverlay>;
+  }
+
+  if (!adminOrders || adminOrders.length === 0) {
     return (
-        <PageContainer>
-            <Container>
-                <Header>
-                    <Title>Order Management</Title>
-                    <FilterContainer>
-                        <FilterLabel>Filter by Status:</FilterLabel>
-                        <FilterSelect
-                            value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value)}
-                        >
-                            <option value="all">All Orders</option>
-                            <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="shipped">Shipped</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="cancelled">Cancelled</option>
-                        </FilterSelect>
-                    </FilterContainer>
-                </Header>
-
-                <StatsBar>
-                    <StatCard>
-                        <StatNumber>{adminOrders.length}</StatNumber>
-                        <StatLabel>Total Orders</StatLabel>
-                    </StatCard>
-                    <StatCard>
-                        <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'pending')).length}</StatNumber>Items
-                        <StatLabel>Pending</StatLabel>
-                    </StatCard>
-                    <StatCard>
-                        <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'confirmed')).length}</StatNumber>Items
-                        <StatLabel>Confirmed</StatLabel>
-                    </StatCard>
-                    <StatCard>
-                        <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'shipped')).length}</StatNumber>Items
-                        <StatLabel>Shipped</StatLabel>
-                    </StatCard>
-                    <StatCard>
-                        <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'delivered')).length}</StatNumber>Items
-                        <StatLabel>Delivered</StatLabel>
-                    </StatCard>
-                    <StatCard>
-                        <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'cancelled')).length}</StatNumber>Items
-                        <StatLabel>Cancelled</StatLabel>
-                    </StatCard>
-                </StatsBar>
-
-                <OrdersGrid>
-                    {filteredOrders.map((order) => {
-                        const statusCounts = getOrderStatusCounts(order);
-                        const sameStatus = getAllSameStatus(order);
-
-                        return (
-                            <OrderCard key={order._id}>
-                                <ProductImageContainer>
-                                    <ProductImage
-                                        src={order.items?.[0]?.product?.image?.[0]}
-                                        alt={order.items?.[0]?.product?.name}
-                                    />
-                                </ProductImageContainer>
-
-                                <OrderDetails>
-                                    <TopSection>
-                                        <HeaderRow>
-                                            <ProductName>
-                                                {order.items?.length} {order.items?.length === 1 ? 'Product' : 'Products'} in Order
-                                            </ProductName>
-
-                                            {/* Show single badge if all items have same status */}
-                                            {sameStatus ? (
-                                                <StatusBadge $status={sameStatus}>
-                                                    {getStatusText(sameStatus)}
-                                                </StatusBadge>
-                                            ) : (
-                                                /* Show multiple status badges with counts */
-                                                <StatusBadgeGroup>
-                                                    {Object.entries(statusCounts).map(([status, count]) => (
-                                                        <StatusBadgeWithCount key={status} $status={status}>
-                                                            {getStatusText(status)}: {count}
-                                                        </StatusBadgeWithCount>
-                                                    ))}
-                                                </StatusBadgeGroup>
-                                            )}
-                                        </HeaderRow>
-
-                                        <InfoText>Order ID: {order.orderId || order._id}</InfoText>
-                                        <InfoText>Date: {new Date(order.createdAt).toLocaleDateString()}</InfoText>
-                                        <InfoText>Customer: {order.shippingAddress?.fullName}</InfoText>
-                                        <InfoText>Total Items: {order.totalQuantity} | Payment: {order.paymentMethod}</InfoText>
-                                    </TopSection>
-
-                                    <BottomSection>
-                                        <Price>{formatPrice(order.totalAmount)}</Price>
-                                        <ViewButton onClick={() => handleOpenModal(order)}>Manage Order</ViewButton>
-                                    </BottomSection>
-                                </OrderDetails>
-                            </OrderCard>
-                        );
-                    })}
-                </OrdersGrid>
-            </Container>
-
-            {selectedOrder && (() => {
-                const subtotal = selectedOrder?.items?.reduce(
-                    (acc, item) => acc + (item?.product?.price || 0) * (item?.quantity || 0),
-                    0
-                ) || 0;
-
-                const totalDiscount = selectedOrder?.items?.reduce(
-                    (acc, item) =>
-                        acc +
-                        (item?.product?.price || 0) *
-                        (item?.quantity || 0) *
-                        ((item?.product?.discount || 0) / 100),
-                    0
-                ) || 0;
-
-                return (
-                    <ModalOverlay onClick={handleCloseModal}>
-                        <ModalContent onClick={(e) => e.stopPropagation()}>
-                            <ModalHeader>
-                                <ModalTitle>Manage Order - {selectedOrder.orderId}</ModalTitle>
-                                <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
-                            </ModalHeader>
-
-                            <ModalBody>
-                                {/* Order Items Section with Status Management */}
-                                <Section>
-                                    <SectionTitle>Order Items & Status Management</SectionTitle>
-                                    <ItemsList>
-                                        {selectedOrder.items?.map((item, index) => (
-                                            <ItemCard key={index}>
-                                                <ItemImage
-                                                    src={item.product?.image?.[0]}
-                                                    alt={item.product?.name}
-                                                />
-                                                <ItemDetails>
-                                                    <ItemName>{item.product?.name}</ItemName>
-                                                    <ItemInfo>Quantity: {item.quantity}</ItemInfo>
-                                                    <ItemInfo>Price: {formatPrice(item.price)}</ItemInfo>
-                                                    <StatusManagement>
-                                                        <StatusControlGroup>
-                                                            <StatusLabel>Update Status:</StatusLabel>
-                                                            <StatusSelect
-                                                                value={item.status}
-                                                                onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value, item._id, item.product._id)}
-                                                            >
-                                                                <option value="pending">Pending</option>
-                                                                <option value="confirmed">Confirmed</option>
-                                                                <option value="shipped">Shipped</option>
-                                                                <option value="delivered">Delivered</option>
-                                                                <option value="cancelled">Cancelled</option>
-                                                            </StatusSelect>
-                                                        </StatusControlGroup>
-                                                        <StatusBadge $status={item.status}>
-                                                            {getStatusText(item.status)}
-                                                        </StatusBadge>
-                                                    </StatusManagement>
-                                                </ItemDetails>
-                                                <ItemPrice>{formatPrice(item.price * item.quantity)}</ItemPrice>
-                                            </ItemCard>
-                                        ))}
-                                    </ItemsList>
-                                </Section>
-
-                                {/* Shipping Address Section */}
-                                <Section>
-                                    <SectionTitle>Shipping Address</SectionTitle>
-                                    <AddressText>
-                                        {selectedOrder.shippingAddress?.fullName && (
-                                            <div>
-                                                <Strong>{selectedOrder.shippingAddress.fullName}</Strong>
-                                            </div>
-                                        )}
-                                        {selectedOrder.shippingAddress?.address && (
-                                            <div>{selectedOrder.shippingAddress.address}</div>
-                                        )}
-                                        {selectedOrder.shippingAddress?.city && selectedOrder.shippingAddress?.state && (
-                                            <div>
-                                                {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}{" "}
-                                                {selectedOrder.shippingAddress.postalCode}
-                                            </div>
-                                        )}
-                                        {selectedOrder.shippingAddress?.country && (
-                                            <div>{selectedOrder.shippingAddress.country}</div>
-                                        )}
-                                        {selectedOrder.shippingAddress?.phone && (
-                                            <div>Phone: {selectedOrder.shippingAddress.phone}</div>
-                                        )}
-                                    </AddressText>
-                                </Section>
-
-                                {/* Order Information Section */}
-                                <Section>
-                                    <SectionTitle>Order Information</SectionTitle>
-                                    <InfoRow>
-                                        <InfoLabel>Order ID:</InfoLabel>
-                                        <InfoValue>{selectedOrder.orderId || selectedOrder._id}</InfoValue>
-                                    </InfoRow>
-                                    <InfoRow>
-                                        <InfoLabel>Date:</InfoLabel>
-                                        <InfoValue>{new Date(selectedOrder.createdAt).toLocaleDateString()}</InfoValue>
-                                    </InfoRow>
-                                    <InfoRow>
-                                        <InfoLabel>Payment Method:</InfoLabel>
-                                        <InfoValue>{selectedOrder.paymentMethod}</InfoValue>
-                                    </InfoRow>
-                                    <SummaryTitle>Payment Summary</SummaryTitle>
-                                    <SummarySection $bordered>
-                                        <SummaryRow>
-                                            <span>Subtotal:</span>
-                                            <span>{formatPrice(subtotal)}</span>
-                                        </SummaryRow>
-                                        <SummaryRow>
-                                            <span>Shipping:</span>
-                                            <span>+₹10/-</span>
-                                        </SummaryRow>
-                                        <SummaryRow>
-                                            <span>Discount:</span>
-                                            <span>-{formatPrice(totalDiscount)}</span>
-                                        </SummaryRow>
-                                        <SummaryRow>
-                                            <span>Total Amount:</span>
-                                            <Strong>{formatPrice(selectedOrder.totalAmount)}</Strong>
-                                        </SummaryRow>
-                                    </SummarySection>
-                                </Section>
-                            </ModalBody>
-                        </ModalContent>
-                    </ModalOverlay>
-                );
-            })()}
-        </PageContainer>
+      <PageContainer>
+        <Container>
+          <Header>
+            <Title>Order Management</Title>
+          </Header>
+          <NoOrdersText>No orders found.</NoOrdersText>
+        </Container>
+      </PageContainer>
     );
+  }
+
+  if (filteredOrders.length === 0) {
+    return (
+      <PageContainer>
+        <Container>
+          <Header>
+            <Title>Order Management</Title>
+            <FilterContainer>
+              <FilterLabel>Filter by Status:</FilterLabel>
+              <FilterSelect
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">All Orders</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </FilterSelect>
+            </FilterContainer>
+          </Header>
+
+          <StatsBar>
+            <StatCard>
+              <StatNumber>{adminOrders.length}</StatNumber>
+              <StatLabel>Total Orders</StatLabel>
+            </StatCard>
+            <StatCard>
+              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'pending')).length}</StatNumber>Items
+              <StatLabel>Pending</StatLabel>
+            </StatCard>
+            <StatCard>
+              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'confirmed')).length}</StatNumber>Items
+              <StatLabel>Confirmed</StatLabel>
+            </StatCard>
+            <StatCard>
+              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'shipped')).length}</StatNumber>Items
+              <StatLabel>Shipped</StatLabel>
+            </StatCard>
+            <StatCard>
+              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'delivered')).length}</StatNumber>Items
+              <StatLabel>Delivered</StatLabel>
+            </StatCard>
+            <StatCard>
+              <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'cancelled')).length}</StatNumber>Items
+              <StatLabel>Cancelled</StatLabel>
+            </StatCard>
+          </StatsBar>
+          <NoOrdersText>No orders found.</NoOrdersText>
+        </Container>
+      </PageContainer>
+    );
+  }
+
+  return (
+    <PageContainer>
+      <Container>
+        <Header>
+          <Title>Order Management</Title>
+          <FilterContainer>
+            <FilterLabel>Filter by Status:</FilterLabel>
+            <FilterSelect
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="all">All Orders</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </FilterSelect>
+          </FilterContainer>
+        </Header>
+
+        <StatsBar>
+          <StatCard>
+            <StatNumber>{adminOrders.length}</StatNumber>
+            <StatLabel>Total Orders</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'pending')).length}</StatNumber>Items
+            <StatLabel>Pending</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'confirmed')).length}</StatNumber>Items
+            <StatLabel>Confirmed</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'shipped')).length}</StatNumber>Items
+            <StatLabel>Shipped</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'delivered')).length}</StatNumber>Items
+            <StatLabel>Delivered</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>{adminOrders.filter(o => o.items?.some(item => item.status === 'cancelled')).length}</StatNumber>Items
+            <StatLabel>Cancelled</StatLabel>
+          </StatCard>
+        </StatsBar>
+
+        <OrdersGrid>
+          {filteredOrders.map((order) => {
+            const statusCounts = getOrderStatusCounts(order);
+            const sameStatus = getAllSameStatus(order);
+
+            return (
+              <OrderCard key={order._id}>
+                <ProductImageContainer>
+                  <ProductImage
+                    src={order.items?.[0]?.product?.image?.[0]}
+                    alt={order.items?.[0]?.product?.name}
+                  />
+                </ProductImageContainer>
+
+                <OrderDetails>
+                  <TopSection>
+                    <HeaderRow>
+                      <ProductName>
+                        {order.items?.length} {order.items?.length === 1 ? 'Product' : 'Products'} in Order
+                      </ProductName>
+
+                      {/* Show single badge if all items have same status */}
+                      {sameStatus ? (
+                        <StatusBadge $status={sameStatus}>
+                          {getStatusText(sameStatus)}
+                        </StatusBadge>
+                      ) : (
+                        /* Show multiple status badges with counts */
+                        <StatusBadgeGroup>
+                          {Object.entries(statusCounts).map(([status, count]) => (
+                            <StatusBadgeWithCount key={status} $status={status}>
+                              {getStatusText(status)}: {count}
+                            </StatusBadgeWithCount>
+                          ))}
+                        </StatusBadgeGroup>
+                      )}
+                    </HeaderRow>
+
+                    <InfoText>Order ID: {order.orderId || order._id}</InfoText>
+                    <InfoText>Date: {new Date(order.createdAt).toLocaleDateString()}</InfoText>
+                    <InfoText>Customer: {order.shippingAddress?.fullName}</InfoText>
+                    <InfoText>Total Items: {order.totalQuantity} | Payment: {order.paymentMethod}</InfoText>
+                  </TopSection>
+
+                  <BottomSection>
+                    <Price>{formatPrice(order.totalAmount)}</Price>
+                    <ViewButton onClick={() => handleOpenModal(order)}>Manage Order</ViewButton>
+                  </BottomSection>
+                </OrderDetails>
+              </OrderCard>
+            );
+          })}
+        </OrdersGrid>
+      </Container>
+
+      {selectedOrder && (() => {
+        const subtotal = selectedOrder?.items?.reduce(
+          (acc, item) => acc + (item?.product?.price || 0) * (item?.quantity || 0),
+          0
+        ) || 0;
+
+        const totalDiscount = selectedOrder?.items?.reduce(
+          (acc, item) =>
+            acc +
+            (item?.product?.price || 0) *
+            (item?.quantity || 0) *
+            ((item?.product?.discount || 0) / 100),
+          0
+        ) || 0;
+
+        return (
+          <ModalOverlay onClick={handleCloseModal}>
+            <ModalContent onClick={(e) => e.stopPropagation()}>
+              <ModalHeader>
+                <ModalTitle>Manage Order - {selectedOrder.orderId}</ModalTitle>
+                <CloseButton onClick={handleCloseModal}>&times;</CloseButton>
+              </ModalHeader>
+
+              <ModalBody>
+                {/* Order Items Section with Status Management */}
+                <Section>
+                  <SectionTitle>Order Items & Status Management</SectionTitle>
+                  <ItemsList>
+                    {selectedOrder.items?.map((item, index) => (
+                      <ItemCard key={index}>
+                        <ItemImage
+                          src={item.product?.image?.[0]}
+                          alt={item.product?.name}
+                        />
+                        <ItemDetails>
+                          <ItemName>{item.product?.name}</ItemName>
+                          <ItemInfo>Quantity: {item.quantity}</ItemInfo>
+                          <ItemInfo>Price: {formatPrice(item.price)}</ItemInfo>
+                          <StatusManagement>
+                            <StatusControlGroup>
+                              <StatusLabel>Update Status:</StatusLabel>
+                              <StatusSelect
+                                value={item.status}
+                                onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value, item._id, item.product._id)}
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                              </StatusSelect>
+                            </StatusControlGroup>
+                            <StatusBadge $status={item.status}>
+                              {getStatusText(item.status)}
+                            </StatusBadge>
+                          </StatusManagement>
+                        </ItemDetails>
+                        <ItemPrice>{formatPrice(item.price * item.quantity)}</ItemPrice>
+                      </ItemCard>
+                    ))}
+                  </ItemsList>
+                </Section>
+
+                {/* Shipping Address Section */}
+                <Section>
+                  <SectionTitle>Shipping Address</SectionTitle>
+                  <AddressText>
+                    {selectedOrder.shippingAddress?.fullName && (
+                      <div>
+                        <Strong>{selectedOrder.shippingAddress.fullName}</Strong>
+                      </div>
+                    )}
+                    {selectedOrder.shippingAddress?.address && (
+                      <div>{selectedOrder.shippingAddress.address}</div>
+                    )}
+                    {selectedOrder.shippingAddress?.city && selectedOrder.shippingAddress?.state && (
+                      <div>
+                        {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}{" "}
+                        {selectedOrder.shippingAddress.postalCode}
+                      </div>
+                    )}
+                    {selectedOrder.shippingAddress?.country && (
+                      <div>{selectedOrder.shippingAddress.country}</div>
+                    )}
+                    {selectedOrder.shippingAddress?.phone && (
+                      <div>Phone: {selectedOrder.shippingAddress.phone}</div>
+                    )}
+                  </AddressText>
+                </Section>
+
+                {/* Order Information Section */}
+                <Section>
+                  <SectionTitle>Order Information</SectionTitle>
+                  <InfoRow>
+                    <InfoLabel>Order ID:</InfoLabel>
+                    <InfoValue>{selectedOrder.orderId || selectedOrder._id}</InfoValue>
+                  </InfoRow>
+                  <InfoRow>
+                    <InfoLabel>Date:</InfoLabel>
+                    <InfoValue>{new Date(selectedOrder.createdAt).toLocaleDateString()}</InfoValue>
+                  </InfoRow>
+                  <InfoRow>
+                    <InfoLabel>Payment Method:</InfoLabel>
+                    <InfoValue>{selectedOrder.paymentMethod}</InfoValue>
+                  </InfoRow>
+                  <SummaryTitle>Payment Summary</SummaryTitle>
+                  <SummarySection $bordered>
+                    <SummaryRow>
+                      <span>Subtotal:</span>
+                      <span>{formatPrice(subtotal)}</span>
+                    </SummaryRow>
+                    <SummaryRow>
+                      <span>Shipping:</span>
+                      <span>+₹10/-</span>
+                    </SummaryRow>
+                    <SummaryRow>
+                      <span>Discount:</span>
+                      <span>-{formatPrice(totalDiscount)}</span>
+                    </SummaryRow>
+                    <SummaryRow>
+                      <span>Total Amount:</span>
+                      <Strong>{formatPrice(selectedOrder.totalAmount)}</Strong>
+                    </SummaryRow>
+                  </SummarySection>
+                </Section>
+              </ModalBody>
+            </ModalContent>
+          </ModalOverlay>
+        );
+      })()}
+    </PageContainer>
+  );
 };
 
 // Styled Components
@@ -543,12 +598,12 @@ const StatusBadge = styled.span`
   letter-spacing: 0.5px;
   white-space: nowrap;
   background-color: ${({ $status }) =>
-        $status === "pending" ? "#facc15" :
-            $status === "confirmed" ? "#60a5fa" :
-                $status === "shipped" ? "#a78bfa" :
-                    $status === "delivered" ? "#4ade80" :
-                        $status === "cancelled" ? "#f87171" :
-                            "#d1d5db"};
+    $status === "pending" ? "#facc15" :
+      $status === "confirmed" ? "#60a5fa" :
+        $status === "shipped" ? "#a78bfa" :
+          $status === "delivered" ? "#4ade80" :
+            $status === "cancelled" ? "#f87171" :
+              "#d1d5db"};
 `;
 
 const StatusBadgeWithCount = styled(StatusBadge)`
