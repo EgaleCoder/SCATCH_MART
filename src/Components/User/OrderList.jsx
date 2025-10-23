@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useOrderContext } from '../../context/orderContext';
 import { formatPrice } from '../../utils/priceFormat';
 import Loader from '../Home/ShowProduct/CardLoader';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const OrderList = () => {
@@ -14,19 +14,19 @@ const OrderList = () => {
     fetchUserOrders();
   }, [fetchUserOrders]);
 
-const handleCancelOrder = async (orderId) => {
-  try {
-    const res = await cancelOrder(orderId);
-    if (res?.success) {
-      toast.success(res.message || "Order cancelled successfully!");
-      fetchUserOrders();
-    } else {
-      toast.error(res.error || "Failed to cancel order!");
+  const handleCancelOrder = async (orderId) => {
+    try {
+      const res = await cancelOrder(orderId);
+      if (res?.success) {
+        toast.success(res.message || "Order cancelled successfully!");
+        fetchUserOrders();
+      } else {
+        toast.error(res.error || "Failed to cancel order!");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to cancel order!");
     }
-  } catch (error) {
-    toast.error(error?.response?.data?.message || "Failed to cancel order!");
-  }
-};
+  };
 
 
 
@@ -51,7 +51,18 @@ const handleCancelOrder = async (orderId) => {
   };
 
   if (loading) {
-    return <LoadingText>Loading orders...</LoadingText>;
+    return (
+      <>
+        <PageContainer>
+          <Container>
+            <Title>My Orders</Title>
+            <ModalOverlay>
+              <Loader />
+            </ModalOverlay>
+          </Container>
+        </PageContainer>
+      </>
+    );
   }
 
   if (!orders || orders.length === 0) {
