@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Project Banner](./docs/images/banner.png)
+![Project Banner](./ProjectSS/HomePage.jpg)
 <!-- Add your project banner/logo here -->
 
 **A Modern Full-Stack E-Commerce Platform Built with MERN Stack**
@@ -13,7 +13,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
-[Live Demo](https://your-demo-link.com) • [Documentation](https://docs.your-project.com) • [Report Bug](https://github.com/EgaleCoder/SCATCH_MART/issues) • [Request Feature](https://github.com/EgaleCoder/SCATCH_MART/issues)
+[Live Demo](https://scatch-mart.netlify.app/) • [Documentation](https://docs.your-project.com) • [Report Bug](https://github.com/EgaleCoder/SCATCH_MART/issues) • [Request Feature](https://github.com/EgaleCoder/SCATCH_MART/issues)
 
 </div>
 
@@ -59,7 +59,7 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 
 ### 🏠 Landing Page & Home
 
-![Landing Page](./docs/screenshots/landing-page.png)
+![Landing Page](./ProjectSS/HomePage.jpg)
 <!-- Add screenshot of your landing page -->
 
 *Modern, responsive landing page with hero section and featured products*
@@ -68,7 +68,7 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 
 ### 🛍️ Product Catalog
 
-![Product Catalog](./docs/screenshots/product-catalog.png)
+![Product Catalog](./ProjectSS/ProductSection.jpg)
 <!-- Add screenshot of product listing page -->
 
 *Advanced product filtering and search with category-based navigation*
@@ -77,7 +77,7 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 
 ### 📦 Product Details
 
-![Product Details](./docs/screenshots/product-details.png)
+![Product Details](./ProjectSS/ProductDetails.jpg)
 <!-- Add screenshot of product detail page -->
 
 *Detailed product view with image gallery, specifications, and related products*
@@ -86,7 +86,7 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 
 ### 🛒 Shopping Cart
 
-![Shopping Cart](./docs/screenshots/shopping-cart.png)
+![Shopping Cart](./ProjectSS/UserCart.jpg)
 <!-- Add screenshot of shopping cart page -->
 
 *Dynamic cart with quantity management and real-time price calculations*
@@ -98,11 +98,11 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 <table>
   <tr>
     <td width="50%">
-      <img src="./docs/screenshots/login.png" alt="Login Page">
+      <img src="./ProjectSS/UserLogin.jpg" alt="Login Page">
       <p align="center"><em>User Login</em></p>
     </td>
     <td width="50%">
-      <img src="./docs/screenshots/signup.png" alt="Signup Page">
+      <img src="./ProjectSS/UserSignUp.jpg" alt="Signup Page">
       <p align="center"><em>User Registration</em></p>
     </td>
   </tr>
@@ -122,7 +122,7 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 
 ### 🔐 Admin Panel
 
-![Admin Dashboard](./docs/screenshots/admin-dashboard.png)
+![Admin Dashboard](./ProjectSS/AdminPanel.jpg)
 <!-- Add screenshot of admin dashboard -->
 
 *Comprehensive admin dashboard with analytics and user activity tracking*
@@ -134,21 +134,11 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 <table>
   <tr>
     <td width="50%">
-      <img src="./docs/screenshots/admin-products.png" alt="Product Management">
+      <img src="./ProjectSS/ManageProducts.jpg" alt="Product Management">
       <p align="center"><em>Product Management</em></p>
     </td>
-    <td width="50%">
-      <img src="./docs/screenshots/admin-users.png" alt="User Management">
-      <p align="center"><em>User Management</em></p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="./docs/screenshots/add-product.png" alt="Add Product">
-      <p align="center"><em>Add/Edit Products</em></p>
-    </td>
-    <td width="50%">
-      <img src="./docs/screenshots/admin-analytics.png" alt="Analytics">
+     <td width="50%">
+      <img src="./ProjectSS/AdminPanel.jpg" alt="Analytics">
       <p align="center"><em>Analytics Dashboard</em></p>
     </td>
   </tr>
@@ -156,21 +146,21 @@ The platform features a responsive, mobile-first design built with React 19, Vit
 
 ---
 
-### 📱 Mobile Responsive Design
+### 🛒 Order Place By User
 
 <table>
   <tr>
     <td width="33%">
-      <img src="./docs/screenshots/mobile-home.png" alt="Mobile Home">
-      <p align="center"><em>Mobile Home</em></p>
+      <img src="./ProjectSS/OrderStep1.jpg" alt="Step 1">
+      <p align="center"><em>Fill your Shipping details</em></p>
     </td>
     <td width="33%">
-      <img src="./docs/screenshots/mobile-products.png" alt="Mobile Products">
-      <p align="center"><em>Mobile Products</em></p>
+      <img src="./ProjectSS/OrderStep2.jpg" alt="Step 2">
+      <p align="center"><em>Choose your Payment Method</em></p>
     </td>
     <td width="33%">
-      <img src="./docs/screenshots/mobile-cart.png" alt="Mobile Cart">
-      <p align="center"><em>Mobile Cart</em></p>
+      <img src="./ProjectSS/PlaceOrder.jpg" alt="Order Confirm">
+      <p align="center"><em>Order Confirmed</em></p>
     </td>
   </tr>
 </table>
@@ -848,11 +838,11 @@ Distributed under the MIT License. See `LICENSE` file for more information.
 **Abhinav Mishra** - Developer
 
 - GitHub: [@EgaleCoder](https://github.com/EgaleCoder)
-- Email: your.email@example.com
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- Portfolio: [your-portfolio.com](https://your-portfolio.com)
+- Email: ironabhi728@gmail.com
+- LinkedIn: [Abhinav Mishra](https://www.linkedin.com/in/abhinav-mishra-204bb028b)
+- Portfolio: [My Portfolio](https://abhinavmishraportfolio.netlify.app/)
 
-**Project Link**: [https://github.com/EgaleCoder/SCATCH_MART](https://github.com/EgaleCoder/SCATCH_MART)
+**Project Link**: [https://github.com/EgaleCoder/SCATCH_MART](https://scatch-mart.netlify.app/)
 
 ---
 
