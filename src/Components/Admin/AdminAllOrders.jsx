@@ -198,7 +198,7 @@ const AdminOrderList = () => {
 
                     <InfoText>Order ID: {order.orderId || order._id}</InfoText>
                     <InfoText>Date: {new Date(order.createdAt).toLocaleDateString()}</InfoText>
-                    <InfoText>Customer: {order.user?.fullname}</InfoText>
+                    <InfoText>Customer: {order.user?.fullname || <DeleteAcc> Account Deleted</DeleteAcc>}</InfoText>
                     <InfoText>Total Items: {order.totalQuantity} | Payment: {order.paymentMethod}</InfoText>
                   </TopSection>
 
@@ -560,6 +560,11 @@ const ProductName = styled.h3`
   @media (max-width: 480px) {
     font-size: 1.1rem;
   }
+`;
+
+const DeleteAcc = styled.span`
+  color: #f87171;
+  font :italic;
 `;
 
 const StatusBadge = styled.span`
